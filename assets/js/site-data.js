@@ -170,8 +170,7 @@ const SITE = {
   menuCategories: [
     {
       id: "classiques",
-      image: "https://images.unsplash.com/photo-1594007654729-407eedc4be65?w=1200&q=75&auto=format&fit=crop",
-      imageAlt: "Pizza classique aux tomates fraîches et basilic sur planche en bois",
+      image: null,
       items: [
         { name: "Reine", ingredients: ["tomate", "cantal", "jambon", "champignons", "olives", "origan"], price: "14 €", badges: ["bestseller"] },
         { name: "Chausson", ingredients: ["tomate", "cantal", "jambon", "champignons", "œuf", "crème fraîche", "olives", "origan"], price: "14 €", badges: [] },
@@ -218,8 +217,7 @@ const SITE = {
     },
     {
       id: "vegetariennes",
-      image: "https://images.unsplash.com/photo-1552539618-7eec9b4d1796?w=1200&q=75&auto=format&fit=crop",
-      imageAlt: "Pizza végétarienne colorée, garnie de légumes et d’olives",
+      image: null,
       items: [
         { name: "Végétarienne", ingredients: ["tomate", "cantal", "artichauts", "poivrons", "champignons", "mozzarella", "olives", "origan"], price: "15 €", badges: ["vegetarian"] },
         { name: "Aubergine", ingredients: ["tomate", "cantal", "aubergines", "parmesan", "olives", "origan"], price: "14 €", badges: ["vegetarian"] },
@@ -232,8 +230,7 @@ const SITE = {
     },
     {
       id: "desserts",
-      image: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=1200&q=75&auto=format&fit=crop",
-      imageAlt: "Tiramisu maison présenté sur une assiette",
+      image: null,
       items: [
         { name: "Calzone au Nutella", description: "Pâte pliée, chocolat Nutella", price: "7,50 €", badges: ["vegetarian", "bestseller"] },
         { name: "Tiramisu maison", description: "Recette de la maison", price: "5,50 €", badges: ["vegetarian"] },
