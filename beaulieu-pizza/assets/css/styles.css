@@ -835,13 +835,13 @@ svg { display: block; }
   border-top: 1px solid var(--line);
   padding: 22px 0 26px;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  flex-direction: column;
   gap: 14px;
   font-size: 0.8rem;
   color: var(--gray-dim);
 }
-.footer-legal { max-width: 70ch; }
+.footer-legal { max-width: 70ch; display: flex; flex-direction: column; gap: 6px; }
+.footer-legal p { margin: 0; }
 
 @media (max-width: 900px) {
   .footer-grid { grid-template-columns: 1fr 1fr; }
