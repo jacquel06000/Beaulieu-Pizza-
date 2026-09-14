@@ -715,22 +715,29 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; margin: 0; }
 /* ==========================================================================
    Page Notre histoire
    ========================================================================== */
-.history-banner {
+.history-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 54px;
+  align-items: center;
+  margin-bottom: 60px;
+}
+
+.history-photo {
   position: relative;
-  aspect-ratio: 21 / 8;
+  aspect-ratio: 4 / 5;
   border: 1px solid var(--hairline);
   border-radius: var(--radius);
   overflow: hidden;
-  margin-bottom: 54px;
 }
-.history-banner img { width: 100%; height: 100%; object-fit: cover; }
-.history-banner__placeholder {
+.history-photo img { width: 100%; height: 100%; object-fit: cover; }
+.history-photo__placeholder {
   width: 100%; height: 100%;
   display: flex; align-items: center; justify-content: center;
   background: radial-gradient(120% 140% at 30% 20%, #2c2416 0%, #1a1610 55%, #0e0c09 100%);
 }
-.history-banner__placeholder svg { width: 64px; height: 64px; color: var(--gold-soft); opacity: 0.85; }
-.history-banner__badge {
+.history-photo__placeholder svg { width: 56px; height: 56px; color: var(--gold-soft); opacity: 0.85; }
+.history-photo__badge {
   position: absolute;
   top: 16px; left: 16px;
   font-size: 10px;
@@ -742,19 +749,26 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; margin: 0; }
   border-radius: 2px;
 }
 
-.history-text { max-width: 700px; margin: 0 auto 30px; }
-.history-text p {
+.history-content .eyebrow,
+.history-content h1 { text-align: left; }
+.history-content h1 { margin-bottom: 26px; }
+.history-content p {
   color: var(--cream-dim);
   font-size: 16px;
   line-height: 1.9;
   margin: 0 0 20px;
 }
-.history-text p.pull {
+.history-content p.pull {
   font-family: var(--font-display);
-  font-size: 1.3rem;
+  font-size: 1.25rem;
   color: var(--cream);
   line-height: 1.5;
-  margin: 34px 0;
+  margin: 30px 0 0;
+}
+
+@media (max-width: 860px) {
+  .history-layout { grid-template-columns: 1fr; gap: 32px; }
+  .history-photo { aspect-ratio: 16 / 10; }
 }
 
 .timeline {
