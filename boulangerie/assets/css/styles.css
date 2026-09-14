@@ -534,22 +534,29 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; margin: 0; }
   border-bottom: 1px solid var(--hairline);
 }
 .story .container {
-  max-width: 760px;
+  max-width: 700px;
   text-align: center;
   padding-top: 90px;
   padding-bottom: 90px;
 }
-.story p.lead {
+.story h2 {
+  font-size: clamp(1.8rem, 3.6vw, 2.4rem);
+  color: var(--cream);
+  margin: 14px 0 26px;
+}
+.story p {
+  color: var(--cream-dim);
+  font-size: 16px;
+  line-height: 1.9;
+  margin: 0 0 18px;
+}
+.story p:last-of-type { margin-bottom: 0; }
+.story p.pull {
   font-family: var(--font-display);
-  font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+  font-size: clamp(1.3rem, 2.4vw, 1.6rem);
   color: var(--cream);
   line-height: 1.5;
-  margin: 0;
-}
-.story p.sub {
-  color: var(--cream-dim);
-  font-size: 14.5px;
-  margin-top: 20px;
+  margin-top: 26px;
 }
 
 /* ==========================================================================
