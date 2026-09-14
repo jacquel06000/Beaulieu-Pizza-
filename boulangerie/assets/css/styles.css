@@ -667,11 +667,57 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; margin: 0; }
 .footer-legal-links { display: flex; gap: 18px; }
 
 /* ==========================================================================
+   Thèmes de couleur par catégorie
+   Chaque page menu porte une classe sur <body> (theme-pains, etc.)
+   qui teinte légèrement le fond noir et personnalise les accents.
+   ========================================================================== */
+body.theme-pains       { --theme-accent: #c98a3e; --theme-glow: 201, 138, 62; }
+body.theme-viennoiseries { --theme-accent: #e2a13c; --theme-glow: 226, 161, 60; }
+body.theme-patisseries { --theme-accent: #c0435a; --theme-glow: 192, 67, 90; }
+body.theme-sale        { --theme-accent: #7a8a4f; --theme-glow: 122, 138, 79; }
+
+/* ==========================================================================
    Page interne simple (mentions légales / catégorie à venir)
    ========================================================================== */
 .simple-page {
+  position: relative;
   padding: 140px 0 100px;
   min-height: 60vh;
+  overflow: hidden;
+  background:
+    radial-gradient(60% 50% at 85% 0%, rgba(var(--theme-glow, 211, 162, 77), 0.16) 0%, transparent 70%),
+    radial-gradient(50% 45% at 5% 100%, rgba(var(--theme-glow, 211, 162, 77), 0.09) 0%, transparent 70%),
+    radial-gradient(rgba(255,255,255,0.045) 1px, transparent 1px) 0 0 / 16px 16px,
+    var(--black-deep);
+}
+.simple-page .container { position: relative; z-index: 1; max-width: 780px; }
+
+/* Éclats de couleur décoratifs (flous, façon "burst"), désactivés si l'utilisateur préfère moins de mouvement/texture */
+.page-blob {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--theme-glow, 211, 162, 77), 0.5) 0%, rgba(var(--theme-glow, 211, 162, 77), 0) 70%);
+  filter: blur(6px);
+  pointer-events: none;
+  z-index: 0;
+}
+.page-blob--1 { width: 420px; height: 420px; top: -140px; right: -100px; }
+.page-blob--2 { width: 300px; height: 300px; bottom: -60px; left: -80px; opacity: 0.7; }
+.page-blob--3 { width: 180px; height: 180px; top: 40%; right: 8%; opacity: 0.5; }
+
+/* Petites illustrations décoratives (tartes, etc.) — SVG inline, sans dépendance externe */
+.decor-tart {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.28;
+}
+.decor-tart--1 { width: 300px; height: 300px; top: 60px; right: -60px; transform: rotate(-8deg); }
+.decor-tart--2 { width: 200px; height: 200px; bottom: 40px; left: -50px; transform: rotate(14deg); opacity: 0.22; }
+
+@media (max-width: 760px) {
+  .decor-tart--1 { width: 200px; height: 200px; top: 20px; right: -70px; }
+  .decor-tart--2 { display: none; }
 }
 .simple-page .container { max-width: 780px; }
 .simple-page h1 {
@@ -784,23 +830,42 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; margin: 0; }
 .menu-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  column-gap: 48px;
+  gap: 14px;
 }
 .menu-item {
-  padding: 18px 0;
-  border-bottom: 1px solid var(--hairline);
+  padding: 20px 22px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.025), transparent 60%), var(--black-panel);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.menu-item:hover {
+  transform: translateY(-3px);
+  border-color: var(--theme-accent, var(--gold));
+  box-shadow: 0 16px 32px rgba(0,0,0,0.4);
 }
 .menu-item__name {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
   font-family: var(--font-display);
   font-size: 1.05rem;
   color: var(--cream);
-  margin: 0 0 6px;
+  margin: 0 0 8px;
+}
+.menu-item__name::before {
+  content: "";
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--theme-accent, var(--gold));
+  flex-shrink: 0;
 }
 .menu-item__variants {
   font-size: 12.5px;
   color: var(--grey-text);
   letter-spacing: 0.02em;
   line-height: 1.6;
+  padding-left: 17px;
 }
 .menu-note {
   margin-top: 34px;
@@ -808,6 +873,11 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; margin: 0; }
   font-style: italic;
   color: var(--grey-text);
 }
+
+/* Variante texte agrandi (utilisée sur la page Pâtisseries) */
+.menu-grid--lg .menu-item { padding: 26px 26px; }
+.menu-grid--lg .menu-item__name { font-size: 1.3rem; }
+.menu-grid--lg .menu-item__variants { font-size: 13.5px; }
 
 @media (max-width: 640px) {
   .menu-grid { grid-template-columns: 1fr; }

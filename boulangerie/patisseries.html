@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,900;1,500&family=Jost:wght@300;400;500;600&display=swap">
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
-<body>
+<body class="theme-patisseries">
   <a class="skip-link" href="#main">Aller au contenu principal</a>
 
   <header class="site-header">
@@ -48,13 +48,48 @@
 
   <main id="main">
     <section class="simple-page">
+      <div class="page-blob page-blob--1" aria-hidden="true"></div>
+      <div class="page-blob page-blob--2" aria-hidden="true"></div>
+      <div class="page-blob page-blob--3" aria-hidden="true"></div>
+
+      <svg class="decor-tart decor-tart--1" viewBox="0 0 200 200" aria-hidden="true">
+        <defs>
+          <radialGradient id="crust1" cx="35%" cy="30%" r="75%">
+            <stop offset="0%" stop-color="#e2a13c" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#8a5a1e" stop-opacity="0.35"/>
+          </radialGradient>
+        </defs>
+        <circle cx="100" cy="100" r="88" fill="url(#crust1)"/>
+        <circle cx="100" cy="100" r="88" fill="none" stroke="#e2a13c" stroke-width="2" opacity="0.6"/>
+        <g fill="#c0435a">
+          <circle cx="80" cy="68" r="9"/>
+          <circle cx="107" cy="58" r="7"/>
+          <circle cx="128" cy="76" r="8"/>
+          <circle cx="94" cy="90" r="6"/>
+          <circle cx="118" cy="96" r="7"/>
+          <circle cx="68" cy="96" r="6"/>
+          <circle cx="100" cy="115" r="6"/>
+        </g>
+      </svg>
+      <svg class="decor-tart decor-tart--2" viewBox="0 0 200 200" aria-hidden="true">
+        <circle cx="100" cy="100" r="70" fill="url(#crust1)"/>
+        <circle cx="100" cy="100" r="70" fill="none" stroke="#e2a13c" stroke-width="2" opacity="0.5"/>
+        <g fill="#c0435a">
+          <circle cx="82" cy="78" r="7"/>
+          <circle cx="104" cy="70" r="6"/>
+          <circle cx="120" cy="88" r="6"/>
+          <circle cx="90" cy="102" r="5"/>
+          <circle cx="110" cy="110" r="5"/>
+        </g>
+      </svg>
+
       <div class="container">
         <a class="back-link" href="index.html#categories"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="20" y1="12" x2="4" y2="12"/><polyline points="11 5 4 12 11 19"/></svg> Retour aux catégories</a>
         <p class="eyebrow">Nos produits</p>
         <h1>Pâtisseries</h1>
         <p class="menu-intro">Des créations gourmandes, pétries et montées sur place. Les photos arrivent prochainement sur cette page.</p>
 
-        <div class="menu-grid">
+        <div class="menu-grid menu-grid--lg">
           <div class="menu-item">
             <p class="menu-item__name">Éclair</p>
             <p class="menu-item__variants">Chocolat · Café</p>
