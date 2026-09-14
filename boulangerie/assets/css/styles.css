@@ -771,6 +771,48 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; margin: 0; }
   .history-photo { aspect-ratio: 16 / 10; }
 }
 
+/* ==========================================================================
+   Menu d'une catégorie (liste produits, sans photo/prix pour l'instant)
+   ========================================================================== */
+.menu-intro {
+  color: var(--cream-dim);
+  font-size: 15px;
+  line-height: 1.8;
+  max-width: 620px;
+  margin: 0 0 36px;
+}
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 48px;
+}
+.menu-item {
+  padding: 18px 0;
+  border-bottom: 1px solid var(--hairline);
+}
+.menu-item__name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--cream);
+  margin: 0 0 6px;
+}
+.menu-item__variants {
+  font-size: 12.5px;
+  color: var(--grey-text);
+  letter-spacing: 0.02em;
+  line-height: 1.6;
+}
+.menu-note {
+  margin-top: 34px;
+  font-size: 12.5px;
+  font-style: italic;
+  color: var(--grey-text);
+}
+
+@media (max-width: 640px) {
+  .menu-grid { grid-template-columns: 1fr; }
+}
+
 .timeline {
   display: flex;
   justify-content: space-between;
