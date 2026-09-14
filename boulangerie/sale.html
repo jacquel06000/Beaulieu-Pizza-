@@ -23,26 +23,39 @@
           <path d="M20 24 C17 23 16 21 16.5 19"/><path d="M20 24 C23 23 24 21 23.5 19"/>
         </svg>
         <span class="logo-name">La Boulange<br>de Beaulieu</span>
-        <span class="logo-tag">Artisan passionné</span>
+        <span class="logo-tag" data-i18n="logo_tagline">Artisan passionné</span>
       </a>
       <nav class="nav-desktop" aria-label="Navigation principale">
-        <a href="index.html#accueil">Accueil</a>
-        <a href="index.html#categories" class="is-active">Nos produits</a>
-        <a href="histoire.html">Notre histoire</a>
-        <a href="index.html#adresse">Notre boutique</a>
-        <a href="index.html#contact">Contact</a>
+        <a href="index.html#accueil" data-i18n="nav_accueil">Accueil</a>
+        <a href="index.html#categories" class="is-active" data-i18n="nav_produits">Nos produits</a>
+        <a href="histoire.html" data-i18n="nav_histoire">Notre histoire</a>
+        <a href="index.html#adresse" data-i18n="nav_boutique">Notre boutique</a>
+        <a href="index.html#contact" data-i18n="nav_contact">Contact</a>
       </nav>
       <div class="header-actions">
-        <a class="icon-btn" href="tel:+33493010138" aria-label="Appeler la boulangerie"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L14 13l5 2v4a2 2 0 0 1-2 2A15 15 0 0 1 2 6a2 2 0 0 1 2-2z"/></svg></a>
+        <div class="lang-switcher" id="lang-switcher">
+          <button class="lang-current" id="lang-toggle" type="button" aria-haspopup="true" aria-expanded="false">
+            <span class="flag" id="lang-current-flag">🇫🇷</span>
+            <span id="lang-current-code">FR</span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="lang-menu" id="lang-menu" role="menu">
+            <button class="lang-option" type="button" data-lang="fr" role="menuitem"><span class="flag">🇫🇷</span><span class="name">Français</span><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></button>
+            <button class="lang-option" type="button" data-lang="en" role="menuitem"><span class="flag">🇬🇧</span><span class="name">English</span><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></button>
+            <button class="lang-option" type="button" data-lang="ru" role="menuitem"><span class="flag">🇷🇺</span><span class="name">Русский</span><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></button>
+            <button class="lang-option" type="button" data-lang="it" role="menuitem"><span class="flag">🇮🇹</span><span class="name">Italiano</span><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></button>
+          </div>
+        </div>
+        <a class="icon-btn" href="tel:+33493010138" aria-label="Appeler la boulangerie" data-i18n-aria="aria_call"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L14 13l5 2v4a2 2 0 0 1-2 2A15 15 0 0 1 2 6a2 2 0 0 1 2-2z"/></svg></a>
         <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
       </div>
     </div>
     <nav id="nav-mobile" class="nav-mobile" aria-label="Navigation mobile">
-      <a href="index.html#accueil">Accueil</a>
-      <a href="index.html#categories">Nos produits</a>
-      <a href="histoire.html">Notre histoire</a>
-      <a href="index.html#adresse">Notre boutique</a>
-      <a href="index.html#contact">Contact</a>
+      <a href="index.html#accueil" data-i18n="nav_accueil">Accueil</a>
+      <a href="index.html#categories" data-i18n="nav_produits">Nos produits</a>
+      <a href="histoire.html" data-i18n="nav_histoire">Notre histoire</a>
+      <a href="index.html#adresse" data-i18n="nav_boutique">Notre boutique</a>
+      <a href="index.html#contact" data-i18n="nav_contact">Contact</a>
     </nav>
   </header>
 
@@ -51,12 +64,12 @@
       <div class="page-blob page-blob--1" aria-hidden="true"></div>
       <div class="page-blob page-blob--2" aria-hidden="true"></div>
       <div class="container container--wide">
-        <a class="back-link" href="index.html#categories"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="20" y1="12" x2="4" y2="12"/><polyline points="11 5 4 12 11 19"/></svg> Retour aux catégories</a>
+        <a class="back-link" href="index.html#categories"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="20" y1="12" x2="4" y2="12"/><polyline points="11 5 4 12 11 19"/></svg> <span data-i18n="back_categories">Retour aux catégories</span></a>
         <div class="menu-page-header">
-          <p class="eyebrow">Le salé fait maison</p>
-          <h1>Nos produits salés</h1>
+          <p class="eyebrow" data-i18n="page_sale_eyebrow">Le salé fait maison</p>
+          <h1 data-i18n="page_sale_title">Nos produits salés</h1>
           <span class="rule"></span>
-          <p class="subtitle">Sandwichs, quiches et spécialités</p>
+          <p class="subtitle" data-i18n="page_sale_subtitle">Sandwichs, quiches et spécialités</p>
         </div>
         <div class="menu-list">
           <div class="menu-list-item">
@@ -65,24 +78,24 @@
           </div>
           <div class="menu-list-item"><p class="menu-list-item__name">Pizza</p></div>
           <div class="menu-list-item">
-            <p class="menu-list-item__name">Salade du jour</p>
-            <p class="menu-list-item__desc">Une création fraîche et différente chaque jour.</p>
+            <p class="menu-list-item__name" data-i18n="sale_salade">Salade du jour</p>
+            <p class="menu-list-item__desc" data-i18n="sale_daily_desc">Une création fraîche et différente chaque jour.</p>
           </div>
           <div class="menu-list-item">
             <p class="menu-list-item__name">Quiche</p>
             <p class="menu-list-item__variants">Saumon épinard · Lorraine · Thon tomates · Légumes</p>
           </div>
           <div class="menu-list-item">
-            <p class="menu-list-item__name">Wrap</p>
-            <p class="menu-list-item__desc">Une création fraîche et différente chaque jour.</p>
+            <p class="menu-list-item__name" data-i18n="sale_wrap">Wrap</p>
+            <p class="menu-list-item__desc" data-i18n="sale_daily_desc">Une création fraîche et différente chaque jour.</p>
           </div>
         </div>
 
-        <p class="menu-note">Prix disponibles en boutique.</p>
+        <p class="menu-note" data-i18n="menu_note">Prix disponibles en boutique.</p>
 
         <div class="menu-close">
           <span class="rule"></span>
-          <p class="tagline">Des recettes salées, fraîches chaque jour</p>
+          <p class="tagline" data-i18n="close_tagline_sale">Des recettes salées, fraîches chaque jour</p>
           <div class="mini-logo">
             <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round">
               <path d="M20 37 L20 11"/><path d="M20 11 C16 9 14 6 15 3"/><path d="M20 11 C24 9 26 6 25 3"/>
@@ -101,19 +114,19 @@
     <div class="container footer-grid">
       <div class="footer-brand">
         <a href="index.html#accueil" class="logo"><span class="logo-name">La Boulange<br>de Beaulieu</span></a>
-        <p>Boulangerie-pâtisserie artisanale à Beaulieu-sur-Mer. Pains, viennoiseries, pâtisseries et produits salés faits maison.</p>
+        <p data-i18n="footer_desc">Boulangerie-pâtisserie artisanale à Beaulieu-sur-Mer. Pains, viennoiseries, pâtisseries et produits salés faits maison.</p>
       </div>
       <div class="footer-col">
-        <h4>Navigation</h4>
+        <h4 data-i18n="footer_nav_title">Navigation</h4>
         <ul>
-          <li><a href="index.html#accueil">Accueil</a></li>
-          <li><a href="index.html#categories">Nos produits</a></li>
-          <li><a href="histoire.html">Notre histoire</a></li>
-          <li><a href="index.html#adresse">Notre boutique</a></li>
+          <li><a href="index.html#accueil" data-i18n="nav_accueil">Accueil</a></li>
+          <li><a href="index.html#categories" data-i18n="nav_produits">Nos produits</a></li>
+          <li><a href="histoire.html" data-i18n="nav_histoire">Notre histoire</a></li>
+          <li><a href="index.html#adresse" data-i18n="nav_boutique">Notre boutique</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Coordonnées</h4>
+        <h4 data-i18n="footer_coord_title">Coordonnées</h4>
         <ul>
           <li>30 boulevard Marinoni</li>
           <li>06310 Beaulieu-sur-Mer</li>
@@ -122,11 +135,12 @@
       </div>
     </div>
     <div class="container footer-bottom">
-      <p>© <span id="footer-year"></span> La Boulange de Beaulieu. Tous droits réservés.</p>
-      <div class="footer-legal-links"><a href="mentions-legales.html">Mentions légales</a></div>
+      <p>© <span id="footer-year"></span> La Boulange de Beaulieu. <span data-i18n="footer_rights">Tous droits réservés.</span></p>
+      <div class="footer-legal-links"><a href="mentions-legales.html" data-i18n="footer_legal">Mentions légales</a></div>
     </div>
   </footer>
 
+  <script src="assets/js/i18n.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>
