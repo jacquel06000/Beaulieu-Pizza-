@@ -228,28 +228,43 @@
           <h2 id="contact-title">Informations pratiques</h2>
         </div>
 
-        <div class="practical-grid">
-          <div class="practical-card" id="contact">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-7.5 7-13a7 7 0 1 0-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>
-            <h3>Adresse</h3>
-            <address>
-              30 boulevard Marinoni<br>
-              06310 Beaulieu-sur-Mer<br>
-              France
-            </address>
+        <div class="practical-layout" id="contact">
+          <div class="info-stack">
+            <div class="practical-card">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-7.5 7-13a7 7 0 1 0-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>
+              <h3>Adresse</h3>
+              <address>
+                30 boulevard Marinoni<br>
+                06310 Beaulieu-sur-Mer<br>
+                France
+              </address>
+              <a class="link-underline" href="https://www.google.com/maps/search/?api=1&query=30+boulevard+Marinoni+06310+Beaulieu-sur-Mer" target="_blank" rel="noopener">Voir sur la carte</a>
+            </div>
+
+            <div class="practical-card">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L14 13l5 2v4a2 2 0 0 1-2 2A15 15 0 0 1 2 6a2 2 0 0 1 2-2z"/></svg>
+              <h3>Téléphone</h3>
+              <p><a class="link-underline" href="tel:+33493010138">04 93 01 01 38</a></p>
+            </div>
           </div>
 
-          <div class="practical-card">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L14 13l5 2v4a2 2 0 0 1-2 2A15 15 0 0 1 2 6a2 2 0 0 1 2-2z"/></svg>
-            <h3>Téléphone</h3>
-            <p><a href="tel:+33493010138">04 93 01 01 38</a></p>
-          </div>
-
-          <div class="practical-card">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 16 14"/></svg>
-            <h3>Horaires</h3>
-            <div class="hours-row"><span>Lundi – samedi</span><span>7h–13h / 16h–19h</span></div>
-            <div class="hours-row"><span>Dimanche</span><span>7h–13h</span></div>
+          <div class="hours-card">
+            <div class="hours-card__head">
+              <div>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 16 14"/></svg>
+                <h3>Horaires d'ouverture</h3>
+              </div>
+              <span class="hours-status" id="hours-status">—</span>
+            </div>
+            <ul class="hours-list" id="hours-list">
+              <li data-day="1"><span class="hours-list__day">Lundi</span><span class="hours-list__time">7h–13h &nbsp;·&nbsp; 16h–19h</span></li>
+              <li data-day="2"><span class="hours-list__day">Mardi</span><span class="hours-list__time">7h–13h &nbsp;·&nbsp; 16h–19h</span></li>
+              <li data-day="3"><span class="hours-list__day">Mercredi</span><span class="hours-list__time">7h–13h &nbsp;·&nbsp; 16h–19h</span></li>
+              <li data-day="4"><span class="hours-list__day">Jeudi</span><span class="hours-list__time">7h–13h &nbsp;·&nbsp; 16h–19h</span></li>
+              <li data-day="5"><span class="hours-list__day">Vendredi</span><span class="hours-list__time">7h–13h &nbsp;·&nbsp; 16h–19h</span></li>
+              <li data-day="6"><span class="hours-list__day">Samedi</span><span class="hours-list__time">7h–13h &nbsp;·&nbsp; 16h–19h</span></li>
+              <li data-day="0"><span class="hours-list__day">Dimanche</span><span class="hours-list__time">7h–13h</span></li>
+            </ul>
           </div>
         </div>
       </div>
