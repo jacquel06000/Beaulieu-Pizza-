@@ -714,6 +714,20 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; margin: 0; }
   max-width: 320px;
   line-height: 1.7;
 }
+.footer-social {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--cream-dim);
+  border: 1px solid var(--hairline);
+  border-radius: 20px;
+  padding: 7px 14px 7px 10px;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.footer-social:hover { border-color: var(--gold); color: var(--gold-light); }
+.footer-social svg { width: 17px; height: 17px; flex-shrink: 0; }
 .footer-col h4 {
   font-family: var(--font-body);
   font-size: 12px;
