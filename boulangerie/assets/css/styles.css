@@ -818,69 +818,110 @@ body.theme-sale        { --theme-accent: #7a8a4f; --theme-glow: 122, 138, 79; }
 }
 
 /* ==========================================================================
-   Menu d'une catégorie (liste produits, sans photo/prix pour l'instant)
+   Menu d'une catégorie — liste unique centrée façon carte de restaurant
    ========================================================================== */
-.menu-intro {
+.menu-page-header {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 50px;
+}
+.menu-page-header .eyebrow { text-align: center; }
+.menu-page-header h1 {
+  font-size: clamp(2.1rem, 5vw, 3rem);
+  letter-spacing: 0.01em;
+  margin: 14px 0;
+  text-transform: uppercase;
+}
+.menu-page-header .rule {
+  width: 46px; height: 1px;
+  background: var(--theme-accent, var(--hairline));
+  opacity: 0.7;
+  margin: 20px auto;
+}
+.menu-page-header .subtitle {
+  font-size: 11.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
   color: var(--cream-dim);
-  font-size: 15px;
-  line-height: 1.8;
-  max-width: 620px;
-  margin: 0 0 36px;
 }
-.menu-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
+
+.menu-list {
+  max-width: 760px;
+  margin: 0 auto;
 }
-.menu-item {
-  padding: 20px 22px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.025), transparent 60%), var(--black-panel);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius);
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+.menu-list-item {
+  padding: 22px 4px;
+  border-bottom: 1px dotted var(--hairline);
 }
-.menu-item:hover {
-  transform: translateY(-3px);
-  border-color: var(--theme-accent, var(--gold));
-  box-shadow: 0 16px 32px rgba(0,0,0,0.4);
-}
-.menu-item__name {
+.menu-list-item__name {
   display: flex;
   align-items: baseline;
   gap: 10px;
   font-family: var(--font-display);
-  font-size: 1.05rem;
+  font-size: clamp(1.15rem, 2vw, 1.4rem);
   color: var(--cream);
   margin: 0 0 8px;
 }
-.menu-item__name::before {
+.menu-list-item__name::before {
   content: "";
-  width: 7px; height: 7px;
+  width: 6px; height: 6px;
   border-radius: 50%;
   background: var(--theme-accent, var(--gold));
   flex-shrink: 0;
 }
-.menu-item__variants {
-  font-size: 12.5px;
+.menu-list-item__variants {
+  font-size: 11.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   color: var(--grey-text);
-  letter-spacing: 0.02em;
-  line-height: 1.6;
-  padding-left: 17px;
+  line-height: 1.7;
+  padding-left: 16px;
 }
+
+.menu-close {
+  text-align: center;
+  margin-top: 56px;
+}
+.menu-close .rule {
+  width: 46px; height: 1px;
+  background: var(--theme-accent, var(--hairline));
+  opacity: 0.7;
+  margin: 0 auto 22px;
+}
+.menu-close .tagline {
+  font-size: 11.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cream-dim);
+}
+.menu-close .mini-logo {
+  margin-top: 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.menu-close .mini-logo svg { width: 22px; height: 22px; color: var(--theme-accent, var(--gold)); }
+.menu-close .mini-logo strong {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  color: var(--cream);
+  text-transform: uppercase;
+}
+.menu-close .mini-logo span {
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+}
+
 .menu-note {
   margin-top: 34px;
   font-size: 12.5px;
   font-style: italic;
   color: var(--grey-text);
-}
-
-/* Variante texte agrandi (utilisée sur la page Pâtisseries) */
-.menu-grid--lg .menu-item { padding: 26px 26px; }
-.menu-grid--lg .menu-item__name { font-size: 1.3rem; }
-.menu-grid--lg .menu-item__variants { font-size: 13.5px; }
-
-@media (max-width: 640px) {
-  .menu-grid { grid-template-columns: 1fr; }
+  text-align: center;
 }
 
 .timeline {
