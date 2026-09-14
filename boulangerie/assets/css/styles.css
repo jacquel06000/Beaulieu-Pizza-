@@ -877,6 +877,13 @@ body.theme-sale        { --theme-accent: #7a8a4f; --theme-glow: 122, 138, 79; }
   line-height: 1.7;
   padding-left: 16px;
 }
+.menu-list-item__desc {
+  font-size: 13px;
+  font-style: italic;
+  color: var(--cream-dim);
+  line-height: 1.6;
+  padding-left: 16px;
+}
 
 .menu-close {
   text-align: center;
