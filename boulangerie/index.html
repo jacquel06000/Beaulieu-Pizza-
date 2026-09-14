@@ -213,13 +213,32 @@
     </section>
 
     <!-- =================== NOTRE HISTOIRE =================== -->
-    <section id="histoire" class="story" aria-labelledby="histoire-title">
+    <section id="histoire" class="story story--split" aria-labelledby="histoire-title">
       <div class="container">
-        <p class="eyebrow" style="text-align:center;" data-i18n="history_eyebrow">Depuis 1999</p>
-        <h2 id="histoire-title" data-i18n="histoire_title">Notre histoire</h2>
-        <p data-i18n="histoire_p1">En 1999, après avoir changé de région, Jean-Paul Jacquel tombe sous le charme de Beaulieu-sur-Mer et décide d'y acheter une boulangerie.</p>
-        <p data-i18n="histoire_p2">En 2005, son fils Jean-Philippe reprend le flambeau et perpétue depuis ce savoir-faire familial avec passion.</p>
-        <p class="pull" data-i18n="histoire_p3">Plus de 25 ans après ses débuts, la boulangerie appartient toujours à la famille Jacquel et continue d'écrire son histoire au cœur de la ville.</p>
+        <div class="history-layout">
+          <div class="history-gallery">
+            <div class="history-gallery__scroll" id="history-gallery-scroll">
+              <div class="history-gallery__item">
+                <img src="assets/img/histoire-devanture.png" alt="La devanture de La Boulange de Beaulieu, de nuit">
+              </div>
+              <div class="history-gallery__item">
+                <img src="assets/img/histoire-atelier.jpg" alt="Le fournil de La Boulange de Beaulieu, à l'ouvrage">
+              </div>
+            </div>
+            <div class="history-gallery__dots" id="history-gallery-dots">
+              <button class="history-gallery__dot is-active" data-index="0" aria-label="Photo 1"></button>
+              <button class="history-gallery__dot" data-index="1" aria-label="Photo 2"></button>
+            </div>
+          </div>
+
+          <div class="history-content">
+            <p class="eyebrow" data-i18n="history_eyebrow">Depuis 1999</p>
+            <h2 id="histoire-title" data-i18n="histoire_title">Notre histoire</h2>
+            <p data-i18n="histoire_p1">En 1999, après avoir changé de région, Jean-Paul Jacquel tombe sous le charme de Beaulieu-sur-Mer et décide d'y acheter une boulangerie.</p>
+            <p data-i18n="histoire_p2">En 2005, son fils Jean-Philippe reprend le flambeau et perpétue depuis ce savoir-faire familial avec passion.</p>
+            <p class="pull" data-i18n="histoire_p3">Plus de 25 ans après ses débuts, la boulangerie appartient toujours à la famille Jacquel et continue d'écrire son histoire au cœur de la ville.</p>
+          </div>
+        </div>
       </div>
     </section>
 

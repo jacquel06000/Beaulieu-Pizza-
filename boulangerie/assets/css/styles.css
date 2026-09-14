@@ -539,6 +539,9 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; margin: 0; }
   padding-top: 90px;
   padding-bottom: 90px;
 }
+.story--split .container { max-width: 1080px; text-align: left; }
+.story--split .history-layout { margin-bottom: 0; }
+.story--split .history-content .eyebrow { text-align: left; }
 .story h2 {
   font-size: clamp(1.8rem, 3.6vw, 2.4rem);
   color: var(--cream);
@@ -877,8 +880,10 @@ body.theme-sale        { --theme-accent: #7a8a4f; --theme-glow: 122, 138, 79; }
 .history-gallery__dot.is-active { background: var(--gold); transform: scale(1.2); }
 
 .history-content .eyebrow,
-.history-content h1 { text-align: left; }
-.history-content h1 { margin-bottom: 26px; }
+.history-content h1,
+.history-content h2 { text-align: left; }
+.history-content h1,
+.history-content h2 { margin-bottom: 26px; }
 .history-content p {
   color: var(--cream-dim);
   font-size: 16px;
