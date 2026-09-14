@@ -769,31 +769,41 @@ body.theme-sale        { --theme-accent: #7a8a4f; --theme-glow: 122, 138, 79; }
   margin-bottom: 60px;
 }
 
-.history-photo {
-  position: relative;
-  aspect-ratio: 4 / 5;
+.history-gallery { position: relative; }
+.history-gallery__scroll {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
   border: 1px solid var(--hairline);
   border-radius: var(--radius);
-  overflow: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
-.history-photo img { width: 100%; height: 100%; object-fit: cover; }
-.history-photo__placeholder {
-  width: 100%; height: 100%;
-  display: flex; align-items: center; justify-content: center;
-  background: radial-gradient(120% 140% at 30% 20%, #2c2416 0%, #1a1610 55%, #0e0c09 100%);
+.history-gallery__scroll::-webkit-scrollbar { display: none; }
+.history-gallery__item {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  aspect-ratio: 4 / 5;
 }
-.history-photo__placeholder svg { width: 56px; height: 56px; color: var(--gold-soft); opacity: 0.85; }
-.history-photo__badge {
-  position: absolute;
-  top: 16px; left: 16px;
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--black-deep);
-  background: var(--gold-light);
-  padding: 6px 12px;
-  border-radius: 2px;
+.history-gallery__item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.history-gallery__dots {
+  display: flex;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 16px;
 }
+.history-gallery__dot {
+  width: 7px; height: 7px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--hairline);
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.history-gallery__dot:hover { background: var(--gold-soft); }
+.history-gallery__dot.is-active { background: var(--gold); transform: scale(1.2); }
 
 .history-content .eyebrow,
 .history-content h1 { text-align: left; }
@@ -814,7 +824,7 @@ body.theme-sale        { --theme-accent: #7a8a4f; --theme-glow: 122, 138, 79; }
 
 @media (max-width: 860px) {
   .history-layout { grid-template-columns: 1fr; gap: 32px; }
-  .history-photo { aspect-ratio: 16 / 10; }
+  .history-gallery__item { aspect-ratio: 16 / 10; }
 }
 
 /* ==========================================================================

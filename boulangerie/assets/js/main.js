@@ -56,4 +56,32 @@ document.addEventListener('DOMContentLoaded', () => {
       statusEl.classList.add(isOpen ? 'is-open' : 'is-closed');
     }
   }
+
+  // Galerie « Notre histoire » : défilement horizontal + puces synchronisées
+  const galleryScroll = document.getElementById('history-gallery-scroll');
+  const galleryDots = document.getElementById('history-gallery-dots');
+  if (galleryScroll && galleryDots) {
+    const items = Array.from(galleryScroll.children);
+    const dots = Array.from(galleryDots.children);
+
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        const i = Number(dot.dataset.index);
+        items[i]?.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+      });
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const i = items.indexOf(entry.target);
+            dots.forEach((d, di) => d.classList.toggle('is-active', di === i));
+          }
+        });
+      },
+      { root: galleryScroll, threshold: 0.6 }
+    );
+    items.forEach((item) => observer.observe(item));
+  }
 });

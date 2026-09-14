@@ -52,10 +52,18 @@
         <a class="back-link" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="20" y1="12" x2="4" y2="12"/><polyline points="11 5 4 12 11 19"/></svg> Retour à l'accueil</a>
 
         <div class="history-layout">
-          <div class="history-photo">
-            <span class="history-photo__badge">Photo à venir</span>
-            <div class="history-photo__placeholder">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M4 9c0 1.5 1 2.5 2.5 2.5S9 10.5 9 9c0 1.5 1 2.5 2.5 2.5S14 10.5 14 9c0 1.5 1 2.5 2.5 2.5S19 10.5 19 9"/><path d="M9.5 20v-6h5v6"/></svg>
+          <div class="history-gallery">
+            <div class="history-gallery__scroll" id="history-gallery-scroll">
+              <div class="history-gallery__item">
+                <img src="assets/img/histoire-devanture.png" alt="La devanture de La Boulange de Beaulieu, de nuit">
+              </div>
+              <div class="history-gallery__item">
+                <img src="assets/img/histoire-atelier.jpg" alt="Le fournil de La Boulange de Beaulieu, à l'ouvrage">
+              </div>
+            </div>
+            <div class="history-gallery__dots" id="history-gallery-dots">
+              <button class="history-gallery__dot is-active" data-index="0" aria-label="Photo 1"></button>
+              <button class="history-gallery__dot" data-index="1" aria-label="Photo 2"></button>
             </div>
           </div>
 
