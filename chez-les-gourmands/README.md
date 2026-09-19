@@ -120,16 +120,22 @@ manquante au même endroit dans la structure que la version française.
 
 ## 📸 Photos — IMPORTANT
 
-Toutes les photographies du site sont **temporaires** : ce sont des images
-libres de droits (Unsplash), choisies pour leur cohérence visuelle avec
-l'identité du restaurant (gourmandise, ambiance méditerranéenne), en
-attendant de vraies photographies. Chaque occurrence est signalée par un
-commentaire ou un texte alternatif « Photo de démonstration » dans le code.
+La photo du hero (page d'accueil, tout en haut) est une **vraie
+photographie** de la façade et de la terrasse de l'établissement
+(`assets/img/facade-terrasse.webp`), fournie par le client.
+
+Toutes les **autres** photographies du site restent **temporaires** : ce
+sont des images libres de droits (Unsplash), choisies pour leur cohérence
+visuelle avec l'identité du restaurant, en attendant de vraies
+photographies. Chaque occurrence est signalée par un commentaire ou un
+texte alternatif « Photo de démonstration » dans le code.
 
 Pour les remplacer :
 1. Déposez vos fichiers dans `assets/img/`.
-2. Remplacez la valeur `image` correspondante dans `site-data.js` (`SITE.hero`,
-   `SITE.intro`, `SITE.gallery`) par le chemin local, par exemple
+2. Remplacez la valeur `image` correspondante dans `site-data.js`
+   (`SITE.hero.image`, `SITE.intro.image` — utilisées automatiquement sur
+   toutes les pages via l'attribut `data-clg-img`, rien à changer dans le
+   HTML — ou `SITE.gallery`) par le chemin local, par exemple
    `assets/img/facade.jpg`.
 3. Mettez à jour le texte alternatif dans `i18n.js` (`heroImageAlt`,
    `introImageAlt`, `gallery.captions`, dans les 3 langues) pour qu'il

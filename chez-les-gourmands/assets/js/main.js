@@ -130,7 +130,18 @@
   }
 
   /* ---------------------------------------------------------------------
-   * 3. Champs data-clg-* : téléphone, adresse, horaires — partout sur le site
+   * 3. Photos centralisées — data-clg-img="hero"|"intro" (site-data.js)
+   * ------------------------------------------------------------------- */
+  function fillImages() {
+    const map = { hero: SITE.hero.image, intro: SITE.intro.image };
+    $$("[data-clg-img]").forEach((el) => {
+      const src = map[el.getAttribute("data-clg-img")];
+      if (src) el.setAttribute("src", src);
+    });
+  }
+
+  /* ---------------------------------------------------------------------
+   * 4. Champs data-clg-* : téléphone, adresse, horaires — partout sur le site
    * ------------------------------------------------------------------- */
   function fillFacts() {
     $$("[data-clg-phone-display]").forEach((el) => { el.textContent = SITE.phone.display; });
@@ -405,6 +416,7 @@
     applyI18n();
     applyMeta();
     buildLangSwitcher();
+    fillImages();
     fillFacts();
     buildNav();
     buildFooter();

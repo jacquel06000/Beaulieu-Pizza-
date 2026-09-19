@@ -251,8 +251,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 .hero-media img {
   width: 100%;
-  height: clamp(280px, 55vw, 560px);
+  height: clamp(320px, 60vw, 620px);
   object-fit: cover;
+  object-position: center 32%;
 }
 .hero-media::after {
   content: "";

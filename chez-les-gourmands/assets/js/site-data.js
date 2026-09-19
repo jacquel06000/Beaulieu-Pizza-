@@ -67,7 +67,7 @@ const SITE = {
   // PHOTOS — visuels de démonstration (Unsplash), PLACEHOLDER.
   // ---------------------------------------------------------------------
   hero: {
-    image: "https://images.unsplash.com/photo-1519676867240-f03562e64548?w=1800&q=75&auto=format&fit=crop",
+    image: "assets/img/facade-terrasse.webp",
   },
   intro: {
     image: "https://images.unsplash.com/photo-1550507992-eb63ffee0847?w=1200&q=75&auto=format&fit=crop",
