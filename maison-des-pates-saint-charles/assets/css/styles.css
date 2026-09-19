@@ -364,14 +364,7 @@ section { padding-block: clamp(56px, 9vw, 108px); }
     radial-gradient(ellipse 50% 45% at 8% 100%, var(--olive-soft) 0%, transparent 60%),
     var(--ivory);
 }
-.hero-grid {
-  display: grid;
-  gap: 48px;
-  align-items: center;
-}
-@media (min-width: 960px) {
-  .hero-grid { grid-template-columns: 1.05fr 0.95fr; gap: 40px; }
-}
+.hero-single { max-width: 680px; }
 .hero-title {
   font-size: clamp(2.3rem, 5.4vw, 3.7rem);
   line-height: 1.08;
@@ -392,41 +385,6 @@ section { padding-block: clamp(56px, 9vw, 108px); }
 }
 .hero-badge { display: flex; align-items: center; gap: 10px; font-size: 0.88rem; color: var(--brown-soft); }
 .hero-badge svg { width: 20px; height: 20px; color: var(--olive-dark); flex-shrink: 0; }
-
-.hero-visual { position: relative; }
-.pasta-plate {
-  position: relative;
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-  background: linear-gradient(160deg, var(--cream), var(--flour));
-  box-shadow: var(--shadow-lg);
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--line-soft);
-}
-.pasta-plate::before {
-  content: '';
-  position: absolute;
-  inset: 7%;
-  border-radius: 50%;
-  border: 1.5px dashed var(--terracotta-soft);
-}
-.pasta-plate svg { width: 62%; height: 62%; }
-.hero-visual .floaty {
-  position: absolute;
-  background: var(--white);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-md);
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.86rem;
-  font-weight: 600;
-}
-.hero-visual .floaty svg { width: 26px; height: 26px; color: var(--terracotta); }
-.hero-visual .floaty-1 { top: 4%; left: -4%; }
-.hero-visual .floaty-2 { bottom: 6%; right: -4%; }
 
 /* ==========================================================================
    Reveal / motion
