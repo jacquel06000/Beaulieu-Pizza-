@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.maison-des-pates-saintcharles.mc/sitemap.xml
