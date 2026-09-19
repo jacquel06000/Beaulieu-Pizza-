@@ -16,6 +16,23 @@ const SITE = {
     instagram: '', // ex. 'https://instagram.com/votre-compte' — laissez vide pour masquer le lien
   },
 
+  // Informations légales (page mentions-legales.html) — indépendantes de la langue.
+  legal: {
+    companyName: 'MAISON DES PATES CESANO & FILS S.A.R.L.',
+    vatNumber: 'FR 35 000132338',
+    registeredAddress: {
+      line1: '10, rue des Açores',
+      line2: '98000 Monaco',
+    },
+    management: ['M. Alex Cesano', 'Mme Ornella Bosio (cogérante)'],
+    designer: 'Alexandre Jacquel',
+    host: {
+      name: 'Hostinger International Ltd',
+      line1: '61 Lordou Vironos Street',
+      line2: '6023 Larnaca, Chypre',
+    },
+  },
+
   // Horaires : format 24h. `closed: true` pour un jour fermé.
   hours: [
     { day: 'mon', open: '08:00', close: '18:30' },

@@ -66,6 +66,7 @@
 
     renderHours(lang);
     renderMenu(lang);
+    renderLegal();
     injectStructuredData(lang);
   }
 
@@ -264,6 +265,21 @@
           <span class="prices"><span>${dict.glassLabel} · ${w.glass}</span><span>${dict.bottleLabel} · ${w.bottle}</span></span>
         </li>`).join('');
     }
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Mentions légales (page mentions-legales.html)                      */
+  /* ------------------------------------------------------------------ */
+  function renderLegal() {
+    const legal = SITE.legal;
+    if (!legal) return;
+    const set = (sel, html) => { const el = $(sel); if (el) el.innerHTML = html; };
+    set('[data-legal-company]', legal.companyName);
+    set('[data-legal-vat]', legal.vatNumber);
+    set('[data-legal-address]', `${legal.registeredAddress.line1}<br>${legal.registeredAddress.line2}`);
+    set('[data-legal-management]', legal.management.join(', '));
+    set('[data-legal-designer]', legal.designer);
+    set('[data-legal-host]', `${legal.host.name}<br>${legal.host.line1}<br>${legal.host.line2}`);
   }
 
   /* ------------------------------------------------------------------ */
