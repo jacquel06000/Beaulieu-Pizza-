@@ -16,18 +16,19 @@
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body data-page="legal">
-  <a class="skip-link" href="#main">Aller au contenu principal</a>
+  <a class="skip-link" href="#main" data-i18n="common.skipLink">Aller au contenu principal</a>
 
   <header class="site-header">
     <div class="container header-inner">
-      <a href="index.html" class="logo" aria-label="Chez les Gourmands — retour à l’accueil">Chez les <span>Gourmands</span></a>
+      <a href="index.html" class="logo" data-i18n-aria-label="common.logoAria" aria-label="Chez les Gourmands — retour à l’accueil">Chez les <span>Gourmands</span></a>
       <nav id="nav-desktop" class="nav-desktop" aria-label="Navigation principale"></nav>
       <div class="header-actions">
+        <div class="lang-switcher" id="lang-switcher"></div>
         <a class="btn btn--primary" href="tel:+33622756890" data-clg-phone-href>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
-          <span class="header-call-label">Nous appeler</span>
+          <span class="header-call-label" data-i18n="common.headerCallLabel">Nous appeler</span>
         </a>
-        <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile-links" aria-label="Ouvrir le menu de navigation">
+        <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile-links" data-i18n-aria-label="common.openMenuAria" aria-label="Ouvrir le menu de navigation">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
         </button>
       </div>
@@ -45,6 +46,8 @@
 
     <section class="section">
       <div class="container prose">
+
+        <p class="legal-lang-notice" data-i18n="legalNotice.onlyFrench"></p>
 
         <div class="legal-block">
           <h2>Éditeur du site</h2>
@@ -114,36 +117,31 @@
     <div class="container footer-grid">
       <div class="footer-brand">
         <a href="index.html" class="logo">Chez les <span>Gourmands</span></a>
-        <p>Crêperie à Villefranche-sur-Mer — galettes et crêpes, du lundi au samedi.</p>
+        <p data-i18n="common.footerTagline">Crêperie à Villefranche-sur-Mer — galettes et crêpes, du lundi au samedi.</p>
       </div>
       <div class="footer-col">
-        <h4>Navigation</h4>
+        <h4 data-i18n="common.footerNavTitle">Navigation</h4>
         <ul id="footer-nav"></ul>
       </div>
       <div class="footer-col">
-        <h4>Coordonnées</h4>
+        <h4 data-i18n="common.footerAddressTitle">Coordonnées</h4>
         <ul id="footer-address"></ul>
       </div>
       <div class="footer-col">
-        <h4>Horaires</h4>
+        <h4 data-i18n="common.footerHoursTitle">Horaires</h4>
         <ul id="footer-hours"></ul>
       </div>
     </div>
     <div class="container footer-bottom">
       <div class="footer-legal" id="footer-legal"></div>
-      <p>© <span data-clg-year></span> Chez les Gourmands. Tous droits réservés.</p>
+      <p>© <span data-clg-year></span> Chez les Gourmands. <span data-i18n="common.rightsReserved">Tous droits réservés.</span></p>
     </div>
   </footer>
 
-  <div class="consent-banner" id="consent-banner" role="dialog" aria-live="polite" aria-label="Consentement carte interactive">
-    <p>Nous proposons d’intégrer une carte Google Maps pour vous aider à nous trouver. Son affichage dépose des cookies tiers. Vous pouvez accepter, refuser, ou modifier votre choix à tout moment depuis le pied de page. Voir notre <a href="confidentialite.html">politique de confidentialité</a>.</p>
-    <div class="consent-actions">
-      <button type="button" class="btn btn--primary" id="consent-accept">Accepter la carte</button>
-      <button type="button" class="btn btn--secondary" id="consent-decline">Refuser</button>
-    </div>
-  </div>
+  <div class="consent-banner" id="consent-banner" role="dialog" aria-live="polite" aria-label="Consentement carte interactive"></div>
 
   <script src="assets/js/site-data.js"></script>
+  <script src="assets/js/i18n.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>

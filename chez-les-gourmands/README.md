@@ -27,8 +27,8 @@ chez-les-gourmands/
 ├── restaurant.html          Le restaurant (ambiance)
 ├── galerie.html              Galerie photo
 ├── contact.html              Contact & infos pratiques (carte Google Maps)
-├── mentions-legales.html     Mentions légales
-├── confidentialite.html      Politique de confidentialité
+├── mentions-legales.html     Mentions légales (français uniquement)
+├── confidentialite.html      Politique de confidentialité (français uniquement)
 ├── 404.html                  Page d'erreur 404
 ├── robots.txt
 ├── sitemap.xml
@@ -36,41 +36,87 @@ chez-les-gourmands/
 └── assets/
     ├── css/styles.css        Design system + tous les styles du site
     ├── js/
-    │   ├── site-data.js       ★ FICHIER DE CONFIGURATION CENTRAL
-    │   └── main.js             Logique : injecte les données du site,
-    │                          construit la carte, la galerie, le menu
-    │                          mobile, le consentement cookies, les
-    │                          animations et les données Schema.org
+    │   ├── site-data.js       ★ FAITS NEUTRES — prix, ids, horaires, photos
+    │   ├── i18n.js             ★ TOUS LES TEXTES, en français/anglais/russe
+    │   └── main.js             Logique : sélecteur de langue, assemble
+    │                          site-data.js + i18n.js, construit la carte,
+    │                          la galerie, le menu mobile, le consentement
+    │                          cookies et les données Schema.org
     └── favicon.svg
 ```
 
 ## ⚠️ Où modifier le contenu
 
-Toutes les informations factuelles et le contenu de la carte vivent dans
-**`assets/js/site-data.js`** — c'est le seul fichier à modifier pour ces
-éléments, ils se répercutent automatiquement sur toutes les pages du site
-(liens d'appel, adresse, horaires, données Schema.org).
+Le site est piloté par **deux fichiers**, jamais directement par le HTML des
+pages (à l'exception des mentions légales, volontairement statiques) :
+
+- **`assets/js/site-data.js`** — tout ce qui est indépendant de la langue :
+  téléphone, adresse, horaires, prix, identifiants de plats, chemins des
+  photos.
+- **`assets/js/i18n.js`** — tout le TEXTE affiché, en français, anglais et
+  russe. C'est ici que vous corrigez une phrase d'accroche ou une
+  traduction.
 
 | Pour changer…                                    | Modifiez dans…                              |
 |---------------------------------------------------|----------------------------------------------|
 | **Le numéro de téléphone**                        | `SITE.phone.display` et `SITE.phone.href` (site-data.js) |
 | **L'adresse**                                     | `SITE.address` (site-data.js) |
 | **Les horaires d'ouverture**                      | `SITE.hours` (site-data.js) — répercuté automatiquement sur le tableau d'horaires, le résumé de la page d'accueil et les données Schema.org |
-| **La carte complète** (plats, prix, descriptions) | `SITE.menuCategories` (site-data.js) — chaque catégorie est un bloc `{ id, title, items }`, chaque plat un objet `{ name, description, price }`. Ajoutez, modifiez ou supprimez librement une entrée. |
-| **L'aperçu de la carte en page d'accueil**        | `SITE.menuPreview` (site-data.js) |
-| **Les photos de la galerie**                      | `SITE.gallery` (site-data.js) |
+| **Le prix d'un plat**                             | `SITE.menuCategories` (site-data.js) — champ `price` de l'entrée `{id, price}` correspondante |
+| **Le nom ou la description d'un plat, dans les 3 langues** | `I18N.<langue>.menu.items.<id>` (i18n.js) — même `id` que dans site-data.js |
+| **Ajouter un plat**                               | 1) ajoutez `{id, price}` dans la bonne catégorie de `SITE.menuCategories` (site-data.js) ; 2) ajoutez le nom/la description correspondants dans `I18N.fr.menu.items`, `I18N.en.menu.items` et `I18N.ru.menu.items` (i18n.js), avec le même `id` |
+| **L'aperçu de la carte en page d'accueil**        | `SITE.menuPreviewRefs` (site-data.js) — référence 4 plats déjà définis dans la carte, rien à dupliquer |
+| **Les photos de la galerie**                      | `SITE.gallery` (site-data.js) ; légendes dans `I18N.<langue>.gallery.captions` (i18n.js) |
 | **Le lien d'itinéraire / la carte intégrée**      | `SITE.address.mapsUrl` et `SITE.address.mapsEmbedUrl` (site-data.js) |
-| **Les textes longs** (accroche, présentation, page "Le restaurant") | directement dans le HTML de la page concernée (contenu rédactionnel, volontairement statique pour un rendu immédiat, sans dépendre du JavaScript) |
-| **Les mentions légales**                          | `mentions-legales.html` (contenu statique — informations légales) |
+| **Un titre, une phrase d'accroche, un texte de présentation** | `I18N.<langue>.pages.<page>` (i18n.js) — voir la table des matières en tête de fichier |
+| **Les mentions légales / la politique de confidentialité** | directement dans `mentions-legales.html` / `confidentialite.html` (contenu volontairement statique, en français uniquement — voir plus bas) |
 
 ### Allergènes
 
-Le brief ne fournissait pas de liste d'allergènes par plat. Un espace est
-prévu dans la structure de `SITE.menuCategories` (champ `description`) pour
-ajouter cette information dès qu'elle sera communiquée — par exemple :
-`description: "Jambon, emmental — contient gluten, lait"`. Un bandeau en
-haut de la page « La carte » invite déjà les clients à signaler toute
-allergie par téléphone.
+Le brief ne fournissait pas de liste d'allergènes par plat. Le champ
+`description` de chaque plat, dans `i18n.js`, peut accueillir cette
+information dès qu'elle sera communiquée — par exemple :
+`description: "Jambon, emmental — contient gluten, lait"` (à répéter dans
+les 3 langues). Un bandeau en haut de la page « La carte » invite déjà les
+clients à signaler toute allergie par téléphone.
+
+## 🌍 Langues
+
+Le site est traduit intégralement en **français, anglais et russe**. Le
+sélecteur (FR / EN / RU) est en haut à droite du site, sur toutes les
+pages ; la langue choisie est mémorisée dans le navigateur (le visiteur la
+retrouve à sa prochaine visite) et, par défaut, le site s'ouvre dans la
+langue du navigateur du visiteur si elle est disponible, sinon en français.
+
+**Choix éditorial sur les noms de plats** : comme sur une vraie carte de
+restaurant multilingue, les noms « de marque » (La Reine, La Veggie, La
+Lorraine, La Chèvry, La Burrata, La Fraisy, La Gourmandise, La Choco-Choco,
+La Pommy, La Tatin) restent identiques dans les 3 langues. Les libellés
+génériques (Classique 1, Complète, Champi, noms de boissons courantes...)
+sont traduits pour rester compréhensibles par tous les visiteurs.
+
+**Mentions légales et politique de confidentialité restent en français
+uniquement**, volontairement : ce sont des textes à portée juridique
+précise (droit français), où une traduction approximative représenterait
+un risque plus grand qu'un bénéfice. Un bandeau s'affiche automatiquement
+en haut de ces deux pages, dans la langue choisie par le visiteur, pour
+l'en informer (« This page is available in French only. » /
+« Эта страница доступна только на французском языке. »). Si une traduction
+juridique officielle est un jour nécessaire, faites-la relire par un
+professionnel plutôt que de vous fier à une traduction automatique.
+
+**Limite à connaître (SEO)** : le sélecteur traduit le site *après*
+chargement, côté navigateur (JavaScript). Le tout premier affichage — et ce
+que voit un robot n'exécutant pas le JavaScript — reste en français. Pour
+un référencement indexé séparément par langue (ex. `/en/`, `/ru/`), il
+faudrait des URL dédiées par langue : une évolution possible, mais plus
+lourde que ce sélecteur.
+
+**Comment ajouter une traduction manquante** : si un texte reste affiché en
+français dans une autre langue, c'est que sa clé n'existe pas encore dans
+`I18N.en` ou `I18N.ru` (i18n.js) — le site se replie automatiquement sur le
+français dans ce cas plutôt que d'afficher un texte vide. Ajoutez la clé
+manquante au même endroit dans la structure que la version française.
 
 ## 📸 Photos — IMPORTANT
 
@@ -82,11 +128,13 @@ commentaire ou un texte alternatif « Photo de démonstration » dans le code.
 
 Pour les remplacer :
 1. Déposez vos fichiers dans `assets/img/`.
-2. Remplacez la valeur `image` correspondante dans `site-data.js` (hero,
-   aperçu de carte, galerie) par le chemin local, par exemple
+2. Remplacez la valeur `image` correspondante dans `site-data.js` (`SITE.hero`,
+   `SITE.intro`, `SITE.gallery`) par le chemin local, par exemple
    `assets/img/facade.jpg`.
-3. Mettez à jour le texte alternatif (`imageAlt` / `alt`) pour qu'il décrive
-   fidèlement la nouvelle photo.
+3. Mettez à jour le texte alternatif dans `i18n.js` (`heroImageAlt`,
+   `introImageAlt`, `gallery.captions`, dans les 3 langues) pour qu'il
+   décrive fidèlement la nouvelle photo — ce n'est plus une simple photo de
+   démonstration, la mention « photo de démonstration » doit alors disparaître.
 
 Conservez des photos de bonne définition (au moins 1600 px de large pour le
 hero) et proches d'un ratio 4:3 ou 1:1 selon l'emplacement, pour éviter tout
@@ -163,7 +211,8 @@ Avant la mise en production :
   chaque page, plus un bouton d'appel flottant sur mobile.
 - Textes alternatifs descriptifs sur toutes les images, y compris les
   visuels de démonstration (clairement identifiés comme tels).
-- Métadonnées uniques par page (titre, description, canonical, Open Graph).
+- Métadonnées uniques par page (titre, description, canonical, Open Graph),
+  traduites en 3 langues (voir la note SEO ci-dessus sur le rendu côté client).
 - Données structurées Schema.org `FoodEstablishment`, générées automatiquement
   depuis `site-data.js` (adresse, téléphone, horaires réels — dimanche fermé).
 - `robots.txt` et `sitemap.xml`.
@@ -178,10 +227,16 @@ Avant la mise en production :
 
 Le projet étant en HTML/CSS/JS vanilla sans build, aucun compilateur, linter
 ou test automatisé n'est configuré (pas de `package.json`). Les vérifications
-suivantes ont été faites manuellement :
-- Validation de la cohérence des liens internes entre les 8 pages.
-- Relecture de chaque fichier HTML pour la structure sémantique et les
-  attributs d'accessibilité (`alt`, `aria-*`, `lang`).
-- Relecture du JavaScript (`main.js`) pour s'assurer qu'aucune page ne
-  provoque d'erreur si un élément attendu est absent (chaque fonction
-  vérifie l'existence de son élément cible avant d'agir).
+suivantes ont été faites :
+- `node --check` sur les 3 fichiers JavaScript (aucune erreur de syntaxe).
+- Script de cohérence des données : chaque plat référencé dans
+  `site-data.js` possède bien une entrée dans `i18n.js` pour les 3 langues,
+  et inversement (86 plats/boissons, 8 catégories, aucun écart).
+- Validation de l'équilibre des balises HTML et de la cohérence des liens
+  internes entre les 8 pages.
+- Tests fonctionnels dans Chromium (headless) sur les 8 pages : changement
+  de langue (FR/EN/RU), persistance du choix après rechargement, détection
+  de la langue du navigateur par défaut, navigation mobile, mécanisme de
+  consentement cookies (accepter/refuser/modifier), pluriel correct des
+  compteurs de plats en russe (1/few/many) — aucune erreur JavaScript
+  détectée dans la console.

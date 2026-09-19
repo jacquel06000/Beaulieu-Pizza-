@@ -3,19 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chez les Gourmands — Crêperie à Villefranche-sur-Mer</title>
-  <meta name="description" content="Chez les Gourmands, crêperie et galettes au 7 rue de la Victoire à Villefranche-sur-Mer. Ouvert du lundi au samedi, de 7 h 30 à 18 h. Réservation par téléphone au 06 22 75 68 90.">
+  <title id="page-title">Chez les Gourmands — Crêperie à Villefranche-sur-Mer</title>
+  <meta id="meta-description" name="description" content="Chez les Gourmands, crêperie et galettes au 7 rue de la Victoire à Villefranche-sur-Mer. Ouvert du lundi au samedi, de 7 h 30 à 18 h. Réservation par téléphone au 06 22 75 68 90.">
   <meta name="theme-color" content="#4A3728">
   <link rel="canonical" href="https://www.chezlesgourmands-villefranche.fr/">
 
   <meta property="og:type" content="restaurant">
   <meta property="og:site_name" content="Chez les Gourmands">
-  <meta property="og:title" content="Chez les Gourmands — Crêperie à Villefranche-sur-Mer">
-  <meta property="og:description" content="Galettes et crêpes au 7 rue de la Victoire, Villefranche-sur-Mer. Ouvert du lundi au samedi, 7 h 30 – 18 h.">
+  <meta id="og-title" property="og:title" content="Chez les Gourmands — Crêperie à Villefranche-sur-Mer">
+  <meta id="og-description" property="og:description" content="Galettes et crêpes au 7 rue de la Victoire, Villefranche-sur-Mer. Ouvert du lundi au samedi, 7 h 30 – 18 h.">
   <meta property="og:image" content="https://images.unsplash.com/photo-1519676867240-f03562e64548?w=1200&q=75&auto=format&fit=crop">
-  <meta property="og:locale" content="fr_FR">
+  <meta id="og-locale" property="og:locale" content="fr_FR">
   <meta property="og:url" content="https://www.chezlesgourmands-villefranche.fr/">
   <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Note SEO : le sélecteur de langue traduit le site côté client (JS).
+       Le premier chargement et les robots qui n'exécutent pas le JS voient
+       la version française. Voir le README pour plus de détails. -->
 
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 
@@ -28,18 +32,19 @@
   <script type="application/ld+json" id="ld-json">{}</script>
 </head>
 <body data-page="accueil">
-  <a class="skip-link" href="#main">Aller au contenu principal</a>
+  <a class="skip-link" href="#main" data-i18n="common.skipLink">Aller au contenu principal</a>
 
   <header class="site-header">
     <div class="container header-inner">
-      <a href="index.html" class="logo" aria-label="Chez les Gourmands — retour à l’accueil">Chez les <span>Gourmands</span></a>
+      <a href="index.html" class="logo" data-i18n-aria-label="common.logoAria" aria-label="Chez les Gourmands — retour à l’accueil">Chez les <span>Gourmands</span></a>
       <nav id="nav-desktop" class="nav-desktop" aria-label="Navigation principale"></nav>
       <div class="header-actions">
+        <div class="lang-switcher" id="lang-switcher"></div>
         <a class="btn btn--primary" href="tel:+33622756890" data-clg-phone-href>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
-          <span class="header-call-label">Nous appeler</span>
+          <span class="header-call-label" data-i18n="common.headerCallLabel">Nous appeler</span>
         </a>
-        <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile-links" aria-label="Ouvrir le menu de navigation">
+        <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile-links" data-i18n-aria-label="common.openMenuAria" aria-label="Ouvrir le menu de navigation">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
         </button>
       </div>
@@ -55,27 +60,27 @@
         <div class="hero-media">
           <!-- Visuel de démonstration (Unsplash), à remplacer par une photographie du restaurant -->
           <img src="https://images.unsplash.com/photo-1519676867240-f03562e64548?w=1800&q=75&auto=format&fit=crop"
-               alt="Photo de démonstration — galette et crêpe dressées sur une table en bois, à remplacer par une photographie du restaurant"
+               data-i18n-alt="pages.home.heroImageAlt" alt="Photo de démonstration — galette et crêpe dressées sur une table en bois, à remplacer par une photographie du restaurant"
                fetchpriority="high" width="1800" height="900">
-          <span class="hero-caption">Photo de démonstration</span>
+          <span class="hero-caption" data-i18n="common.demoPhotoCaption">Photo de démonstration</span>
         </div>
         <div class="hero-content">
-          <p class="eyebrow">Villefranche-sur-Mer</p>
+          <p class="eyebrow" data-i18n="pages.home.heroEyebrow">Villefranche-sur-Mer</p>
           <h1 id="hero-title">Chez les Gourmands</h1>
-          <p class="hero-text">Une crêperie chaleureuse au cœur de Villefranche-sur-Mer, pour une pause gourmande et sans façon, salée ou sucrée.</p>
+          <p class="hero-text" data-i18n="pages.home.heroText">Une crêperie chaleureuse au cœur de Villefranche-sur-Mer, pour une pause gourmande et sans façon, salée ou sucrée.</p>
           <div class="hero-actions">
             <a class="btn btn--primary btn--lg" href="tel:+33622756890" data-clg-phone-href>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
-              Nous appeler
+              <span data-i18n="pages.home.callBtn">Nous appeler</span>
             </a>
             <a class="btn btn--secondary btn--lg" href="https://www.google.com/maps/search/?api=1&query=7+rue+de+la+Victoire+06230+Villefranche-sur-Mer" data-clg-maps-url target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
-              Nous trouver
+              <span data-i18n="pages.home.findBtn">Nous trouver</span>
             </a>
           </div>
           <p class="hero-hours">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
-            <strong>Lundi – samedi&nbsp;: 7 h 30 – 18 h</strong>&nbsp;· Dimanche&nbsp;: fermé
+            <span data-i18n-html="pages.home.heroHoursHtml"><strong>Lundi – samedi&nbsp;: 7 h 30 – 18 h</strong>&nbsp;· Dimanche&nbsp;: fermé</span>
           </p>
         </div>
       </div>
@@ -87,15 +92,15 @@
         <div class="intro-photo">
           <!-- Visuel de démonstration (Unsplash), à remplacer -->
           <img src="https://images.unsplash.com/photo-1550507992-eb63ffee0847?w=1200&q=75&auto=format&fit=crop"
-               alt="Photo de démonstration — salle à manger chaleureuse et lumineuse, à remplacer par une photographie du restaurant"
+               data-i18n-alt="pages.home.introImageAlt" alt="Photo de démonstration — salle à manger chaleureuse et lumineuse, à remplacer par une photographie du restaurant"
                loading="lazy" width="1200" height="900">
         </div>
         <div class="intro-text">
-          <p class="eyebrow">Notre maison</p>
-          <h2 id="intro-title">Une adresse simple et accueillante</h2>
-          <p>À deux pas du port, Chez les Gourmands vous accueille dans un cadre sobre et lumineux, pensé pour les pauses gourmandes en toute simplicité — un café, une galette, une crêpe partagée entre amis.</p>
-          <p>Ici, pas de chichis : de bons produits, un service attentionné et l’art tout simple de bien recevoir, à quelques ruelles de la mer.</p>
-          <a class="btn btn--ghost" href="restaurant.html">Découvrir le restaurant →</a>
+          <p class="eyebrow" data-i18n="pages.home.introEyebrow">Notre maison</p>
+          <h2 id="intro-title" data-i18n="pages.home.introTitle">Une adresse simple et accueillante</h2>
+          <p data-i18n="pages.home.introP1">À deux pas du port, Chez les Gourmands vous accueille dans un cadre sobre et lumineux, pensé pour les pauses gourmandes en toute simplicité — un café, une galette, une crêpe partagée entre amis.</p>
+          <p data-i18n="pages.home.introP2">Ici, pas de chichis : de bons produits, un service attentionné et l’art tout simple de bien recevoir, à quelques ruelles de la mer.</p>
+          <a class="btn btn--ghost" href="restaurant.html" data-i18n="pages.home.introCta">Découvrir le restaurant →</a>
         </div>
       </div>
     </section>
@@ -104,30 +109,30 @@
     <section class="section section--alt grain reveal" aria-labelledby="ambiance-title">
       <div class="container">
         <div class="section-head">
-          <p class="eyebrow">L’expérience</p>
-          <h2 id="ambiance-title">L’atmosphère Chez les Gourmands</h2>
+          <p class="eyebrow" data-i18n="pages.home.ambianceEyebrow">L’expérience</p>
+          <h2 id="ambiance-title" data-i18n="pages.home.ambianceTitle">L’atmosphère Chez les Gourmands</h2>
         </div>
         <div class="card-grid">
           <div class="feature-card">
             <div class="icon-wrap">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 21h16M6 21V9a6 6 0 0 1 12 0v12"/></svg>
             </div>
-            <h3>Un cadre chaleureux</h3>
-            <p>Une salle sobre et lumineuse, pensée pour prendre son temps, seul, entre amis ou en famille.</p>
+            <h3 data-i18n="pages.home.feature1Title">Un cadre chaleureux</h3>
+            <p data-i18n="pages.home.feature1Text">Une salle sobre et lumineuse, pensée pour prendre son temps, seul, entre amis ou en famille.</p>
           </div>
           <div class="feature-card">
             <div class="icon-wrap">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 11l18-5v2l-18 5v-2Z"/><path d="M3 11v9h4v-6"/><path d="M13 11v9"/></svg>
             </div>
-            <h3>Galettes & crêpes</h3>
-            <p>Une carte généreuse, salée et sucrée, pour composer son repas ou sa pause selon l’envie.</p>
+            <h3 data-i18n="pages.home.feature2Title">Galettes & crêpes</h3>
+            <p data-i18n="pages.home.feature2Text">Une carte généreuse, salée et sucrée, pour composer son repas ou sa pause selon l’envie.</p>
           </div>
           <div class="feature-card">
             <div class="icon-wrap">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
             </div>
-            <h3>Ouvert en journée</h3>
-            <p>Du lundi au samedi, de 7 h 30 à 18 h, pour un petit-déjeuner, un déjeuner ou un goûter.</p>
+            <h3 data-i18n="pages.home.feature3Title">Ouvert en journée</h3>
+            <p data-i18n="pages.home.feature3Text">Du lundi au samedi, de 7 h 30 à 18 h, pour un petit-déjeuner, un déjeuner ou un goûter.</p>
           </div>
         </div>
       </div>
@@ -137,13 +142,13 @@
     <section class="section reveal" aria-labelledby="preview-title">
       <div class="container">
         <div class="section-head">
-          <p class="eyebrow">La carte</p>
-          <h2 id="preview-title">Quelques gourmandises</h2>
-          <p>Un aperçu de la carte — galettes, crêpes et boissons fraîches. Retrouvez l’intégralité des propositions, prix et compositions sur la page dédiée.</p>
+          <p class="eyebrow" data-i18n="pages.home.menuEyebrow">La carte</p>
+          <h2 id="preview-title" data-i18n="pages.home.menuTitle">Quelques gourmandises</h2>
+          <p data-i18n="pages.home.menuIntro">Un aperçu de la carte — galettes, crêpes et boissons fraîches. Retrouvez l’intégralité des propositions, prix et compositions sur la page dédiée.</p>
         </div>
-        <div class="dish-preview-grid" id="menu-preview-grid"></div>
+        <div class="menu-list" id="menu-preview-grid"></div>
         <p style="text-align:center; margin-top:2.5rem;">
-          <a class="btn btn--secondary btn--lg" href="carte.html">Voir la carte complète</a>
+          <a class="btn btn--secondary btn--lg" href="carte.html" data-i18n="pages.home.menuCta">Voir la carte complète</a>
         </p>
       </div>
     </section>
@@ -152,25 +157,25 @@
     <section class="section section--alt grain reveal" aria-labelledby="practical-title" id="infos">
       <div class="container">
         <div class="section-head">
-          <p class="eyebrow">Infos pratiques</p>
-          <h2 id="practical-title">Nous rendre visite</h2>
+          <p class="eyebrow" data-i18n="pages.home.practicalEyebrow">Infos pratiques</p>
+          <h2 id="practical-title" data-i18n="pages.home.practicalTitle">Nous rendre visite</h2>
         </div>
         <div class="practical-grid">
           <div class="practical-card">
             <div class="practical-block">
-              <h3>Adresse</h3>
+              <h3 data-i18n="pages.home.addressLabel">Adresse</h3>
               <address>7 rue de la Victoire<br>06230 Villefranche-sur-Mer</address>
-              <p><a class="link-underline" href="https://www.google.com/maps/search/?api=1&query=7+rue+de+la+Victoire+06230+Villefranche-sur-Mer" data-clg-maps-url target="_blank" rel="noopener">Itinéraire sur Google Maps →</a></p>
+              <p><a class="link-underline" href="https://www.google.com/maps/search/?api=1&query=7+rue+de+la+Victoire+06230+Villefranche-sur-Mer" data-clg-maps-url target="_blank" rel="noopener" data-i18n="pages.home.itineraryLink">Itinéraire sur Google Maps →</a></p>
             </div>
             <div class="practical-block">
-              <h3>Téléphone</h3>
+              <h3 data-i18n="pages.home.phoneLabel">Téléphone</h3>
               <p><a class="link-underline" href="tel:+33622756890" data-clg-phone-href data-clg-phone-display>06 22 75 68 90</a></p>
             </div>
             <div class="practical-block">
-              <h3>Horaires</h3>
+              <h3 data-i18n="pages.home.hoursLabel">Horaires</h3>
               <div class="hours-table" data-clg-hours-table></div>
             </div>
-            <a class="btn btn--primary btn--lg btn--block" href="tel:+33622756890" data-clg-phone-href>Appeler le restaurant</a>
+            <a class="btn btn--primary btn--lg btn--block" href="tel:+33622756890" data-clg-phone-href data-i18n="pages.home.callRestaurantBtn">Appeler le restaurant</a>
           </div>
           <div class="map-frame" data-clg-map></div>
         </div>
@@ -183,40 +188,35 @@
     <div class="container footer-grid">
       <div class="footer-brand">
         <a href="index.html" class="logo">Chez les <span>Gourmands</span></a>
-        <p>Crêperie à Villefranche-sur-Mer — galettes et crêpes, du lundi au samedi.</p>
+        <p data-i18n="common.footerTagline">Crêperie à Villefranche-sur-Mer — galettes et crêpes, du lundi au samedi.</p>
       </div>
       <div class="footer-col">
-        <h4>Navigation</h4>
+        <h4 data-i18n="common.footerNavTitle">Navigation</h4>
         <ul id="footer-nav"></ul>
       </div>
       <div class="footer-col">
-        <h4>Coordonnées</h4>
+        <h4 data-i18n="common.footerAddressTitle">Coordonnées</h4>
         <ul id="footer-address"></ul>
       </div>
       <div class="footer-col">
-        <h4>Horaires</h4>
+        <h4 data-i18n="common.footerHoursTitle">Horaires</h4>
         <ul id="footer-hours"></ul>
       </div>
     </div>
     <div class="container footer-bottom">
       <div class="footer-legal" id="footer-legal"></div>
-      <p>© <span data-clg-year></span> Chez les Gourmands. Tous droits réservés.</p>
+      <p>© <span data-clg-year></span> Chez les Gourmands. <span data-i18n="common.rightsReserved">Tous droits réservés.</span></p>
     </div>
   </footer>
 
-  <a class="float-call" href="tel:+33622756890" data-clg-phone-href aria-label="Appeler Chez les Gourmands">
+  <a class="float-call" href="tel:+33622756890" data-clg-phone-href data-i18n-aria-label="common.floatCallAria" aria-label="Appeler Chez les Gourmands">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
   </a>
 
-  <div class="consent-banner" id="consent-banner" role="dialog" aria-live="polite" aria-label="Consentement carte interactive">
-    <p>Nous proposons d’intégrer une carte Google Maps pour vous aider à nous trouver. Son affichage dépose des cookies tiers. Vous pouvez accepter, refuser, ou modifier votre choix à tout moment depuis le pied de page. Voir notre <a href="confidentialite.html">politique de confidentialité</a>.</p>
-    <div class="consent-actions">
-      <button type="button" class="btn btn--primary" id="consent-accept">Accepter la carte</button>
-      <button type="button" class="btn btn--secondary" id="consent-decline">Refuser</button>
-    </div>
-  </div>
+  <div class="consent-banner" id="consent-banner" role="dialog" aria-live="polite" aria-label="Consentement carte interactive"></div>
 
   <script src="assets/js/site-data.js"></script>
+  <script src="assets/js/i18n.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>

@@ -183,6 +183,15 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .nav-desktop a[aria-current="page"]::after { right: 0; }
 .nav-desktop a[aria-current="page"] { color: var(--brown); }
 .header-actions { display: flex; align-items: center; gap: 0.75rem; }
+.lang-switcher { display: flex; align-items: center; gap: 0.15rem; border: 1px solid var(--line); border-radius: 999px; padding: 0.2rem; }
+.lang-btn {
+  border: none; background: transparent; cursor: pointer;
+  font-size: 0.76rem; font-weight: 700; letter-spacing: 0.03em;
+  color: var(--brown-soft); padding: 0.35rem 0.6rem; border-radius: 999px;
+  transition: background var(--transition), color var(--transition);
+}
+.lang-btn:hover { color: var(--brown); }
+.lang-btn.is-active { background: var(--brown); color: var(--cream); }
 .header-actions .btn { padding: 0.7rem 1.15rem; font-size: 0.9rem; }
 .header-call-label { display: none; }
 
@@ -352,28 +361,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .feature-card .icon-wrap svg { width: 24px; height: 24px; }
 .feature-card h3 { margin-bottom: 0.5rem; font-size: 1.15rem; }
 .feature-card p { color: var(--brown-soft); margin: 0; font-size: 0.98rem; }
-
-/* ---------- Aperçu carte (accueil) ---------- */
-.dish-preview-grid {
-  display: grid;
-  gap: 1.75rem;
-  grid-template-columns: 1fr;
-}
-@media (min-width: 640px) { .dish-preview-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 980px) { .dish-preview-grid { grid-template-columns: repeat(4, 1fr); } }
-.dish-card {
-  background: var(--white);
-  border-radius: var(--radius-m);
-  overflow: hidden;
-  box-shadow: var(--shadow-card);
-}
-.dish-card figure { margin: 0; aspect-ratio: 4/3; overflow: hidden; }
-.dish-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 500ms ease; }
-.dish-card:hover img { transform: scale(1.05); }
-.dish-card figcaption { padding: 1.1rem 1.25rem 1.4rem; }
-.dish-card h3 { font-size: 1.05rem; margin-bottom: 0.35rem; }
-.dish-card p { font-size: 0.88rem; color: var(--brown-soft); margin: 0; }
-.dish-card .price { color: var(--terracotta-dark); font-weight: 700; font-family: var(--font-display); font-size: 1.05rem; }
 
 .demo-flag {
   display: inline-flex;
@@ -636,6 +623,16 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .prose strong { color: var(--brown); }
 .legal-block { margin-bottom: 2.5rem; }
 .legal-block h2 { font-size: 1.3rem; border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; }
+.legal-lang-notice {
+  display: none;
+  background: var(--beige);
+  border-radius: var(--radius-m);
+  padding: 1rem 1.5rem;
+  margin-bottom: 2.5rem;
+  font-size: 0.92rem;
+  color: var(--brown);
+}
+.legal-lang-notice.is-visible { display: block; }
 .legal-missing {
   background: var(--beige);
   color: var(--terracotta-dark);
