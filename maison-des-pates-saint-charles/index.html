@@ -117,7 +117,6 @@
             <path d="M20 90c14 10 66 10 80 0" opacity="0.35"/>
           </svg>
         </div>
-        <div class="floaty floaty-1"><i data-lucide="wheat"></i><span data-i18n="hero.floatyFresh">Fraîcheur du jour</span></div>
         <div class="floaty floaty-2"><i data-lucide="clock"></i><span data-i18n="hero.floatyDays">Lun. – Sam.</span></div>
       </div>
     </div>
@@ -163,12 +162,8 @@
   <section>
     <div class="container">
       <div class="feature-split reverse reveal">
-        <div class="feature-art" style="background:linear-gradient(150deg, var(--olive-soft), var(--flour) 75%)">
-          <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--olive-dark)">
-            <path d="M50 82c-16-2-26-16-26-30 14 0 24 8 24 24 0-16 10-24 24-24 0 14-10 28-22 30Z"/>
-            <path d="M50 82V44"/>
-            <circle cx="50" cy="30" r="8"/>
-          </svg>
+        <div class="feature-art feature-art-photo">
+          <img src="assets/img/equipe-cuisine.webp" alt="L'équipe de la Maison des Pâtes Saint-Charles en cuisine" loading="lazy" width="1543" height="1030">
         </div>
         <div class="feature-copy">
           <p class="kicker" data-i18n="family.kicker">Notre savoir-faire</p>
@@ -179,7 +174,6 @@
             <li><i data-lucide="check-circle-2"></i><span data-i18n="family.point2">Une sélection attentive des ingrédients</span></li>
             <li><i data-lucide="check-circle-2"></i><span data-i18n="family.point3">Une maison ancrée à Monaco</span></li>
           </ul>
-          <a class="btn btn-secondary" href="la-maison.html"><span data-i18n="family.cta">Découvrir la Maison</span><i data-lucide="arrow-right"></i></a>
         </div>
       </div>
     </div>
@@ -288,7 +282,11 @@
     </div>
     <div class="footer-bottom">
       <span>© <span data-year>2026</span> Maison des Pâtes Saint-Charles — <span data-i18n="footer.rights">Tous droits réservés.</span></span>
-      <span data-i18n="footer.legal">Carte et informations indicatives, susceptibles d’évoluer.</span>
+      <span class="footer-bottom-links">
+        <a href="mentions-legales.html" data-i18n="footer.legalLink">Mentions légales</a>
+        <span aria-hidden="true">·</span>
+        <span data-i18n="footer.legal">Carte et informations indicatives, susceptibles d’évoluer.</span>
+      </span>
     </div>
   </div>
 </footer>
