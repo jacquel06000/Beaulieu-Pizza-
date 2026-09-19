@@ -304,7 +304,7 @@
       '@context': 'https://schema.org',
       '@type': 'Restaurant',
       name: SITE.brand,
-      servesCuisine: 'Italian',
+      servesCuisine: 'Pasta',
       priceRange: '€€',
       telephone: SITE.phoneDisplay,
       address: {
