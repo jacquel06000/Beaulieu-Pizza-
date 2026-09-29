@@ -4,7 +4,7 @@ import { drizzle } from "drizzle-orm/pglite";
 import { migrate } from "drizzle-orm/pglite/migrator";
 import type { Db } from "@/db";
 import * as schema from "@/db/schema";
-import type { WhopGateway, WhopMembership } from "@/server/whop";
+import type { WhopGateway, WhopMembership, WhopPlan } from "@/server/whop";
 
 /** Base PostgreSQL en mémoire (PGlite) avec les vraies migrations. */
 export async function createTestDb(): Promise<Db> {
@@ -88,7 +88,7 @@ export class FakeWhop implements WhopGateway {
     this.setMembership({ id, cancel_at_period_end: value, status: value ? "canceling" : "active" });
     return this.memberships.get(id)!;
   }
-  async getPlan() {
+  async getPlan(): Promise<WhopPlan> {
     throw new Error("not used");
   }
 }

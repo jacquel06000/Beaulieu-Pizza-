@@ -1,26 +1,64 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* Identité Runelio : énergique mais maîtrisée. Contrastes vérifiés AA sur fond papier. */
+@theme {
+  --color-ink: #14172b;
+  --color-ink-soft: #2a2e47;
+  --color-paper: #faf7f2;
+  --color-card: #ffffff;
+  --color-line: #e7e1d8;
+  --color-muted: #555a70;
+  --color-brand: #ff5a36;
+  --color-brand-strong: #c73a15;
+  --color-brand-soft: #ffe3d9;
+  --color-lime: #c8f25c;
+  --color-lime-soft: #efffc7;
+  --color-sky: #3b82f6;
+  --color-sky-soft: #dcebff;
+  --color-mint-soft: #d5f5e3;
+  --color-mint: #117a48;
+  --color-violet-soft: #ebe5ff;
+  --color-violet: #5b3fd6;
+  --color-warn-soft: #fff3cd;
+  --color-warn: #8a5a00;
+  --color-danger: #b42318;
+  --color-danger-soft: #fde7e5;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Bricolage Grotesque Variable", "Inter Variable", ui-sans-serif, system-ui, sans-serif;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+
+  --animate-rise: rise 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: none; }
   }
 }
 
+html { -webkit-text-size-adjust: 100%; }
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "cv11", "ss01";
 }
+h1, h2, h3, .font-display { font-family: var(--font-display); letter-spacing: -0.02em; }
+
+:focus-visible { outline: 3px solid var(--color-sky); outline-offset: 2px; border-radius: 6px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+.prose-legal h2 { font-size: 1.35rem; font-weight: 700; margin: 2rem 0 0.75rem; }
+.prose-legal h3 { font-size: 1.1rem; font-weight: 700; margin: 1.5rem 0 0.5rem; }
+.prose-legal p, .prose-legal li { line-height: 1.7; color: var(--color-ink-soft); }
+.prose-legal p { margin: 0.6rem 0; }
+.prose-legal ul { list-style: disc; padding-left: 1.4rem; margin: 0.6rem 0; }
+.prose-legal table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.925rem; }
+.prose-legal th, .prose-legal td { border: 1px solid var(--color-line); padding: 0.5rem 0.65rem; text-align: left; vertical-align: top; }
+.prose-legal th { background: #f3eee6; }
+.prose-legal a { color: var(--color-brand-strong); text-decoration: underline; }
+.todo { background: var(--color-warn-soft); color: var(--color-warn); padding: 0 0.25rem; border-radius: 0.25rem; font-weight: 600; }

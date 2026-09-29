@@ -1,6 +1,8 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { APIError } from "better-auth/api";
 import { nextCookies } from "better-auth/next-js";
+import { phoneSchema } from "@/lib/validation";
 import { getDb, schema } from "@/db";
 import { env } from "@/lib/env";
 import { layoutEmail, sendMail } from "./mailer";
@@ -63,6 +65,22 @@ function createAuth() {
         enabled: true,
         beforeDelete: async (user) => {
           await onBeforeAccountDeletion(user.id);
+        },
+      },
+    },
+    databaseHooks: {
+      user: {
+        create: {
+          // Validation serveur des champs saisis à l'inscription (le client n'est pas fiable).
+          before: async (data) => {
+            const phone = typeof data.phone === "string" ? data.phone.trim() : "";
+            if (phone && !phoneSchema.safeParse(phone).success) {
+              throw new APIError("BAD_REQUEST", { message: "Numéro de téléphone invalide." });
+            }
+            const name = String(data.name ?? "").trim().slice(0, 80);
+            if (!name) throw new APIError("BAD_REQUEST", { message: "Indiquez un prénom ou un pseudo." });
+            return { data: { ...data, name, phone: phone || null, role: "user" } };
+          },
         },
       },
     },
