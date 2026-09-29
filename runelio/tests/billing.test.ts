@@ -194,10 +194,15 @@ describe("réajustement", () => {
     await activate();
     await generatePlanForUser(db, USER, new Date("2026-10-01T08:00:00Z"));
     const before = await getActivePlan(db, USER);
+    const futureDone = before!.sessions.find((s) => s.date > "2026-10-25")!;
+    await setSessionCompleted(db, USER, futureDone.id, true);
     await adjustPlan(db, USER, { availableDays: [0, 2, 4, 6], restDays: [], timeSlots: {}, longRunDay: 6, maxSessionMinutes: 60 }, new Date("2026-10-20T08:00:00Z"));
     const after = await getActivePlan(db, USER);
     expect(after!.plan.raceDate).toBe(before!.plan.raceDate);
-    const future = after!.sessions.filter((s) => s.date > "2026-10-20" && s.type !== "race");
+    // Une séance future déjà réalisée est conservée, sans doublon ce jour-là.
+    expect(after!.sessions.find((s) => s.id === futureDone.id)?.completedAt).toBeTruthy();
+    expect(after!.sessions.filter((s) => s.date === futureDone.date)).toHaveLength(1);
+    const future = after!.sessions.filter((s) => s.date > "2026-10-20" && s.type !== "race" && s.id !== futureDone.id);
     expect(future.every((s) => [0, 2, 4, 6].includes((new Date(s.date + "T00:00:00Z").getUTCDay() + 6) % 7))).toBe(true);
     expect(future.every((s) => s.durationMin <= 60)).toBe(true);
     // Les séances passées sont conservées.

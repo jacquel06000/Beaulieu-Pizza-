@@ -1,4 +1,4 @@
-import { and, asc, eq, gte, lt } from "drizzle-orm";
+import { and, asc, eq, gte, isNotNull, isNull, lt } from "drizzle-orm";
 import type { Db } from "@/db";
 import { planWeek, runnerProfile, trainingPlan, trainingSession } from "@/db/schema";
 import { addDays, diffDays, mondayOf, todayIso } from "@/domain/dates";
@@ -214,10 +214,20 @@ export async function adjustPlan(db: Db, userId: string, availability: Availabil
         : "Programme réajusté selon vos nouvelles disponibilités.",
   };
 
+  // Les séances futures déjà marquées réalisées sont conservées ; on ne double pas leur journée.
+  const keptDone = await db
+    .select({ date: trainingSession.date })
+    .from(trainingSession)
+    .where(and(eq(trainingSession.planId, plan.id), gte(trainingSession.date, start), isNotNull(trainingSession.completedAt)));
+  const keptDates = new Set(keptDone.map((s) => s.date));
+  const content = { ...generated, sessions: generated.sessions.filter((s) => !keptDates.has(s.date)) };
+
   await db.transaction(async (tx) => {
-    await tx.delete(trainingSession).where(and(eq(trainingSession.planId, plan.id), gte(trainingSession.date, start)));
+    await tx
+      .delete(trainingSession)
+      .where(and(eq(trainingSession.planId, plan.id), gte(trainingSession.date, start), isNull(trainingSession.completedAt)));
     await tx.delete(planWeek).where(and(eq(planWeek.planId, plan.id), gte(planWeek.weekIndex, elapsed)));
-    await insertPlanContent(tx, plan.id, generated);
+    await insertPlanContent(tx, plan.id, content);
     await tx
       .update(trainingPlan)
       .set({

@@ -27,7 +27,9 @@ function getTransport() {
 export async function sendMail(mail: Mail): Promise<void> {
   const t = getTransport();
   if (!t) {
-    if (env().NODE_ENV === "production") {
+    // En production, pas de repli console… sauf build de production lancé en local (tests).
+    const local = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(env().NEXT_PUBLIC_APP_URL);
+    if (env().NODE_ENV === "production" && !local) {
       throw new Error("SMTP non configuré : impossible d'envoyer l'e-mail.");
     }
     console.info(`\n[mail:dev] À: ${mail.to}\nSujet: ${mail.subject}\n${mail.text}\n`);
