@@ -40,7 +40,7 @@ export default async function Page() {
             <span>Total aujourd&apos;hui</span>
             <span>19,99 €</span>
           </div>
-          <p className="mb-5 text-xs text-muted">Puis 19,99 € tous les 30 jours jusqu&apos;à résiliation. TVA non applicable, art. 293 B du CGI.</p>
+          <p className="mb-5 text-xs text-muted">Puis 19,99 € TTC tous les 30 jours jusqu&apos;à résiliation. Vendu et facturé par Whop (revendeur).</p>
           {profile ? <CheckoutForm configured={whopConfigured()} /> : null}
         </Card>
       </div>

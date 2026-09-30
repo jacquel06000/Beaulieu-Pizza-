@@ -51,8 +51,7 @@ export function CheckoutForm({ configured }: { configured: boolean }) {
       <label className="flex items-start gap-3 text-sm leading-relaxed">
         <input type="checkbox" className="mt-0.5 size-5 shrink-0 accent-ink" checked={immediate} onChange={(e) => setImmediate(e.target.checked)} />
         <span>
-          Je demande à accéder au service et à recevoir mon programme dès la confirmation du paiement, avant la fin du délai de rétractation de 14 jours, et je reconnais que je perds mon droit de rétractation pour le programme ainsi fourni.{" "}
-          <span className="todo">[À VALIDER : formulation juridique]</span>
+          Je demande à accéder au service et à recevoir mon programme dès la confirmation du paiement, avant la fin du délai de rétractation de 14 jours, et je reconnais que je perds mon droit de rétractation pour le programme ainsi fourni.
         </span>
       </label>
       <Button variant="brand" className="w-full min-h-12 text-base" disabled={!terms || !immediate || loading} onClick={pay}>

@@ -15,8 +15,10 @@ export const PUBLISHER = {
   siren: "929 658 961",
   siret: "929 658 961 00024",
   email: "jacquelalexandrepro@gmail.com",
-  /** Mention à confirmer auprès de l'administration fiscale / d'un expert-comptable. */
+  /** Régime fiscal de l'éditeur (franchise en base confirmée par l'éditeur). */
   vatMention: "TVA non applicable, art. 293 B du CGI",
+  /** Whop agit comme revendeur (« merchant of record ») : il vend l'abonnement au client, encaisse et facture. */
+  reseller: "Whop",
 } as const;
 
 export const PRICING = {

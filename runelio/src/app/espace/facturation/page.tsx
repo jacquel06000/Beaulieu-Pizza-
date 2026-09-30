@@ -106,7 +106,7 @@ export default async function Page() {
             </ul>
           )
         ) : (
-          <p className="mt-4 text-xs text-muted">Le reçu de chaque paiement vous est envoyé par e-mail par Whop. Pour obtenir une facture, écrivez-nous.</p>
+          <p className="mt-4 text-xs text-muted">Whop, revendeur de l&apos;abonnement, vous envoie par e-mail le reçu et la facture de chaque paiement.</p>
         )}
       </Card>
     </div>

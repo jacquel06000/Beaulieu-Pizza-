@@ -1,4 +1,4 @@
-import { PRICING, PUBLISHER } from "@/lib/config";
+import { PRICING } from "@/lib/config";
 
 export const INCLUDED = [
   "Génération d'un programme de préparation personnalisé (5 km, 10 km, semi-marathon ou marathon)",
@@ -26,10 +26,10 @@ export function OfferDetails({ compact = false }: { compact?: boolean }) {
             <strong>Fréquence :</strong> renouvellement automatique tous les {PRICING.billingPeriodDays} jours.
           </li>
           <li>
-            <strong>TVA :</strong> {PUBLISHER.vatMention}. Le prix affiché est le prix total demandé par Runelio.
+            <strong>Prix TTC :</strong> {PRICING.label} toutes taxes comprises, sans frais supplémentaires.
           </li>
           <li>
-            <strong>Paiement :</strong> sur la page sécurisée de notre prestataire Whop. Le montant exact à payer y est affiché avant validation ; Runelio ne voit ni ne conserve vos données de carte.
+            <strong>Vente et paiement :</strong> l&apos;abonnement est vendu par notre revendeur Whop (« merchant of record »), qui encaisse le paiement, applique la TVA éventuelle et vous adresse le reçu. Le montant exact vous est affiché sur sa page avant validation ; Runelio ne voit ni ne conserve vos données de carte.
           </li>
         </ul>
       </div>

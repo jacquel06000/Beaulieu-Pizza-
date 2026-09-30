@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "Politique de confidentialité" };
 
 export default function Page() {
   return (
-    <LegalPage title="Politique de confidentialité" updated="29 septembre 2026">
+    <LegalPage title="Politique de confidentialité" updated="30 septembre 2026">
       <p>
         Cette politique explique quelles données personnelles Runelio traite, pourquoi, pendant combien de temps et quels sont vos droits. Elle décrit le fonctionnement réel du service tel qu&apos;il est développé à la date indiquée.
       </p>
@@ -146,15 +146,15 @@ export default function Page() {
           </tr>
           <tr>
             <td>Whop</td>
-            <td>Paiement et gestion de l&apos;abonnement</td>
+            <td>Revendeur de l&apos;abonnement (« merchant of record ») : vente, paiement, facturation</td>
             <td>Runelio transmet un identifiant technique de compte ; vous communiquez directement à Whop vos coordonnées et moyen de paiement. Whop renvoie à Runelio le statut de l&apos;abonnement et des paiements.</td>
             <td>
-              <Todo>entité contractante, rôle (sous-traitant ou responsable de traitement distinct), localisation, mécanisme d&apos;encadrement des transferts hors UE</Todo>
+              Responsable de traitement distinct pour les données de paiement et de facturation qu&apos;il collecte. <Todo>entité contractante, localisation, mécanisme d&apos;encadrement des transferts hors UE</Todo>
             </td>
           </tr>
           <tr>
             <td>
-              <Todo>prestataire d&apos;envoi des e-mails (serveur SMTP)</Todo>
+              Hostinger (messagerie)
             </td>
             <td>Envoi des e-mails transactionnels (vérification, mot de passe, résiliation) et, si vous y consentez, des actualités</td>
             <td>Adresse e-mail, prénom, contenu des e-mails</td>
@@ -185,7 +185,7 @@ export default function Page() {
           <tr>
             <td>Compte, questionnaire, programmes, suivi, consentements</td>
             <td>
-              Jusqu&apos;à la suppression du compte (possible à tout moment depuis « Compte »). Comptes inactifs : <Todo>durée d&apos;inactivité au-delà de laquelle les comptes sont supprimés — purge automatique non implémentée à ce jour</Todo>
+              Jusqu&apos;à la suppression du compte (possible à tout moment depuis « Compte »). Les comptes ne sont pas supprimés automatiquement en cas d&apos;inactivité.
             </td>
           </tr>
           <tr>
@@ -243,7 +243,7 @@ export default function Page() {
 
       <h2>10. Mineurs</h2>
       <p>
-        <Todo>âge minimum pour utiliser le service et, le cas échéant, modalités de consentement parental</Todo>
+        Le service n&apos;impose pas d&apos;âge minimum. Pour un mineur de moins de 15 ans, le consentement aux e-mails d&apos;actualités doit être donné conjointement avec le titulaire de l&apos;autorité parentale.
       </p>
 
       <h2>11. Modifications</h2>

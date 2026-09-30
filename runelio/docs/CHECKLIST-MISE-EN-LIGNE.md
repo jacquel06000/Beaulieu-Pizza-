@@ -4,6 +4,19 @@ Chaque point doit être vérifié et coché. Les marqueurs `[À COMPLÉTER : …
 apparaissent en surbrillance jaune dans les pages légales du site : il ne doit en rester aucun.
 Commande pour les retrouver : `grep -rn "Todo\|Verify\|À VALIDER" src/app src/components`.
 
+## Décisions de l'éditeur (30/09/2026)
+- Franchise en base de TVA : confirmée. Activité déclarée : confirmée.
+- Whop agit comme **merchant of record** : Whop vend, encaisse, applique la TVA et facture. `INVOICES_ENABLED` reste à `false`.
+- Formulation de la rétractation : validée. Pas d'âge minimum. Pas de téléphone dans les mentions légales (voir risque ci-dessous).
+- Conservation des comptes inactifs : sans limite automatique (voir risque ci-dessous).
+- Prestataires : Hostinger (hébergement et messagerie), Whop.
+
+**Risques signalés à l'éditeur :**
+- Le **médiateur de la consommation** est obligatoire avant de vendre à des particuliers.
+- La loi (LCEN art. 6 III ; Code de la consommation, art. R111-1) prévoit un **numéro de téléphone** pour l'éditeur et le vendeur à distance : l'absence de numéro expose à une sanction.
+- Le RGPD impose une **durée de conservation limitée** : l'absence de limite pour les comptes inactifs n'est pas conforme (la CNIL recommande souvent 2 à 3 ans d'inactivité).
+- Avec Whop merchant of record, le plan doit être configuré **TVA incluse** pour que le client paie exactement 19,99 € TTC.
+
 ## 1. Statut de l'éditeur et fiscalité
 - [ ] Confirmer le bénéfice de la **franchise en base de TVA** (seuils de chiffre d'affaires de l'année en cours et précédente) et la mention exacte `TVA non applicable, art. 293 B du CGI` (`src/lib/config.ts`).
 - [ ] Vérifier que l'activité déclarée de la micro-entreprise couvre la vente d'abonnements en ligne ; indiquer le registre d'immatriculation (RNE / RCS) dans les mentions légales.

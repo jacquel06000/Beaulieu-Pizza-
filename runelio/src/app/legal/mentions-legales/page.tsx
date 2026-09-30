@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { LegalPage, Todo, Verify } from "@/components/legal/legal-page";
+import { LegalPage, Todo } from "@/components/legal/legal-page";
 import { PUBLISHER } from "@/lib/config";
 
 export const metadata: Metadata = { title: "Mentions légales" };
 
 export default function Page() {
   return (
-    <LegalPage title="Mentions légales" updated="29 septembre 2026">
+    <LegalPage title="Mentions légales" updated="30 septembre 2026">
       <h2>Éditeur du site</h2>
       <p>
         Le site <strong>runelio.fr</strong> est édité par <strong>{PUBLISHER.name}</strong>, entrepreneur individuel (régime de la micro-entreprise).
@@ -23,10 +23,7 @@ export default function Page() {
           Adresse électronique : <a href={`mailto:${PUBLISHER.email}`}>{PUBLISHER.email}</a>
         </li>
         <li>
-          Téléphone : <Todo>numéro de téléphone permettant de contacter l&apos;éditeur</Todo>
-        </li>
-        <li>
-          TVA : {PUBLISHER.vatMention}. <Verify>confirmation du bénéfice de la franchise en base de TVA</Verify>
+          TVA : {PUBLISHER.vatMention}
         </li>
         <li>Directeur de la publication : {PUBLISHER.name}</li>
       </ul>
@@ -39,8 +36,8 @@ export default function Page() {
 
       <h2>Paiement</h2>
       <p>
-        Les paiements et la gestion de l&apos;abonnement sont assurés par l&apos;intermédiaire de <strong>Whop</strong>.{" "}
-        <Todo>dénomination sociale et adresse de l&apos;entité Whop contractante, et son rôle (prestataire de paiement ou revendeur « merchant of record »)</Todo>
+        L&apos;abonnement est vendu par <strong>Whop</strong>, qui agit en tant que revendeur (« merchant of record ») : Whop encaisse le paiement, applique la TVA éventuelle et émet les reçus et factures.{" "}
+        <Todo>dénomination sociale et adresse de l&apos;entité Whop contractante</Todo>
       </p>
 
       <h2>Propriété intellectuelle</h2>

@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "Conditions générales d'utilisation
 
 export default function Page() {
   return (
-    <LegalPage title="Conditions générales d'utilisation et de vente" updated="29 septembre 2026">
+    <LegalPage title="Conditions générales d'utilisation et de vente" updated="30 septembre 2026">
       <p>
         Les présentes conditions régissent l&apos;utilisation du site runelio.fr (partie A, CGU) et la souscription de l&apos;abonnement Runelio (partie B, CGV). Le service est édité par {PUBLISHER.name}, entrepreneur individuel, {PUBLISHER.address}, SIRET {PUBLISHER.siret}, <a href={`mailto:${PUBLISHER.email}`}>{PUBLISHER.email}</a> (ci-après « Runelio »). Il s&apos;adresse aux consommateurs résidant en France.
       </p>
@@ -20,7 +20,7 @@ export default function Page() {
 
       <h3>A2. Compte</h3>
       <p>
-        L&apos;inscription requiert une adresse e-mail valide, confirmée par un lien, et un mot de passe ; le téléphone est facultatif. Vous êtes responsable de la confidentialité de vos identifiants et de l&apos;exactitude des informations fournies. <Todo>âge minimum requis</Todo>
+        L&apos;inscription requiert une adresse e-mail valide, confirmée par un lien, et un mot de passe ; le téléphone est facultatif. Vous êtes responsable de la confidentialité de vos identifiants et de l&apos;exactitude des informations fournies. Le service n&apos;impose pas d&apos;âge minimum ; un mineur doit toutefois obtenir l&apos;autorisation de son représentant légal pour souscrire l&apos;abonnement payant.
       </p>
 
       <h3>A3. Nature des programmes — absence d&apos;avis médical</h3>
@@ -50,19 +50,21 @@ export default function Page() {
 
       <h3>B1. Offre et prix</h3>
       <p>
-        Abonnement unique au prix de <strong>{PRICING.label}</strong>, facturé à la souscription puis à chaque renouvellement, <strong>tous les {PRICING.billingPeriodDays} jours</strong>. {PUBLISHER.vatMention} : le prix affiché est le prix total demandé par Runelio. <Verify>absence de frais ou taxes ajoutés par Whop au moment du paiement</Verify>
+        Abonnement unique au prix de <strong>{PRICING.label} TTC</strong>, facturé à la souscription puis à chaque renouvellement, <strong>tous les {PRICING.billingPeriodDays} jours</strong>, sans frais supplémentaires.
       </p>
+      <p>
+        L&apos;abonnement est vendu par <strong>Whop</strong>, qui agit en tant que revendeur (« merchant of record ») : Whop encaisse le paiement, applique la TVA éventuellement due et vous adresse le reçu et la facture. Runelio fournit le service (programmes, calendrier, suivi). <Todo>entité Whop contractante</Todo></p>
       <p>L&apos;abonnement comprend : la génération d&apos;un programme personnalisé, son calendrier détaillé, le suivi des séances, le réajustement des semaines à venir, la génération d&apos;un nouveau programme si votre objectif change, et l&apos;accès à la page « Cadeaux du mois » (voir B8).</p>
 
       <h3>B2. Commande</h3>
       <p>
-        Après avoir rempli le questionnaire et consulté le récapitulatif, vous cliquez sur « Générer mon programme ». Le détail de l&apos;offre vous est alors présenté (prix, fréquence, prestations, résiliation). Vous acceptez les présentes CGV, puis êtes redirigé vers la page de paiement sécurisée de Whop, où vous validez la commande. Le contrat est conclu à la confirmation du paiement. Un reçu vous est adressé par e-mail <Verify>envoi du reçu par Whop et contenu de celui-ci</Verify>.
+        Après avoir rempli le questionnaire et consulté le récapitulatif, vous cliquez sur « Générer mon programme ». Le détail de l&apos;offre vous est alors présenté (prix, fréquence, prestations, résiliation). Vous acceptez les présentes CGV, puis êtes redirigé vers la page de paiement sécurisée de Whop, où vous validez la commande. Le contrat est conclu à la confirmation du paiement. Whop vous adresse le reçu et la facture par e-mail.
       </p>
       <p>Aucun programme personnalisé n&apos;est généré ni affiché avant la confirmation du paiement, reçue par Runelio de manière sécurisée depuis Whop.</p>
 
       <h3>B3. Paiement</h3>
       <p>
-        Le paiement est traité par Whop <Todo>entité et rôle exact de Whop</Todo>. Runelio n&apos;a jamais accès à vos données de carte. Les renouvellements sont prélevés automatiquement sur le moyen de paiement enregistré auprès de Whop, que vous pouvez modifier depuis votre compte Whop.
+        Le paiement est traité par Whop, revendeur de l&apos;abonnement. Runelio n&apos;a jamais accès à vos données de carte. Les renouvellements sont prélevés automatiquement sur le moyen de paiement enregistré auprès de Whop, que vous pouvez modifier depuis votre compte Whop.
       </p>
       <p>
         En cas d&apos;échec d&apos;un paiement de renouvellement, Whop peut effectuer de nouvelles tentatives pendant quelques jours ; pendant cette période, votre programme reste consultable mais ne peut pas être régénéré. Si le paiement n&apos;aboutit pas, l&apos;abonnement prend fin. <Verify>durée et modalités exactes des relances Whop</Verify>
@@ -95,9 +97,7 @@ export default function Page() {
       </p>
       <p>
         Pour recevoir votre programme immédiatement, vous demandez expressément, avant le paiement, l&apos;exécution du service avant la fin du délai de rétractation et reconnaissez que vous perdez votre droit de rétractation pour le programme ainsi fourni.{" "}
-        <Verify>
-          qualification du service (contenu numérique fourni sans support matériel — article L221-28 13° — et/ou prestation de services — articles L221-25 et L221-28 1°), conséquences exactes sur le droit de rétractation et montant éventuellement dû en cas de rétractation
-        </Verify>
+        
       </p>
       <p>En cas de rétractation valable, le remboursement intervient dans les 14 jours, par le même moyen de paiement.</p>
       <p>
