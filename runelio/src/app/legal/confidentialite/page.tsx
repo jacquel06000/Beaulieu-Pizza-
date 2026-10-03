@@ -137,11 +137,11 @@ export default function Page() {
         </thead>
         <tbody>
           <tr>
-            <td>Hostinger</td>
+            <td>Hostinger International Ltd (Chypre)</td>
             <td>Hébergement du site et de la base de données</td>
             <td>Toutes les données du service</td>
             <td>
-              Centre de données à Paris (France). <Todo>entité contractante et accord de sous-traitance (article 28 RGPD)</Todo>
+              Centre de données à Paris (France). <Todo>accord de sous-traitance (article 28 RGPD)</Todo>
             </td>
           </tr>
           <tr>

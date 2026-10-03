@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { LegalPage, Todo } from "@/components/legal/legal-page";
+import { LegalPage, Todo, Verify } from "@/components/legal/legal-page";
 import { PUBLISHER } from "@/lib/config";
 
 export const metadata: Metadata = { title: "Mentions légales" };
@@ -30,8 +30,8 @@ export default function Page() {
 
       <h2>Hébergement</h2>
       <p>
-        Le site est hébergé par <strong>Hostinger</strong>.{" "}
-        <Todo>dénomination sociale exacte de l&apos;entité Hostinger contractante, adresse postale, numéro de téléphone, et service souscrit</Todo> Les serveurs sont situés à Paris (France).
+        Le site est hébergé par <strong>Hostinger International Ltd</strong>, 61 Lordou Vironos Street, 6023 Larnaca, Chypre — <a href="https://www.hostinger.fr" rel="noopener noreferrer">www.hostinger.fr</a>. Les serveurs sont situés à Paris (France).{" "}
+        <Verify>dénomination et adresse à confirmer sur le contrat ou la facture Hostinger</Verify>
       </p>
 
       <h2>Paiement</h2>
