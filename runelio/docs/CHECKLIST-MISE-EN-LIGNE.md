@@ -17,6 +17,18 @@ Commande pour les retrouver : `grep -rn "Todo\|Verify\|À VALIDER" src/app src/c
 - Le RGPD impose une **durée de conservation limitée** : l'absence de limite pour les comptes inactifs n'est pas conforme (la CNIL recommande souvent 2 à 3 ans d'inactivité).
 - Avec Whop merchant of record, le plan doit être configuré **TVA incluse** pour que le client paie exactement 19,99 € TTC.
 
+## Avancement (03/10/2026)
+| Étape | État |
+|---|---|
+| 1. Ancienne clé API Whop supprimée | ✅ Fait |
+| 2. Fiscalité (franchise TVA, activité, Whop merchant of record) | ✅ Confirmé |
+| 3. Configuration Whop (plan, webhook, tests) | ⏳ En attente de la mise en ligne |
+| 4. Hébergement Hostinger, serveur à Paris | ✅ Choisi — installation à faire |
+| 5. E-mails : messagerie Hostinger | ✅ Choisi — SPF/DKIM/DMARC à configurer |
+| 6. Juridique (médiateur, téléphone, durée de conservation…) | ⏳ Plus tard — **à régler avant la première vente** |
+| 7. Cadeaux du mois | ✅ Désactivés pour le lancement (`GIVEAWAYS_ENABLED=false`) |
+| 8. Contrôles techniques finaux | ⏳ Après l'installation |
+
 ## 1. Statut de l'éditeur et fiscalité
 - [ ] Confirmer le bénéfice de la **franchise en base de TVA** (seuils de chiffre d'affaires de l'année en cours et précédente) et la mention exacte `TVA non applicable, art. 293 B du CGI` (`src/lib/config.ts`).
 - [ ] Vérifier que l'activité déclarée de la micro-entreprise couvre la vente d'abonnements en ligne ; indiquer le registre d'immatriculation (RNE / RCS) dans les mentions légales.

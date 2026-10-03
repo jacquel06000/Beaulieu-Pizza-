@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "Mentions légales" };
 
 export default function Page() {
   return (
-    <LegalPage title="Mentions légales" updated="30 septembre 2026">
+    <LegalPage title="Mentions légales" updated="3 octobre 2026">
       <h2>Éditeur du site</h2>
       <p>
         Le site <strong>runelio.fr</strong> est édité par <strong>{PUBLISHER.name}</strong>, entrepreneur individuel (régime de la micro-entreprise).
@@ -31,7 +31,7 @@ export default function Page() {
       <h2>Hébergement</h2>
       <p>
         Le site est hébergé par <strong>Hostinger</strong>.{" "}
-        <Todo>dénomination sociale exacte de l&apos;entité Hostinger contractante, adresse postale, numéro de téléphone, service souscrit (VPS, hébergement cloud…) et localisation effective des serveurs</Todo>
+        <Todo>dénomination sociale exacte de l&apos;entité Hostinger contractante, adresse postale, numéro de téléphone, et service souscrit</Todo> Les serveurs sont situés à Paris (France).
       </p>
 
       <h2>Paiement</h2>

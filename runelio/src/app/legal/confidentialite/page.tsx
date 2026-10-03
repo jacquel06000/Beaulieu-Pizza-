@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "Politique de confidentialité" };
 
 export default function Page() {
   return (
-    <LegalPage title="Politique de confidentialité" updated="30 septembre 2026">
+    <LegalPage title="Politique de confidentialité" updated="3 octobre 2026">
       <p>
         Cette politique explique quelles données personnelles Runelio traite, pourquoi, pendant combien de temps et quels sont vos droits. Elle décrit le fonctionnement réel du service tel qu&apos;il est développé à la date indiquée.
       </p>
@@ -141,7 +141,7 @@ export default function Page() {
             <td>Hébergement du site et de la base de données</td>
             <td>Toutes les données du service</td>
             <td>
-              <Todo>entité contractante, localisation du centre de données choisi, accord de sous-traitance (article 28 RGPD)</Todo>
+              Centre de données à Paris (France). <Todo>entité contractante et accord de sous-traitance (article 28 RGPD)</Todo>
             </td>
           </tr>
           <tr>
@@ -159,7 +159,7 @@ export default function Page() {
             <td>Envoi des e-mails transactionnels (vérification, mot de passe, résiliation) et, si vous y consentez, des actualités</td>
             <td>Adresse e-mail, prénom, contenu des e-mails</td>
             <td>
-              <Todo>localisation et garanties</Todo>
+              <Todo>localisation des serveurs de messagerie et garanties</Todo>
             </td>
           </tr>
         </tbody>
