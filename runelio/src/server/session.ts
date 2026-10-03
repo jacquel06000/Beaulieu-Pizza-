@@ -13,7 +13,9 @@ export type SessionUser = {
 };
 
 export async function getSessionUser(): Promise<SessionUser | null> {
-  const s = await getAuth().api.getSession({ headers: await headers() });
+  // headers() d'abord : rend la page dynamique avant toute lecture de configuration (build sans .env).
+  const h = await headers();
+  const s = await getAuth().api.getSession({ headers: h });
   return (s?.user as SessionUser | undefined) ?? null;
 }
 

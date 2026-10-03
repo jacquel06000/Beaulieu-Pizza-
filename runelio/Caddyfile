@@ -1,0 +1,4 @@
+runelio.fr, www.runelio.fr {
+	encode gzip
+	reverse_proxy app:3000
+}

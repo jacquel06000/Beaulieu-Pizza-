@@ -1,9 +1,12 @@
+import { headers } from "next/headers";
 import Link from "next/link";
 import { getSessionUser } from "@/server/session";
 import { MobileMenu } from "./mobile-menu";
 import { ButtonLink, Container, Logo } from "./ui";
 
 export async function SiteHeader() {
+  // Rendu dynamique (session) ; doit rester hors du try/catch.
+  await headers();
   let user = null;
   try {
     user = await getSessionUser();

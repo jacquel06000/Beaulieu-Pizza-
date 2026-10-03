@@ -113,17 +113,15 @@ publiques de documentation indexées. À revérifier sur votre tableau de bord W
 
 ## Déploiement (Hostinger)
 
-Next.js a besoin d'un serveur **Node.js** et de **PostgreSQL**. Les hébergements mutualisés
-Hostinger ne proposent en général que MySQL : un **VPS** (ou une offre Node.js avec base
-PostgreSQL externe) est nécessaire — à vérifier selon votre offre.
+Guide pas à pas pour débutant : [`docs/INSTALLATION-VPS.md`](docs/INSTALLATION-VPS.md)
+(VPS Ubuntu + Docker : PostgreSQL, application et HTTPS automatique via Caddy).
 
-Sur un VPS avec Docker :
+Résumé :
 
 ```bash
-cp .env.example .env    # valeurs de production, NEXT_PUBLIC_APP_URL=https://runelio.fr, POSTGRES_PASSWORD=…
-docker compose up -d --build db app
-docker compose run --rm migrate            # applique les migrations (à relancer à chaque mise à jour)
+cp .env.example .env    # puis compléter (NEXT_PUBLIC_APP_URL=https://runelio.fr, POSTGRES_PASSWORD, BETTER_AUTH_SECRET, Whop, SMTP)
+docker compose up -d --build
+docker compose run --rm migrate
 ```
 
-Placez un reverse-proxy HTTPS (Caddy, Nginx + Let's Encrypt) devant le port 3000.
-Détails et liste complète : [`docs/CHECKLIST-MISE-EN-LIGNE.md`](docs/CHECKLIST-MISE-EN-LIGNE.md).
+Liste complète avant ouverture : [`docs/CHECKLIST-MISE-EN-LIGNE.md`](docs/CHECKLIST-MISE-EN-LIGNE.md).
