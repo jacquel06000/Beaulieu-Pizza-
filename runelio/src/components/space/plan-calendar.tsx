@@ -119,8 +119,9 @@ export function PlanCalendar({ weeks, sessions: initial, today, readOnly }: { we
                       </button>
                       <span aria-hidden className={cx("text-muted transition", expanded && "rotate-180")}>▾</span>
                     </div>
-                    {expanded && (
-                      <div id={`d-${s.id}`} className="border-t border-line px-4 py-4 text-sm animate-rise">
+                    {/* Toujours présent dans le DOM (aria-controls valide), masqué quand replié. */}
+                    {(
+                      <div id={`d-${s.id}`} hidden={!expanded} className="border-t border-line px-4 py-4 text-sm animate-rise">
                         <div className="grid gap-3 sm:grid-cols-3">
                           <div className="rounded-lg bg-white p-3 ring-1 ring-line">
                             <p className="text-xs font-semibold text-muted">Effort</p>
