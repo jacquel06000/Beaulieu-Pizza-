@@ -412,6 +412,10 @@ export const userPreference = pgTable("user_preference", {
   reminderEmail: boolean("reminder_email").notNull().default(false),
   /** Jeton secret de l'abonnement agenda (URL .ics privée). */
   calendarToken: text("calendar_token").unique(),
+  /** Dernière activité connue (mise à jour au plus une fois par jour). */
+  lastSeenAt: timestamp("last_seen_at", { withTimezone: true }),
+  /** Avertissement de suppression pour inactivité envoyé le… */
+  inactivityWarnedAt: timestamp("inactivity_warned_at", { withTimezone: true }),
   updatedAt: updatedAt(),
 });
 

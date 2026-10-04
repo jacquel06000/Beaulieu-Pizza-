@@ -1,6 +1,8 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { getDb } from "@/db";
 import { getAuth } from "./auth";
+import { touchLastSeen } from "./retention";
 import { forbidden, unauthorized } from "./errors";
 
 export type SessionUser = {
@@ -16,7 +18,10 @@ export async function getSessionUser(): Promise<SessionUser | null> {
   // headers() d'abord : rend la page dynamique avant toute lecture de configuration (build sans .env).
   const h = await headers();
   const s = await getAuth().api.getSession({ headers: h });
-  return (s?.user as SessionUser | undefined) ?? null;
+  const u = (s?.user as SessionUser | undefined) ?? null;
+  // Activité récente (durée de conservation des comptes inactifs) ; ne bloque jamais la requête.
+  if (u) await touchLastSeen(getDb(), u.id).catch(() => {});
+  return u;
 }
 
 /** Pour les pages : redirige vers la connexion si besoin. */

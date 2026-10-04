@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { LegalPage, Todo, Verify } from "@/components/legal/legal-page";
+import { LegalPage } from "@/components/legal/legal-page";
 import { PUBLISHER } from "@/lib/config";
 
 export const metadata: Metadata = { title: "Mentions légales" };
 
 export default function Page() {
   return (
-    <LegalPage title="Mentions légales" updated="3 octobre 2026">
+    <LegalPage title="Mentions légales" updated="5 octobre 2026">
       <h2>Éditeur du site</h2>
       <p>
         Le site <strong>runelio.fr</strong> est édité par <strong>{PUBLISHER.name}</strong>, entrepreneur individuel (régime de la micro-entreprise).
@@ -17,7 +17,7 @@ export default function Page() {
           SIREN : {PUBLISHER.siren} — SIRET : {PUBLISHER.siret}
         </li>
         <li>
-          Immatriculation : <Todo>registre d&apos;immatriculation (RNE, et RCS le cas échéant) selon la nature de l&apos;activité déclarée</Todo>
+          Immatriculation : {PUBLISHER.siren} R.C.S. Paris
         </li>
         <li>
           Adresse électronique : <a href={`mailto:${PUBLISHER.email}`}>{PUBLISHER.email}</a>
@@ -30,14 +30,12 @@ export default function Page() {
 
       <h2>Hébergement</h2>
       <p>
-        Le site est hébergé par <strong>Hostinger International Ltd</strong>, 61 Lordou Vironos Street, 6023 Larnaca, Chypre — <a href="https://www.hostinger.fr" rel="noopener noreferrer">www.hostinger.fr</a>. Les serveurs sont situés à Paris (France).{" "}
-        <Verify>dénomination et adresse à confirmer sur le contrat ou la facture Hostinger</Verify>
+        Le site est hébergé par <strong>Hostinger International Ltd</strong>, 61 Lordou Vironos Street, 6023 Larnaca, Chypre — <a href="https://www.hostinger.fr" rel="noopener noreferrer">www.hostinger.fr</a>. Les serveurs sont situés à Paris (France).
       </p>
 
       <h2>Paiement</h2>
       <p>
-        L&apos;abonnement est vendu par <strong>Whop</strong>, qui agit en tant que revendeur (« merchant of record ») : Whop encaisse le paiement, applique la TVA éventuelle et émet les reçus et factures.{" "}
-        <Todo>dénomination sociale et adresse de l&apos;entité Whop contractante</Todo>
+        L&apos;abonnement est vendu par <strong>Whop</strong>, qui agit en tant que revendeur (« merchant of record ») : Whop encaisse le paiement, applique la TVA éventuelle et émet les reçus et factures. Société : Whop Inc., 300 Kent Ave #401, Brooklyn, NY 11249, États-Unis.
       </p>
 
       <h2>Propriété intellectuelle</h2>

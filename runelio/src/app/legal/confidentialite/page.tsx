@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { LegalPage, Todo, Verify } from "@/components/legal/legal-page";
+import { LegalPage, Todo } from "@/components/legal/legal-page";
 import { PUBLISHER } from "@/lib/config";
 
 export const metadata: Metadata = { title: "Politique de confidentialité" };
@@ -14,7 +14,7 @@ export default function Page() {
       <h2>1. Responsable du traitement</h2>
       <p>
         {PUBLISHER.name}, entrepreneur individuel, {PUBLISHER.address} (SIRET {PUBLISHER.siret}). Contact pour toute question ou demande relative à vos données :{" "}
-        <a href={`mailto:${PUBLISHER.email}`}>{PUBLISHER.email}</a>. Aucun délégué à la protection des données n&apos;a été désigné <Verify>absence d&apos;obligation de désignation</Verify>.
+        <a href={`mailto:${PUBLISHER.email}`}>{PUBLISHER.email}</a>. Aucun délégué à la protection des données n&apos;a été désigné : sa désignation n&apos;est pas obligatoire au regard de la taille de l&apos;activité et de la nature des traitements.
       </p>
 
       <h2>2. Données traitées</h2>
@@ -81,7 +81,7 @@ export default function Page() {
       </table>
       <h3>Données de santé</h3>
       <p>
-        Runelio ne vous demande <strong>aucune information médicale</strong> (diagnostic, blessure, traitement, pathologie…) et vous invite à ne pas en communiquer. Les informations d&apos;entraînement demandées (volume, allures, résultats) servent uniquement à construire le programme ; aucune déduction sur votre état de santé n&apos;en est tirée. Le ressenti après une séance se limite à un niveau de difficulté ; en cas de douleur, le site vous invite à consulter un professionnel sans enregistrer cette information. <Verify>qualification de ces données au regard de la notion de « données concernant la santé » ; si une collecte de données de santé devenait nécessaire, elle serait précédée d&apos;une analyse (finalité, base légale au titre de l&apos;article 9 du RGPD, garanties, éventuel hébergement certifié HDS)</Verify>
+        Runelio ne vous demande <strong>aucune information médicale</strong> (diagnostic, blessure, traitement, pathologie…) et vous invite à ne pas en communiquer. Les informations d&apos;entraînement demandées (volume, allures, résultats) servent uniquement à construire le programme ; aucune déduction sur votre état de santé n&apos;en est tirée. Le ressenti après une séance se limite à un niveau de difficulté ; en cas de douleur, le site vous invite à consulter un professionnel sans enregistrer cette information. Si une collecte de données de santé devenait un jour nécessaire, elle serait précédée d&apos;une analyse de sa finalité, de sa base légale et des garanties appropriées, et vous en seriez informé.
       </p>
 
       <h2>3. Finalités et bases légales</h2>
@@ -120,7 +120,7 @@ export default function Page() {
           <tr>
             <td>Organiser les tirages au sort des cadeaux du mois (lorsqu&apos;un règlement est en vigueur)</td>
             <td>
-              Exécution du règlement accepté <Verify>base légale</Verify>
+              Exécution du règlement accepté (contrat)
             </td>
           </tr>
           <tr>
@@ -150,7 +150,7 @@ export default function Page() {
             <td>Hébergement du site et de la base de données</td>
             <td>Toutes les données du service</td>
             <td>
-              Centre de données à Paris (France). <Todo>accord de sous-traitance (article 28 RGPD)</Todo>
+              Hostinger International Ltd (Chypre). Centre de données à Paris (France). Accord de sous-traitance (article 28 RGPD) conclu.
             </td>
           </tr>
           <tr>
@@ -158,7 +158,7 @@ export default function Page() {
             <td>Revendeur de l&apos;abonnement (« merchant of record ») : vente, paiement, facturation</td>
             <td>Runelio transmet un identifiant technique de compte ; vous communiquez directement à Whop vos coordonnées et moyen de paiement. Whop renvoie à Runelio le statut de l&apos;abonnement et des paiements.</td>
             <td>
-              Responsable de traitement distinct pour les données de paiement et de facturation qu&apos;il collecte. <Todo>entité contractante, localisation, mécanisme d&apos;encadrement des transferts hors UE</Todo>
+              Whop Inc., 300 Kent Ave #401, Brooklyn, NY 11249, États-Unis. Responsable de traitement distinct pour les données de paiement et de facturation qu&apos;il collecte (voir section 5).
             </td>
           </tr>
           <tr>
@@ -179,7 +179,7 @@ export default function Page() {
 
       <h2>5. Transferts hors de l&apos;Union européenne</h2>
       <p>
-        Whop est une société dont le siège est situé hors de l&apos;Union européenne <Verify>pays et entité</Verify>. Le transfert éventuel de vos données vers ce prestataire doit être encadré par un mécanisme prévu par le RGPD (décision d&apos;adéquation, dont le cadre de protection des données UE–États-Unis si le prestataire y est certifié, ou clauses contractuelles types). <Todo>mécanisme applicable et moyen d&apos;en obtenir une copie</Todo>
+        Whop Inc. est établie aux États-Unis. Les données que vous communiquez à Whop lors du paiement, ainsi que les informations que Runelio lui transmet (un identifiant technique de compte), peuvent donc être transférées hors de l&apos;Union européenne. Whop indique, dans sa <a href="https://whop.com/privacy/" rel="noopener noreferrer">politique de confidentialité</a> (section consacrée aux transferts internationaux), les garanties qu&apos;elle met en œuvre pour encadrer ces transferts conformément au RGPD. Vous pouvez nous demander des informations sur ces garanties à {PUBLISHER.email}. Les autres données de Runelio sont hébergées en France.
       </p>
 
       <h2>6. Durées de conservation</h2>
@@ -194,7 +194,7 @@ export default function Page() {
           <tr>
             <td>Compte, questionnaire, programmes, suivi, consentements</td>
             <td>
-              Jusqu&apos;à la suppression du compte (possible à tout moment depuis « Compte »). Les comptes ne sont pas supprimés automatiquement en cas d&apos;inactivité.
+              Jusqu&apos;à la suppression du compte (possible à tout moment depuis « Compte »). Un compte sans connexion pendant 3 ans est supprimé automatiquement, après un e-mail d&apos;avertissement envoyé 30 jours avant (sauf abonnement en cours).
             </td>
           </tr>
           <tr>
@@ -212,13 +212,13 @@ export default function Page() {
           <tr>
             <td>Journal technique des notifications de paiement (identifiants et types d&apos;événements)</td>
             <td>
-              <Todo>durée</Todo>
+              12 mois
             </td>
           </tr>
           <tr>
             <td>Participations aux tirages au sort</td>
             <td>
-              <Todo>durée prévue au règlement</Todo>
+              Durée fixée par le règlement applicable, lorsqu&apos;un tirage est organisé
             </td>
           </tr>
         </tbody>

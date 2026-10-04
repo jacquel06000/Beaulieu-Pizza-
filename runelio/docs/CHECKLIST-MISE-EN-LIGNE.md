@@ -17,6 +17,13 @@ Commande pour les retrouver : `grep -rn "Todo\|Verify\|À VALIDER" src/app src/c
 - Le RGPD impose une **durée de conservation limitée** : l'absence de limite pour les comptes inactifs n'est pas conforme (la CNIL recommande souvent 2 à 3 ans d'inactivité).
 - Avec Whop merchant of record, le plan doit être configuré **TVA incluse** pour que le client paie exactement 19,99 € TTC.
 
+## Informations légales complétées (05/10/2026)
+- Immatriculation : 929 658 961 R.C.S. Paris. Hébergeur confirmé : Hostinger International Ltd (Chypre), DPA accepté.
+- Whop : Whop Inc., 300 Kent Ave #401, Brooklyn, NY 11249 (États-Unis).
+- Médiateur indiqué : **CM2C, 49 rue de Ponthieu, 75008 Paris (www.cm2c.net)** — l'adhésion doit être effective avant la première vente ; vérifier l'adresse sur le contrat d'adhésion.
+- Préavis de changement de prix : 30 jours. Comptes inactifs : suppression après 3 ans (avertissement 30 jours avant, automatique). Journal des webhooks : 12 mois (automatique).
+- Reste à compléter : localisation des serveurs de messagerie Hostinger ; liste des cookies à vérifier en production ; règlement des cadeaux (tirages désactivés).
+
 ## Avancement (03/10/2026)
 | Étape | État |
 |---|---|
