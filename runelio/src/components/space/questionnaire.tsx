@@ -166,8 +166,8 @@ export function Questionnaire({ initial, minDate }: { initial: QuestionnaireInit
         className="space-y-6"
         noValidate
       >
-        {step === 0 && (
-          <>
+        {/* Toutes les étapes restent dans le DOM (masquées) : état conservé, aperçu statique navigable. */}
+        <div data-step={0} hidden={step !== 0} className="space-y-6">
             <fieldset>
               <legend className="text-sm font-semibold">Votre objectif</legend>
               <div className="mt-3 grid grid-cols-2 gap-3">
@@ -185,37 +185,36 @@ export function Questionnaire({ initial, minDate }: { initial: QuestionnaireInit
               <div className="mt-3 inline-flex rounded-full bg-white p-1 ring-1 ring-line">
                 {(["date", "horizon"] as const).map((m) => (
                   <label key={m} className={cx("cursor-pointer rounded-full px-4 py-2 text-sm font-medium has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-sky", dateMode === m ? "bg-ink text-white" : "")}>
-                    <input type="radio" name="dateMode" className="sr-only" checked={dateMode === m} onChange={() => setDateMode(m)} />
+                    <input type="radio" name="dateMode" value={m} className="sr-only" checked={dateMode === m} onChange={() => setDateMode(m)} />
                     {m === "date" ? "J'ai une date de course" : "Pas encore de date"}
                   </label>
                 ))}
               </div>
               <div className="mt-4 max-w-xs">
-                {dateMode === "date" ? (
+                <div data-date-mode="date" hidden={dateMode !== "date"}>
                   <Field id="raceDate" label="Date de la course" error={fieldErr.raceDate}>
                     <input id="raceDate" type="date" min={minDate} className={inputClass} value={raceDate} onChange={(e) => setRaceDate(e.target.value)} aria-invalid={!!fieldErr.raceDate} />
                   </Field>
-                ) : (
+                </div>
+                <div data-date-mode="horizon" hidden={dateMode !== "horizon"}>
                   <Field id="horizon" label="Horizon de préparation (semaines)" error={fieldErr.horizon}>
                     <input id="horizon" type="number" min={2} max={52} inputMode="numeric" className={inputClass} value={horizon} onChange={(e) => setHorizon(e.target.value)} />
                   </Field>
-                )}
+                </div>
               </div>
             </fieldset>
             <Field id="target" label="Objectif chronométrique" optional hint="Par exemple : terminer un 10 km en moins de 50 minutes. Laissez vide pour viser simplement l'arrivée." error={fieldErr.target}>
               <TimeInput id="target" label="Objectif chronométrique" value={target} onChange={setTarget} />
             </Field>
-          </>
-        )}
+        </div>
 
-        {step === 1 && (
-          <>
+        <div data-step={1} hidden={step !== 1} className="space-y-6">
             <fieldset>
               <legend className="text-sm font-semibold">Votre niveau</legend>
               <div className="mt-3 space-y-2">
                 {(Object.keys(LEVEL_LABELS) as Level[]).map((l) => (
                   <label key={l} className={cx("flex cursor-pointer gap-3 rounded-2xl p-4 ring-1", level === l ? "bg-lime-soft ring-ink/20" : "bg-white ring-line")}>
-                    <input type="radio" name="level" checked={level === l} onChange={() => setLevel(l)} className="mt-1 size-4 accent-ink" />
+                    <input type="radio" name="level" value={l} checked={level === l} onChange={() => setLevel(l)} className="mt-1 size-4 accent-ink" />
                     <span>
                       <span className="block font-semibold">{LEVEL_LABELS[l]}</span>
                       <span className="block text-sm text-muted">{LEVEL_HINTS[l]}</span>
@@ -242,20 +241,17 @@ export function Questionnaire({ initial, minDate }: { initial: QuestionnaireInit
                 <input id="longest" type="number" min={0} max={100} step={0.5} inputMode="decimal" className={inputClass} value={longest} onChange={(e) => setLongest(e.target.value)} />
               </Field>
             </div>
-          </>
-        )}
+        </div>
 
-        {step === 2 && (
-          <>
+        <div data-step={2} hidden={step !== 2} className="space-y-6">
             <p className="text-sm text-muted leading-relaxed">
               Un résultat récent (moins de 6 mois) permet d&apos;estimer vos allures d&apos;entraînement. Sans résultat, les intensités sont exprimées en effort perçu.
             </p>
             <label className="flex items-center gap-3 font-medium">
-              <input type="checkbox" className="size-5 accent-ink" checked={hasRef} onChange={(e) => setHasRef(e.target.checked)} />
+              <input type="checkbox" data-has-ref className="size-5 accent-ink" checked={hasRef} onChange={(e) => setHasRef(e.target.checked)} />
               Je connais un résultat récent
             </label>
-            {hasRef && (
-              <div className="grid gap-5 sm:grid-cols-2">
+            <div data-ref-fields hidden={!hasRef} className="grid gap-5 sm:grid-cols-2">
                 <Field id="refDist" label="Distance">
                   <select id="refDist" className={inputClass} value={refDist} onChange={(e) => setRefDist(e.target.value)}>
                     {REF_DISTANCES.map((d) => (
@@ -266,23 +262,19 @@ export function Questionnaire({ initial, minDate }: { initial: QuestionnaireInit
                 <Field id="refTime" label="Temps réalisé" error={fieldErr.refTime}>
                   <TimeInput id="refTime" label="Temps réalisé" value={refTime} onChange={setRefTime} />
                 </Field>
-              </div>
-            )}
+            </div>
             <Alert tone="info">
               Ne renseignez aucune information médicale : Runelio n&apos;en a pas besoin. En cas de douleur, de blessure récente ou de doute sur votre santé, demandez l&apos;avis d&apos;un professionnel de santé avant de commencer.
             </Alert>
-          </>
-        )}
+        </div>
 
-        {step === 3 && <AvailabilityFields value={avail} onChange={setAvail} error={fieldErr.days} />}
+        <div data-step={3} hidden={step !== 3}>
+          <AvailabilityFields value={avail} onChange={setAvail} error={fieldErr.days} />
+        </div>
 
         <div className="flex items-center justify-between gap-3 pt-2">
-          {step > 0 ? (
-            <Button type="button" variant="secondary" onClick={() => setStep(step - 1)}>Retour</Button>
-          ) : (
-            <span />
-          )}
-          <Button type="submit" disabled={saving}>{step < 3 ? "Continuer" : saving ? "Enregistrement…" : "Voir le récapitulatif"}</Button>
+          <Button type="button" variant="secondary" data-step-back hidden={step === 0} onClick={() => setStep(step - 1)}>Retour</Button>
+          <Button type="submit" className="ml-auto" disabled={saving}>{step < 3 ? "Continuer" : saving ? "Enregistrement…" : "Voir le récapitulatif"}</Button>
         </div>
       </form>
     </div>

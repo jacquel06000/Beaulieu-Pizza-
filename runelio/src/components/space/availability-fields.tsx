@@ -32,8 +32,8 @@ export function AvailabilityFields({ value, onChange, error }: { value: Availabi
                   <input type="checkbox" className="size-5 accent-ink" checked={on} onChange={() => onChange({ ...value, availableDays: toggle(value.availableDays, d) })} />
                   {label}
                 </label>
-                {on && !rest && (
-                  <label className="mt-2 flex items-center gap-2 text-xs text-muted">
+                {(
+                  <label data-slot hidden={!(on && !rest)} className="mt-2 flex items-center gap-2 text-xs text-muted">
                     Créneau
                     <select
                       className="rounded-lg bg-white px-2 py-1 ring-1 ring-line text-ink"
