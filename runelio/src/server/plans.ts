@@ -9,6 +9,7 @@ import type { AvailabilityInput, ProfileInput } from "@/lib/validation";
 import { canGeneratePlan, canViewPlan } from "./access";
 import { getCurrentSubscription } from "./billing";
 import { badRequest, notFound, paymentRequired } from "./errors";
+import { feelingScale } from "./plan-tools";
 
 export type ProfileRow = typeof runnerProfile.$inferSelect;
 
@@ -187,7 +188,10 @@ export async function adjustPlan(db: Db, userId: string, availability: Availabil
   const planned = past.filter((s) => s.type !== "race");
   const done = planned.filter((s) => s.completedAt);
   const ratio = planned.length ? done.length / planned.length : 1;
-  const volumeScale = ratio < 0.5 ? 0.85 : ratio < 0.75 ? 0.95 : 1;
+  const completionScale = ratio < 0.5 ? 0.85 : ratio < 0.75 ? 0.95 : 1;
+  // Ressentis déclarés : beaucoup de séances jugées dures → charge allégée.
+  const felt = feelingScale(done.map((s) => s.feeling));
+  const volumeScale = Math.min(completionScale, felt.scale);
 
   const elapsed = Math.max(0, Math.floor(diffDays(mondayOf(plan.startDate), mondayOf(start)) / 7));
   const weeks = await db.select().from(planWeek).where(eq(planWeek.planId, plan.id));
@@ -209,9 +213,11 @@ export async function adjustPlan(db: Db, userId: string, availability: Availabil
     code: "adjusted",
     severity: "info" as const,
     message:
-      volumeScale < 1
+      completionScale < 1
         ? `Programme réajusté : ${Math.round(ratio * 100)} % des séances des deux dernières semaines ont été réalisées, la charge a été allégée.`
-        : "Programme réajusté selon vos nouvelles disponibilités.",
+        : felt.scale < 1
+          ? "Programme réajusté : plusieurs séances récentes ont été jugées difficiles, la charge a été allégée."
+          : "Programme réajusté selon vos nouvelles disponibilités.",
   };
 
   // Les séances futures déjà marquées réalisées sont conservées ; on ne double pas leur journée.

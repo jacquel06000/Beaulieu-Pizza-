@@ -5,6 +5,7 @@ import { formatPace } from "@/domain/planning/running";
 import { GOALS } from "@/domain/sports";
 import { AccessBanner } from "@/components/space/access-banner";
 import { GenerateButton } from "@/components/space/generate-button";
+import { CalendarSubscribe } from "@/components/space/calendar-subscribe";
 import { PlanCalendar } from "@/components/space/plan-calendar";
 import { Alert, ButtonLink, Card, PageHeader } from "@/components/ui";
 import { canGeneratePlan, canViewPlan } from "@/server/access";
@@ -67,7 +68,10 @@ export default async function Page() {
         sessions={sessions.map((s) => ({ ...s, completedAt: s.completedAt?.toISOString() ?? null }))}
         today={todayIso()}
         readOnly={!canViewPlan(sub)}
+        canEdit={canGeneratePlan(sub)}
+        raceDate={plan.raceDate}
       />
+      <CalendarSubscribe />
       <p className="text-xs text-muted leading-relaxed">
         Ces séances sont des recommandations générales d&apos;entraînement. Adaptez-les à vos sensations et arrêtez-vous en cas de douleur ou de malaise. Runelio ne fournit pas d&apos;avis médical et ne garantit pas le résultat de votre course.
       </p>

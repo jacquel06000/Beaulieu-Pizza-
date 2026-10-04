@@ -13,6 +13,7 @@ import {
   trainingPlan,
   trainingSession,
   user,
+  userPreference,
 } from "@/db/schema";
 import { TEXT_VERSIONS } from "@/lib/config";
 
@@ -31,6 +32,7 @@ export async function exportUserData(db: Db, userId: string) {
     .where(eq(user.id, userId));
   const plans = await db.select().from(trainingPlan).where(eq(trainingPlan.userId, userId));
   const planIds = plans.map((p) => p.id);
+  const [pref] = await db.select().from(userPreference).where(eq(userPreference.userId, userId));
   const [profile, subs, pays, invs, weeks, sessions, consents, entries, checkouts, sessionsAuth] = await Promise.all([
     db.select().from(runnerProfile).where(eq(runnerProfile.userId, userId)),
     db.select().from(subscription).where(eq(subscription.userId, userId)),
@@ -61,6 +63,7 @@ export async function exportUserData(db: Db, userId: string) {
       sessions: sessions.filter((s) => s.planId === p.id),
     })),
     consents,
+    preferences: pref ? { reminderEmail: pref.reminderEmail, calendarLinkActive: Boolean(pref.calendarToken) } : null,
     giveawayEntries: entries,
     activeSessions: sessionsAuth,
   };

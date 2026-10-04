@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { getDb } from "@/db";
 import { GiveawayAdmin } from "@/components/admin/giveaway-admin";
+import { AdminStatsPanel } from "@/components/admin/stats";
 import { WhopCheck } from "@/components/admin/whop-check";
 import { Container, PageHeader } from "@/components/ui";
 import { env } from "@/lib/env";
+import { getAdminStats } from "@/server/admin-stats";
 import { listGiveaways } from "@/server/giveaways";
 import { requirePageAdmin } from "@/server/session";
 
@@ -12,6 +14,7 @@ export const metadata: Metadata = { title: "Administration", robots: { index: fa
 export default async function Page() {
   await requirePageAdmin();
   const rows = await listGiveaways(getDb());
+  const stats = await getAdminStats(getDb());
   const giveaways = rows.map((g) => ({
     ...g,
     startsAt: g.startsAt.toISOString(),
@@ -22,6 +25,7 @@ export default async function Page() {
   return (
     <Container className="py-10 max-w-4xl space-y-8">
       <PageHeader eyebrow="Administration" title="Pilotage Runelio" />
+      <AdminStatsPanel s={stats} />
       <WhopCheck />
       <section>
         <h2 className="text-2xl font-bold mb-4">Cadeaux du mois</h2>

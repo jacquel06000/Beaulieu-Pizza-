@@ -36,6 +36,17 @@ services:
     depends_on:
       db: { condition: service_healthy }
 
+  # Rappels e-mail : appelle l'application toutes les heures (envoi à partir de 17 h, une fois par séance).
+  cron:
+    image: curlimages/curl:8.11.1
+    restart: unless-stopped
+    env_file: .env
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - 'while true; do curl -fsS -m 120 -X POST -H "Authorization: Bearer $$CRON_SECRET" http://app:3000/api/cron/reminders || true; sleep 3600; done'
+    depends_on:
+      - app
+
   # HTTPS automatique (certificat Let's Encrypt) devant l'application.
   caddy:
     image: caddy:2-alpine

@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { addDays, DAY_SHORT, dayOfWeek, formatDateFr } from "@/domain/dates";
 import { PHASE_LABELS, SESSION_STYLE } from "@/lib/labels";
 import { Badge, cx } from "../ui";
+import { SessionTools } from "./session-tools";
 
 export type CalSession = {
   id: string;
@@ -17,10 +18,28 @@ export type CalSession = {
   instructions: string;
   structure: string[];
   completedAt: string | null;
+  feeling?: string | null;
+  originalDate?: string | null;
 };
+const FEELING_SHORT: Record<string, string> = { easy: "Facile", ok: "Correct", hard: "Difficile", too_hard: "Trop difficile" };
+
 export type CalWeek = { weekIndex: number; startDate: string; phase: string; focus: string; targetVolumeKm: number };
 
-export function PlanCalendar({ weeks, sessions: initial, today, readOnly }: { weeks: CalWeek[]; sessions: CalSession[]; today: string; readOnly: boolean }) {
+export function PlanCalendar({
+  weeks,
+  sessions: initial,
+  today,
+  readOnly,
+  canEdit = false,
+  raceDate,
+}: {
+  weeks: CalWeek[];
+  sessions: CalSession[];
+  today: string;
+  readOnly: boolean;
+  canEdit?: boolean;
+  raceDate: string;
+}) {
   const [sessions, setSessions] = useState(initial);
   const [open, setOpen] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -55,7 +74,7 @@ export function PlanCalendar({ weeks, sessions: initial, today, readOnly }: { we
       {error && <p role="alert" className="text-sm font-medium text-danger">{error}</p>}
 
       {weeks.map((w) => {
-        const ws = sessions.filter((s) => s.weekIndex === w.weekIndex);
+        const ws = sessions.filter((s) => s.weekIndex === w.weekIndex).sort((a, b) => a.date.localeCompare(b.date));
         const isCurrent = w.weekIndex === currentIdx;
         const minutes = ws.reduce((a, s) => a + s.durationMin, 0);
         return (
@@ -111,6 +130,8 @@ export function PlanCalendar({ weeks, sessions: initial, today, readOnly }: { we
                         <span className="flex flex-wrap items-center gap-2">
                           <span className="text-xs font-semibold text-muted">{formatDateFr(s.date, { weekday: "short", day: "numeric", month: "short" })}</span>
                           <span className={cx("rounded-full px-2 py-0.5 text-[11px] font-bold", style?.className)}>{style?.label}</span>
+                          {s.originalDate && <span className="rounded-full bg-ink/5 px-2 py-0.5 text-[11px] font-semibold text-muted">Déplacée</span>}
+                          {s.feeling && <span className="rounded-full bg-lime-soft px-2 py-0.5 text-[11px] font-semibold">{FEELING_SHORT[s.feeling] ?? ""}</span>}
                         </span>
                         <span className={cx("block font-semibold", s.completedAt && "line-through decoration-2 decoration-ink/30")}>{s.title}</span>
                         <span className="block text-sm text-muted">
@@ -144,6 +165,16 @@ export function PlanCalendar({ weeks, sessions: initial, today, readOnly }: { we
                           </ol>
                         )}
                         <p className="mt-3 leading-relaxed text-ink-soft">{s.instructions}</p>
+                        {!readOnly && (
+                          <SessionTools
+                            session={s}
+                            today={today}
+                            raceDate={raceDate}
+                            canEdit={canEdit}
+                            occupied={new Set(sessions.map((x) => x.date))}
+                            onChange={(patch) => setSessions((all) => all.map((x) => (x.id === s.id ? { ...x, ...patch } : x)))}
+                          />
+                        )}
                       </div>
                     )}
                   </li>

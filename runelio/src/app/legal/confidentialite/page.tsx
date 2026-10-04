@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "Politique de confidentialité" };
 
 export default function Page() {
   return (
-    <LegalPage title="Politique de confidentialité" updated="3 octobre 2026">
+    <LegalPage title="Politique de confidentialité" updated="5 octobre 2026">
       <p>
         Cette politique explique quelles données personnelles Runelio traite, pourquoi, pendant combien de temps et quels sont vos droits. Elle décrit le fonctionnement réel du service tel qu&apos;il est développé à la date indiquée.
       </p>
@@ -44,7 +44,7 @@ export default function Page() {
           </tr>
           <tr>
             <td>Programme et suivi</td>
-            <td>Programme généré (semaines, séances), séances marquées comme réalisées, réajustements.</td>
+            <td>Programme généré (semaines, séances), séances marquées comme réalisées, séances déplacées, ressenti déclaré après une séance (« facile », « correct », « difficile », « trop difficile »), réajustements.</td>
             <td>Service</td>
           </tr>
           <tr>
@@ -56,6 +56,11 @@ export default function Page() {
             <td>Facturation</td>
             <td>Si des factures sont émises par l&apos;éditeur : numéro, nom, e-mail, montant, date.</td>
             <td>Service</td>
+          </tr>
+          <tr>
+            <td>Préférences</td>
+            <td>Activation des rappels par e-mail ; jeton secret du lien d&apos;agenda personnel, si vous l&apos;avez demandé.</td>
+            <td>Vous</td>
           </tr>
           <tr>
             <td>Consentements</td>
@@ -76,7 +81,7 @@ export default function Page() {
       </table>
       <h3>Données de santé</h3>
       <p>
-        Runelio ne vous demande <strong>aucune information médicale</strong> (diagnostic, blessure, traitement, pathologie…) et vous invite à ne pas en communiquer. Les informations d&apos;entraînement demandées (volume, allures, résultats) servent uniquement à construire le programme ; aucune déduction sur votre état de santé n&apos;en est tirée. <Verify>qualification de ces données au regard de la notion de « données concernant la santé » ; si une collecte de données de santé devenait nécessaire, elle serait précédée d&apos;une analyse (finalité, base légale au titre de l&apos;article 9 du RGPD, garanties, éventuel hébergement certifié HDS)</Verify>
+        Runelio ne vous demande <strong>aucune information médicale</strong> (diagnostic, blessure, traitement, pathologie…) et vous invite à ne pas en communiquer. Les informations d&apos;entraînement demandées (volume, allures, résultats) servent uniquement à construire le programme ; aucune déduction sur votre état de santé n&apos;en est tirée. Le ressenti après une séance se limite à un niveau de difficulté ; en cas de douleur, le site vous invite à consulter un professionnel sans enregistrer cette information. <Verify>qualification de ces données au regard de la notion de « données concernant la santé » ; si une collecte de données de santé devenait nécessaire, elle serait précédée d&apos;une analyse (finalité, base légale au titre de l&apos;article 9 du RGPD, garanties, éventuel hébergement certifié HDS)</Verify>
       </p>
 
       <h2>3. Finalités et bases légales</h2>
@@ -95,6 +100,10 @@ export default function Page() {
           <tr>
             <td>Gérer l&apos;abonnement : paiement, renouvellement, échecs de paiement, résiliation, e-mails transactionnels</td>
             <td>Exécution du contrat</td>
+          </tr>
+          <tr>
+            <td>Envoyer un rappel la veille des séances, si vous l&apos;avez activé ; fournir le lien d&apos;agenda que vous avez demandé</td>
+            <td>Exécution du contrat (fonctions facultatives, désactivables à tout moment)</td>
           </tr>
           <tr>
             <td>Tenue de la comptabilité et des factures</td>

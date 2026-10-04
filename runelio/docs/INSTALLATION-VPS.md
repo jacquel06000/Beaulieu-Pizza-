@@ -46,6 +46,7 @@ Si le dépôt est privé, GitHub te demandera un identifiant : utilise ton nom d
 cp .env.example .env
 echo "BETTER_AUTH_SECRET=$(openssl rand -base64 48)" >> .env
 echo "POSTGRES_PASSWORD=$(openssl rand -hex 24)" >> .env
+echo "CRON_SECRET=$(openssl rand -hex 24)" >> .env
 nano .env
 ```
 Dans l'éditeur `nano`, modifie ces lignes (flèches pour se déplacer) :
@@ -62,7 +63,7 @@ SMTP_USER=no-reply@runelio.fr      ← une boîte mail créée dans hPanel
 SMTP_PASSWORD=                      ← son mot de passe
 MAIL_FROM="Runelio <no-reply@runelio.fr>"
 ```
-Les lignes `BETTER_AUTH_SECRET` et `POSTGRES_PASSWORD` ont été ajoutées automatiquement à la fin : n'y touche pas. Laisse `DATABASE_URL` tel quel : il est remplacé automatiquement.
+Les lignes `BETTER_AUTH_SECRET`, `POSTGRES_PASSWORD` et `CRON_SECRET` ont été ajoutées automatiquement à la fin : n'y touche pas. Laisse `DATABASE_URL` tel quel : il est remplacé automatiquement.
 Enregistre : **Ctrl + O**, Entrée, puis **Ctrl + X**.
 
 > Vérifie les réglages SMTP exacts dans hPanel → E-mails → ta boîte → « Configurer les appareils ».
@@ -73,7 +74,7 @@ docker compose up -d --build
 docker compose run --rm migrate
 ```
 La première commande prend plusieurs minutes. La seconde crée les tables de la base de données.
-Contrôle : `docker compose ps` → les services `db`, `app` et `caddy` doivent être « running ».
+Contrôle : `docker compose ps` → les services `db`, `app`, `cron` et `caddy` doivent être « running ».
 
 Ouvre **https://runelio.fr** : le site s'affiche avec le cadenas 🔒 (le certificat HTTPS est obtenu automatiquement si l'étape 2 est propagée).
 

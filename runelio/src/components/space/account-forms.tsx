@@ -102,6 +102,30 @@ export function ConsentForm({ marketing }: { marketing: boolean }) {
   );
 }
 
+export function ReminderForm({ enabled }: { enabled: boolean }) {
+  const [value, setValue] = useState(enabled);
+  const s = useStatus();
+  async function change(v: boolean) {
+    setValue(v);
+    const res = await fetch("/api/account/preferences", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ reminderEmail: v }) });
+    if (res.ok) s.ok(v ? "Rappels activés : vous recevrez un e-mail la veille de chaque séance, vers 17 h." : "Rappels désactivés.");
+    else {
+      setValue(!v);
+      s.ko("Erreur, réessayez.");
+    }
+  }
+  return (
+    <Card>
+      <h2 className="text-lg font-bold mb-2">Rappels</h2>
+      {s.msg && <Alert tone={s.msg.tone} className="mb-4">{s.msg.text}</Alert>}
+      <label className="flex items-start gap-3 text-sm leading-relaxed">
+        <input type="checkbox" className="mt-0.5 size-5 accent-ink" checked={value} onChange={(e) => change(e.target.checked)} />
+        <span>Recevoir un e-mail la veille de chaque séance, avec son contenu (envoyé vers 17 h).</span>
+      </label>
+    </Card>
+  );
+}
+
 export function DataActions() {
   const router = useRouter();
   const [confirming, setConfirming] = useState(false);

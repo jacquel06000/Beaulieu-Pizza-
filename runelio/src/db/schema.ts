@@ -392,10 +392,28 @@ export const trainingSession = pgTable(
     instructions: text("instructions").notNull(),
     structure: jsonb("structure").$type<string[]>().notNull().default([]),
     completedAt: timestamp("completed_at", { withTimezone: true }),
+    /** Ressenti déclaré : easy | ok | hard | too_hard (aucune donnée de santé). */
+    feeling: text("feeling"),
+    /** Date initialement prévue si la séance a été déplacée. */
+    originalDate: date("original_date", { mode: "string" }),
+    /** Rappel e-mail envoyé (idempotence). */
+    reminderSentAt: timestamp("reminder_sent_at", { withTimezone: true }),
     createdAt: createdAt(),
   },
   (t) => [index("training_session_plan_date_idx").on(t.planId, t.date)],
 );
+
+/** Préférences de l'utilisateur (hors Better Auth). */
+export const userPreference = pgTable("user_preference", {
+  userId: text("user_id")
+    .primaryKey()
+    .references(() => user.id, { onDelete: "cascade" }),
+  /** Rappel par e-mail la veille d'une séance (désactivé par défaut). */
+  reminderEmail: boolean("reminder_email").notNull().default(false),
+  /** Jeton secret de l'abonnement agenda (URL .ics privée). */
+  calendarToken: text("calendar_token").unique(),
+  updatedAt: updatedAt(),
+});
 
 /* ------------------------------------------------------------------ */
 /* Consentements                                                       */
