@@ -29,7 +29,7 @@ export default function Page() {
         <tbody>
           <tr>
             <td>Compte</td>
-            <td>Adresse e-mail, prénom ou pseudo, mot de passe (conservé uniquement sous forme d&apos;empreinte cryptographique, jamais en clair), téléphone <em>(facultatif)</em>, statut de vérification de l&apos;e-mail, dates de création et de mise à jour.</td>
+            <td>Adresse e-mail, prénom ou pseudo, mot de passe (conservé uniquement sous forme d&apos;empreinte cryptographique, jamais en clair), téléphone <em>(facultatif)</em>, déclaration d&apos;avoir 18 ans ou plus, statut de vérification de l&apos;e-mail, dates de création et de mise à jour.</td>
             <td>Vous</td>
           </tr>
           <tr>
@@ -98,7 +98,7 @@ export default function Page() {
             <td>Exécution du contrat (CGU/CGV)</td>
           </tr>
           <tr>
-            <td>Gérer l&apos;abonnement : paiement, renouvellement, échecs de paiement, résiliation, e-mails transactionnels</td>
+            <td>Gérer l&apos;abonnement : paiement, renouvellement (dont l&apos;e-mail de rappel envoyé avant chaque échéance), échecs de paiement, résiliation, e-mails transactionnels</td>
             <td>Exécution du contrat</td>
           </tr>
           <tr>
@@ -165,7 +165,7 @@ export default function Page() {
             <td>
               Hostinger (messagerie)
             </td>
-            <td>Envoi des e-mails transactionnels (vérification, mot de passe, résiliation) et, si vous y consentez, des actualités</td>
+            <td>Envoi des e-mails transactionnels (vérification, mot de passe, rappel de renouvellement, résiliation, rappels de séance) et, si vous y consentez, des actualités</td>
             <td>Adresse e-mail, prénom, contenu des e-mails</td>
             <td>
               <Todo>localisation des serveurs de messagerie et garanties</Todo>
@@ -252,7 +252,7 @@ export default function Page() {
 
       <h2>10. Mineurs</h2>
       <p>
-        Le service n&apos;impose pas d&apos;âge minimum. Pour un mineur de moins de 15 ans, le consentement aux e-mails d&apos;actualités doit être donné conjointement avec le titulaire de l&apos;autorité parentale.
+        Le service est réservé aux personnes de 18 ans ou plus. Nous ne collectons pas sciemment de données concernant des mineurs : si vous constatez qu&apos;un mineur a créé un compte, écrivez-nous et nous le supprimerons. La case « 18 ans ou plus » cochée à l&apos;inscription est conservée avec le compte, comme preuve de la déclaration.
       </p>
 
       <h2>11. Modifications</h2>

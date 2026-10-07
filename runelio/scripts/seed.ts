@@ -30,7 +30,7 @@ async function upsertUser(id: string, email: string, name: string, role: "user" 
   const db = getDb();
   const [existing] = await db.select().from(user).where(eq(user.email, email));
   if (existing) return existing.id;
-  await db.insert(user).values({ id, email, name, emailVerified: true, role });
+  await db.insert(user).values({ id, email, name, emailVerified: true, role, adult: true });
   await db.insert(account).values({ id: `acc_${id}`, accountId: id, providerId: "credential", userId: id, password: await hashPassword(PASSWORD) });
   return id;
 }

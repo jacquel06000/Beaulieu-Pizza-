@@ -44,6 +44,8 @@ export const user = pgTable("user", {
   /** Facultatif. */
   phone: text("phone"),
   role: userRole("role").notNull().default("user"),
+  /** Déclaration « 18 ans ou plus » cochée à l'inscription (date = createdAt). */
+  adult: boolean("adult").notNull().default(false),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 });
@@ -208,6 +210,8 @@ export const subscription = pgTable(
     /** Horodatage Whop du dernier événement appliqué (ordre des webhooks). */
     lastEventAt: timestamp("last_event_at", { withTimezone: true }),
     canceledAt: timestamp("canceled_at", { withTimezone: true }),
+    /** Échéance pour laquelle le rappel de renouvellement a été envoyé (art. L215-1 C. conso.). */
+    renewalReminderFor: timestamp("renewal_reminder_for", { withTimezone: true }),
     createdAt: createdAt(),
     updatedAt: updatedAt(),
   },

@@ -59,6 +59,7 @@ function createAuth() {
     user: {
       additionalFields: {
         phone: { type: "string", required: false, input: true },
+        adult: { type: "boolean", required: false, input: true, defaultValue: false },
         role: { type: "string", required: false, input: false, defaultValue: "user" },
       },
       deleteUser: {
@@ -77,9 +78,13 @@ function createAuth() {
             if (phone && !phoneSchema.safeParse(phone).success) {
               throw new APIError("BAD_REQUEST", { message: "Numéro de téléphone invalide." });
             }
+            // Service réservé aux personnes majeures (CGU) : la déclaration est obligatoire.
+            if (data.adult !== true) {
+              throw new APIError("BAD_REQUEST", { message: "Le service est réservé aux personnes de 18 ans ou plus." });
+            }
             const name = String(data.name ?? "").trim().slice(0, 80);
             if (!name) throw new APIError("BAD_REQUEST", { message: "Indiquez un prénom ou un pseudo." });
-            return { data: { ...data, name, phone: phone || null, role: "user" } };
+            return { data: { ...data, name, phone: phone || null, role: "user", adult: true } };
           },
         },
       },

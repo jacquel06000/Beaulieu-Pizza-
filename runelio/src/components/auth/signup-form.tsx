@@ -22,6 +22,7 @@ export function SignupForm() {
       confirm: String(f.get("confirm") ?? ""),
       phone: String(f.get("phone") ?? "").trim(),
       terms: f.get("terms") === "on",
+      adult: f.get("adult") === "on",
     };
     const errs: Record<string, string> = {};
     if (!data.name) errs.name = "Indiquez un prénom ou un pseudo.";
@@ -29,6 +30,7 @@ export function SignupForm() {
     if (data.password.length < 10) errs.password = "10 caractères minimum.";
     if (data.password !== data.confirm) errs.confirm = "Les mots de passe ne correspondent pas.";
     if (data.phone && !/^\+?[0-9 .-]{6,20}$/.test(data.phone)) errs.phone = "Numéro invalide.";
+    if (!data.adult) errs.adult = "Le service est réservé aux personnes de 18 ans ou plus.";
     if (!data.terms) errs.terms = "Vous devez accepter les conditions générales d'utilisation.";
     setErrors(errs);
     if (Object.keys(errs).length) return;
@@ -40,6 +42,7 @@ export function SignupForm() {
       email: data.email,
       password: data.password,
       phone: data.phone || undefined,
+      adult: true,
       callbackURL: "/espace/questionnaire",
     });
     if (error) {
@@ -77,6 +80,13 @@ export function SignupForm() {
       <Field id="phone" label="Téléphone" optional hint="Utilisé uniquement pour vous contacter au sujet de votre compte si nécessaire." error={errors.phone}>
         <input id="phone" name="phone" type="tel" autoComplete="tel" inputMode="tel" className={inputClass} aria-invalid={!!errors.phone} />
       </Field>
+      <div>
+        <label className="flex items-start gap-3 text-sm leading-relaxed">
+          <input type="checkbox" name="adult" className="mt-0.5 size-5 shrink-0 accent-ink" aria-invalid={!!errors.adult} />
+          <span>Je certifie avoir 18 ans ou plus.</span>
+        </label>
+        {errors.adult && <p className="mt-1 text-xs font-medium text-danger">{errors.adult}</p>}
+      </div>
       <div>
         <label className="flex items-start gap-3 text-sm leading-relaxed">
           <input type="checkbox" name="terms" className="mt-0.5 size-5 shrink-0 accent-ink" aria-invalid={!!errors.terms} />

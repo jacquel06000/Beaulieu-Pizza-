@@ -20,7 +20,7 @@ export default function Page() {
 
       <h3>A2. Compte</h3>
       <p>
-        L&apos;inscription requiert une adresse e-mail valide, confirmée par un lien, et un mot de passe ; le téléphone est facultatif. Vous êtes responsable de la confidentialité de vos identifiants et de l&apos;exactitude des informations fournies. Le service n&apos;impose pas d&apos;âge minimum ; un mineur doit toutefois obtenir l&apos;autorisation de son représentant légal pour souscrire l&apos;abonnement payant.
+        L&apos;inscription requiert une adresse e-mail valide, confirmée par un lien, et un mot de passe ; le téléphone est facultatif. Vous êtes responsable de la confidentialité de vos identifiants et de l&apos;exactitude des informations fournies. Le service est réservé aux personnes âgées de 18 ans ou plus : lors de l&apos;inscription, vous certifiez remplir cette condition. Runelio peut suspendre ou supprimer un compte ouvert en violation de cette règle.
       </p>
 
       <h3>A3. Nature des programmes — absence d&apos;avis médical</h3>
@@ -88,7 +88,7 @@ export default function Page() {
         La résiliation prend effet à la fin de la période en cours, déjà payée ; aucun nouveau prélèvement n&apos;est effectué et l&apos;accès reste ouvert jusqu&apos;à cette date. Une confirmation indiquant la date de prise d&apos;effet vous est envoyée par e-mail. Vous pouvez annuler une résiliation programmée avant son échéance.
       </p>
       <p>
-        La date du prochain renouvellement est affichée en permanence dans votre espace, rubrique « Facturation ». L&apos;abonnement étant résiliable à tout moment et sans frais, vous n&apos;êtes jamais engagé au-delà de la période en cours.
+        La date du prochain renouvellement est affichée en permanence dans votre espace, rubrique « Facturation ». Vous recevez en outre, environ 7 jours avant chaque échéance, un e-mail rappelant la date du renouvellement, son montant et le lien pour résilier. L&apos;abonnement étant résiliable à tout moment et sans frais, vous n&apos;êtes jamais engagé au-delà de la période en cours.
       </p>
 
       <h3 id="retractation">B5. Droit de rétractation</h3>

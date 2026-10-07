@@ -7,14 +7,16 @@ Commande pour les retrouver : `grep -rn "Todo\|Verify\|À VALIDER" src/app src/c
 ## Décisions de l'éditeur (30/09/2026)
 - Franchise en base de TVA : confirmée. Activité déclarée : confirmée.
 - Whop agit comme **merchant of record** : Whop vend, encaisse, applique la TVA et facture. `INVOICES_ENABLED` reste à `false`.
-- Formulation de la rétractation : validée. Pas d'âge minimum. Pas de téléphone dans les mentions légales (voir risque ci-dessous).
-- Conservation des comptes inactifs : sans limite automatique (voir risque ci-dessous).
+- Formulation de la rétractation : validée. **Service réservé aux 18 ans et plus** (case obligatoire à l'inscription, vérifiée côté serveur, 07/10/2026).
+- Téléphone : un numéro sera ajouté aux mentions légales **avant le déploiement**.
+- Comptes inactifs : suppression après 3 ans, avertissement 30 jours avant (automatique).
 - Prestataires : Hostinger (hébergement et messagerie), Whop.
 
 **Risques signalés à l'éditeur :**
 - Le **médiateur de la consommation** est obligatoire avant de vendre à des particuliers.
 - La loi (LCEN art. 6 III ; Code de la consommation, art. R111-1) prévoit un **numéro de téléphone** pour l'éditeur et le vendeur à distance : l'absence de numéro expose à une sanction.
-- Le RGPD impose une **durée de conservation limitée** : l'absence de limite pour les comptes inactifs n'est pas conforme (la CNIL recommande souvent 2 à 3 ans d'inactivité).
+- Whop étant merchant of record (il applique la TVA au client) alors que l'éditeur est en franchise de TVA : faire valider l'affichage du prix et la mention `TVA non applicable, art. 293 B du CGI` par un comptable.
+- Pas de relecture par un juriste (choix de l'éditeur) : les textes ont été rédigés avec soin mais sans validation professionnelle.
 - Avec Whop merchant of record, le plan doit être configuré **TVA incluse** pour que le client paie exactement 19,99 € TTC.
 
 ## Informations légales complétées (05/10/2026)
@@ -39,8 +41,8 @@ Commande pour les retrouver : `grep -rn "Todo\|Verify\|À VALIDER" src/app src/c
 ## 1. Statut de l'éditeur et fiscalité
 - [ ] Confirmer le bénéfice de la **franchise en base de TVA** (seuils de chiffre d'affaires de l'année en cours et précédente) et la mention exacte `TVA non applicable, art. 293 B du CGI` (`src/lib/config.ts`).
 - [ ] Vérifier que l'activité déclarée de la micro-entreprise couvre la vente d'abonnements en ligne ; indiquer le registre d'immatriculation (RNE / RCS) dans les mentions légales.
-- [ ] Ajouter un **numéro de téléphone** de contact (mentions légales).
-- [ ] Adhérer à un **médiateur de la consommation** (obligatoire pour la vente aux consommateurs) et l'indiquer dans les CGV.
+- [ ] Ajouter un **numéro de téléphone** de contact (mentions légales) — prévu avant le déploiement.
+- [ ] Signer l'adhésion au **CM2C** (déjà indiqué dans les CGV) avant la première vente ; vérifier l'adresse sur le contrat.
 - [ ] Déterminer avec un expert-comptable si **Whop agit comme vendeur (« merchant of record »)** ou comme simple prestataire de paiement :
   - s'il est merchant of record : c'est lui qui facture le client et collecte la TVA éventuelle → adapter l'affichage du prix, les CGV et laisser `INVOICES_ENABLED=false` ;
   - sinon : l'éditeur facture → compléter les mentions obligatoires de la facture (`src/app/api/invoices/[id]/route.ts`), puis `INVOICES_ENABLED=true`.
@@ -70,13 +72,13 @@ Commande pour les retrouver : `grep -rn "Todo\|Verify\|À VALIDER" src/app src/c
 - [ ] Si des e-mails d'actualités sont envoyés : n'écrire qu'aux comptes ayant consenti (`consent_log`), ajouter un lien de désinscription dans chaque e-mail.
 
 ## 5. Juridique
-- [ ] Faire relire les 5 documents (mentions légales, confidentialité, CGU/CGV, cookies, règlement) et supprimer tous les marqueurs.
+- [ ] Supprimer tous les marqueurs des 5 documents (relecture par un juriste : écartée par l'éditeur).
 - [ ] Valider la formulation de la case « exécution immédiate / perte du droit de rétractation » (`src/components/space/checkout-form.tsx`) et la qualification du service (contenu numérique / service).
-- [ ] Vérifier l'obligation d'information préalable à la reconduction (art. L215-1 C. conso.) pour un abonnement de 30 jours.
+- [x] Information avant reconduction (art. L215-1) : e-mail automatique ~7 jours avant chaque échéance (date, montant, lien de résiliation).
 - [ ] Vérifier la conformité du parcours de résiliation en ligne (« en trois clics ») : lien `/resiliation` visible sur toutes les pages, confirmation par e-mail avec date d'effet.
-- [ ] Définir l'**âge minimum** et, si nécessaire, ajouter une case de déclaration d'âge à l'inscription.
-- [ ] Définir les durées de conservation manquantes (comptes inactifs, journal des webhooks) et implémenter la purge automatique correspondante (non implémentée à ce jour).
-- [ ] Tenir le **registre des traitements** (RGPD, art. 30) à partir de la politique de confidentialité.
+- [x] Âge minimum : 18 ans, case obligatoire à l'inscription (07/10/2026).
+- [x] Durées de conservation : comptes inactifs 3 ans, journal des webhooks 12 mois, purge automatique (`/api/cron/maintenance`).
+- [x] Registre des traitements rédigé : `docs/REGISTRE-TRAITEMENTS.md` (compléter la localisation de la messagerie, le tenir à jour).
 - [ ] Confirmer que les données d'entraînement collectées ne sont pas des données de santé au sens de l'article 9 RGPD ; ne pas ajouter de question médicale sans analyse préalable (finalité, base légale, garanties, éventuel hébergeur HDS).
 
 ## 6. Cadeaux du mois

@@ -26,7 +26,7 @@ export async function resetDb(db: Db) {
 }
 
 export async function createUser(db: Db, id = "user_1", email = `${id}@example.test`) {
-  await db.insert(schema.user).values({ id, name: "Coureur Test", email, emailVerified: true });
+  await db.insert(schema.user).values({ id, name: "Coureur Test", email, emailVerified: true, adult: true });
   return id;
 }
 

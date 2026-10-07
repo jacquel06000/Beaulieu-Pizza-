@@ -125,3 +125,4 @@ docker compose run --rm migrate
 ```
 
 Liste complète avant ouverture : [`docs/CHECKLIST-MISE-EN-LIGNE.md`](docs/CHECKLIST-MISE-EN-LIGNE.md).
+Registre RGPD des traitements (document interne) : [`docs/REGISTRE-TRAITEMENTS.md`](docs/REGISTRE-TRAITEMENTS.md).
