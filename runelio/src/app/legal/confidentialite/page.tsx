@@ -54,7 +54,7 @@ export default function Page() {
           </tr>
           <tr>
             <td>Facturation</td>
-            <td>Si des factures sont émises par l&apos;éditeur : numéro, nom, e-mail, montant, date.</td>
+            <td>Factures émises par l&apos;éditeur (sur demande) : numéro, nom, e-mail, montant, date.</td>
             <td>Service</td>
           </tr>
           <tr>
@@ -155,10 +155,10 @@ export default function Page() {
           </tr>
           <tr>
             <td>Whop</td>
-            <td>Revendeur de l&apos;abonnement (« merchant of record ») : vente, paiement, facturation</td>
+            <td>Prestataire de paiement : encaissement des paiements et des renouvellements, reçus de paiement</td>
             <td>Runelio transmet un identifiant technique de compte ; vous communiquez directement à Whop vos coordonnées et moyen de paiement. Whop renvoie à Runelio le statut de l&apos;abonnement et des paiements.</td>
             <td>
-              Whop Inc., 300 Kent Ave #401, Brooklyn, NY 11249, États-Unis. Responsable de traitement distinct pour les données de paiement et de facturation qu&apos;il collecte (voir section 5).
+              Whop Inc., 300 Kent Ave #401, Brooklyn, NY 11249, États-Unis. Responsable de traitement distinct pour les données de paiement qu&apos;il collecte (voir section 5).
             </td>
           </tr>
           <tr>

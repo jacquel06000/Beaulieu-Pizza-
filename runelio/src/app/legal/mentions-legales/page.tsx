@@ -35,7 +35,7 @@ export default function Page() {
 
       <h2>Paiement</h2>
       <p>
-        L&apos;abonnement est vendu par <strong>Whop</strong>, qui agit en tant que revendeur (« merchant of record ») : Whop encaisse le paiement, applique la TVA éventuelle et émet les reçus et factures. Société : Whop Inc., 300 Kent Ave #401, Brooklyn, NY 11249, États-Unis.
+        L&apos;abonnement est vendu par l&apos;éditeur. Les paiements sont encaissés pour son compte par le prestataire de paiement <strong>Whop</strong> : Whop Inc., 300 Kent Ave #401, Brooklyn, NY 11249, États-Unis.
       </p>
 
       <h2>Propriété intellectuelle</h2>

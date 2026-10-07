@@ -5,7 +5,7 @@ import { invoice, payment } from "@/db/schema";
 import { AccessBanner } from "@/components/space/access-banner";
 import { CancelSubscription, ReactivateSubscription } from "@/components/space/billing-actions";
 import { Badge, ButtonLink, Card, PageHeader } from "@/components/ui";
-import { formatEuros } from "@/lib/config";
+import { formatEuros, PUBLISHER } from "@/lib/config";
 import { env } from "@/lib/env";
 import { requirePageUser } from "@/server/session";
 import { formatDateLong, loadSpaceState } from "@/server/views";
@@ -106,7 +106,7 @@ export default async function Page() {
             </ul>
           )
         ) : (
-          <p className="mt-4 text-xs text-muted">Whop, revendeur de l&apos;abonnement, vous envoie par e-mail le reçu et la facture de chaque paiement.</p>
+          <p className="mt-4 text-xs text-muted">Whop, notre prestataire de paiement, vous envoie par e-mail un reçu de chaque paiement. Pour obtenir une facture, écrivez-nous à {PUBLISHER.email}.</p>
         )}
       </Card>
     </div>

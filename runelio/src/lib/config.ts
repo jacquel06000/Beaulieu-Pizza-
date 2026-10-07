@@ -17,8 +17,12 @@ export const PUBLISHER = {
   email: "jacquelalexandrepro@gmail.com",
   /** Régime fiscal de l'éditeur (franchise en base confirmée par l'éditeur). */
   vatMention: "TVA non applicable, art. 293 B du CGI",
-  /** Whop agit comme revendeur (« merchant of record ») : il vend l'abonnement au client, encaisse et facture. */
-  reseller: "Whop",
+  /**
+   * Whop est le prestataire de paiement : il encaisse pour le compte de l'éditeur, qui reste le vendeur
+   * (Seller Terms Whop : « merchant of record » uniquement pour les réseaux de cartes et le règlement).
+   */
+  paymentProvider: "Whop",
+  paymentProviderAddress: "Whop Inc., 300 Kent Ave #401, Brooklyn, NY 11249, États-Unis",
 } as const;
 
 export const PRICING = {

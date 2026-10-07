@@ -15,7 +15,7 @@ Document **interne** tenu en application de l'article 30 du RGPD. Il n'est pas p
 |---|---|---|---|---|
 | Hostinger International Ltd (61 Lordou Vironos Street, 6023 Larnaca, Chypre) | Sous-traitant : hébergement du site et de la base de données (VPS) | Toutes les données du service | Centre de données à Paris (France) | Accord de sous-traitance (art. 28) accepté |
 | Hostinger (messagerie) | Sous-traitant : envoi des e-mails | E-mail, prénom, contenu des messages | **À compléter** (localisation des serveurs de messagerie) | Même accord de sous-traitance |
-| Whop Inc. (300 Kent Ave #401, Brooklyn, NY 11249, États-Unis) | Responsable de traitement distinct (« merchant of record ») pour la vente, le paiement et la facturation ; destinataire d'un identifiant technique de compte | Identifiant de compte Runelio ; Whop collecte lui-même coordonnées et moyen de paiement | États-Unis | Transferts encadrés selon la politique de confidentialité de Whop (section « transferts internationaux ») — **conserver une copie datée** |
+| Whop Inc. (300 Kent Ave #401, Brooklyn, NY 11249, États-Unis) | Prestataire de paiement (encaisse pour le compte de l'éditeur, qui reste le vendeur) ; responsable de traitement distinct pour les données de paiement qu'il collecte | Identifiant de compte Runelio ; Whop collecte lui-même coordonnées et moyen de paiement | États-Unis | Transferts encadrés selon la politique de confidentialité de Whop (section « transferts internationaux ») — **conserver une copie datée** |
 
 ---
 
@@ -49,7 +49,7 @@ Document **interne** tenu en application de l'article 30 du RGPD. Il n'est pas p
 
 - **Finalité** : tenue de la comptabilité de la micro-entreprise (livre des recettes, reversements de Whop).
 - **Base légale** : obligation légale (Code de commerce, Code général des impôts).
-- **Données** : montants, dates, identifiants de paiement ; factures éventuelles émises par l'éditeur (numéro, nom, e-mail, montant, date). À ce jour, la facturation au client est assurée par Whop (`INVOICES_ENABLED=false`).
+- **Données** : montants, dates, identifiants de paiement ; factures émises par l'éditeur sur demande du client (numéro, nom, e-mail, montant, date).
 - **Destinataires** : l'éditeur ; le cas échéant son expert-comptable et l'administration fiscale.
 - **Transfert hors UE** : non (hors données détenues par Whop).
 - **Durée de conservation** : 10 ans à compter de la clôture de l'exercice, y compris après suppression du compte (les factures ne sont pas liées au compte).
@@ -128,3 +128,4 @@ Toute violation (fuite, perte, accès non autorisé, piratage…) doit être con
 | Date | Modification |
 |---|---|
 | 07/10/2026 | Création du registre (8 traitements). Ajout de la déclaration « 18 ans ou plus » et du rappel avant renouvellement. |
+| 07/10/2026 | Whop requalifié en prestataire de paiement (l'éditeur est le vendeur). |

@@ -28,7 +28,7 @@ export function AdminStatsPanel({ s }: { s: AdminStats }) {
         <Tile label="Questionnaires remplis" value={s.withProfile} hint={`${conversion} % deviennent abonnés`} />
         <Tile label="Séances réalisées (30 j)" value={s.sessionsCompleted30d} hint={`${s.plansGenerated} programmes générés · ${s.reminderOptIns} rappels activés`} />
       </div>
-      <Card className="text-xs text-muted">Chiffres calculés à partir de la base Runelio. Le chiffre d&apos;affaires officiel est celui du tableau de bord Whop (revendeur).</Card>
+      <Card className="text-xs text-muted">Chiffres calculés à partir de la base Runelio. Les montants encaissés font foi dans le tableau de bord Whop (prestataire de paiement).</Card>
     </section>
   );
 }

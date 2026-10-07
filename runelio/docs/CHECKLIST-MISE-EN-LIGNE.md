@@ -6,7 +6,8 @@ Commande pour les retrouver : `grep -rn "Todo\|Verify\|À VALIDER" src/app src/c
 
 ## Décisions de l'éditeur (30/09/2026)
 - Franchise en base de TVA : confirmée. Activité déclarée : confirmée.
-- Whop agit comme **merchant of record** : Whop vend, encaisse, applique la TVA et facture. `INVOICES_ENABLED` reste à `false`.
+- **Correction du 07/10/2026** : d'après les Seller Terms de Whop, Whop n'est « merchant of record » que pour les réseaux de cartes et le règlement des paiements ; **l'éditeur reste le vendeur** (TVA, protection du consommateur). Le mode « Whop Collects and Remits » le rendrait merchant of record pour la TVA uniquement. Les CGV, mentions légales, confidentialité et l'offre présentent désormais Whop comme prestataire de paiement et Runelio comme vendeur ; une facture est remise sur demande.
+- **Laisser « Whop Collects and Remits » désactivé** tant qu'un comptable n'a pas validé (franchise en base de TVA, ventes en France).
 - Formulation de la rétractation : validée. **Service réservé aux 18 ans et plus** (case obligatoire à l'inscription, vérifiée côté serveur, 07/10/2026).
 - Téléphone : un numéro sera ajouté aux mentions légales **avant le déploiement**.
 - Comptes inactifs : suppression après 3 ans, avertissement 30 jours avant (automatique).
@@ -15,7 +16,8 @@ Commande pour les retrouver : `grep -rn "Todo\|Verify\|À VALIDER" src/app src/c
 **Risques signalés à l'éditeur :**
 - Le **médiateur de la consommation** est obligatoire avant de vendre à des particuliers.
 - La loi (LCEN art. 6 III ; Code de la consommation, art. R111-1) prévoit un **numéro de téléphone** pour l'éditeur et le vendeur à distance : l'absence de numéro expose à une sanction.
-- Whop étant merchant of record (il applique la TVA au client) alors que l'éditeur est en franchise de TVA : faire valider l'affichage du prix et la mention `TVA non applicable, art. 293 B du CGI` par un comptable.
+- TVA : faire confirmer par un comptable le réglage de taxe Whop compatible avec la franchise en base (aucune TVA ajoutée au client) et vérifier sur une vraie page de paiement que le client paie exactement 19,99 €.
+- Factures : avant d'activer `INVOICES_ENABLED=true` (factures générées automatiquement), faire vérifier les mentions obligatoires par un comptable ; en attendant, répondre aux demandes de facture par e-mail.
 - Pas de relecture par un juriste (choix de l'éditeur) : les textes ont été rédigés avec soin mais sans validation professionnelle.
 - Avec Whop merchant of record, le plan doit être configuré **TVA incluse** pour que le client paie exactement 19,99 € TTC.
 
