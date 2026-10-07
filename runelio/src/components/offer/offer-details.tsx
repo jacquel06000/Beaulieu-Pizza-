@@ -6,7 +6,6 @@ export const INCLUDED = [
   "Suivi des séances réalisées",
   "Réajustement des semaines à venir selon vos disponibilités et vos séances réalisées",
   "Nouveau programme si votre objectif change",
-  "Accès à la page « Cadeaux du mois » (participation aux tirages uniquement lorsqu'un règlement est en vigueur ; aucun gain garanti)",
 ];
 
 /** Informations précontractuelles affichées avant tout paiement. */

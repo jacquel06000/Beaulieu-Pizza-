@@ -12,9 +12,11 @@ const items = [
   { href: "/espace/compte", label: "Compte" },
 ];
 
-export function SpaceNav({ isAdmin }: { isAdmin: boolean }) {
+/** `showGiveaways` : la page « Cadeaux du mois » n'est visible que si les tirages sont activés (GIVEAWAYS_ENABLED). */
+export function SpaceNav({ isAdmin, showGiveaways }: { isAdmin: boolean; showGiveaways: boolean }) {
   const path = usePathname();
-  const all = isAdmin ? [...items, { href: "/admin", label: "Admin" }] : items;
+  const visible = showGiveaways ? items : items.filter((i) => i.href !== "/espace/cadeaux");
+  const all = isAdmin ? [...visible, { href: "/admin", label: "Admin" }] : visible;
   return (
     <nav aria-label="Mon espace" className="-mx-4 overflow-x-auto px-4 pb-2 [scrollbar-width:none]">
       <ul className="flex gap-2 min-w-max">

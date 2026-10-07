@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import Link from "next/link";
+import { giveawaysEnabled } from "@/lib/env";
 import { getSessionUser } from "@/server/session";
 import { MobileMenu } from "./mobile-menu";
 import { ButtonLink, Container, Logo } from "./ui";
@@ -17,7 +18,7 @@ export async function SiteHeader() {
     ? [
         { href: "/espace", label: "Mon espace" },
         { href: "/espace/programme", label: "Programme" },
-        { href: "/espace/cadeaux", label: "Cadeaux" },
+        ...(giveawaysEnabled() ? [{ href: "/espace/cadeaux", label: "Cadeaux" }] : []),
         { href: "/espace/compte", label: "Compte" },
       ]
     : [

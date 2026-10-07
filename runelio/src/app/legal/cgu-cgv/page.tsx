@@ -54,7 +54,7 @@ export default function Page() {
       </p>
       <p>
         L&apos;abonnement est vendu par <strong>Whop</strong>, qui agit en tant que revendeur (« merchant of record ») : Whop encaisse le paiement, applique la TVA éventuellement due et vous adresse le reçu et la facture. Runelio fournit le service (programmes, calendrier, suivi). Whop : Whop Inc., 300 Kent Ave #401, Brooklyn, NY 11249, États-Unis.</p>
-      <p>L&apos;abonnement comprend : la génération d&apos;un programme personnalisé, son calendrier détaillé, le suivi des séances, le réajustement des semaines à venir, la génération d&apos;un nouveau programme si votre objectif change, et l&apos;accès à la page « Cadeaux du mois » (voir B8).</p>
+      <p>L&apos;abonnement comprend : la génération d&apos;un programme personnalisé, son calendrier détaillé, le suivi des séances, le réajustement des semaines à venir et la génération d&apos;un nouveau programme si votre objectif change.</p>
 
       <h3>B2. Commande</h3>
       <p>
@@ -115,7 +115,7 @@ export default function Page() {
 
       <h3>B8. Cadeaux du mois</h3>
       <p>
-        Des lots peuvent être attribués par tirage au sort entre les abonnés participants, exclusivement selon un règlement publié. <strong>L&apos;abonnement ne garantit pas de gagner.</strong> Aucun tirage n&apos;est organisé tant que le règlement n&apos;est pas défini et validé.
+        Aucun tirage au sort ni cadeau n&apos;est proposé à ce jour, et l&apos;abonnement n&apos;en comprend pas. Si une telle opération est organisée à l&apos;avenir, elle fera l&apos;objet d&apos;un règlement publié au préalable.
       </p>
 
       <h3>B9. Réclamations et médiation</h3>

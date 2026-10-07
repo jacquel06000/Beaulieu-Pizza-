@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { getDb } from "@/db";
 import { EnterGiveaway } from "@/components/space/enter-giveaway";
 import { Alert, Badge, ButtonLink, Card, PageHeader } from "@/components/ui";
 import { formatEuros } from "@/lib/config";
-import { env } from "@/lib/env";
+import { giveawaysEnabled } from "@/lib/env";
 import { canGeneratePlan } from "@/server/access";
 import { hasEntered, visibleGiveaways } from "@/server/giveaways";
 import { requirePageUser } from "@/server/session";
@@ -12,11 +13,13 @@ import { formatDateLong, loadSpaceState } from "@/server/views";
 export const metadata: Metadata = { title: "Cadeaux du mois" };
 
 export default async function Page() {
+  // Masquée tant que les tirages ne sont pas activés (règlement non validé).
+  if (!giveawaysEnabled()) notFound();
   const user = await requirePageUser("/espace/cadeaux");
   const { sub } = await loadSpaceState(user.id);
   const subscriber = canGeneratePlan(sub);
   const db = getDb();
-  const list = subscriber ? await visibleGiveaways(db, env().GIVEAWAYS_ENABLED) : [];
+  const list = subscriber ? await visibleGiveaways(db, giveawaysEnabled()) : [];
   const entered = await Promise.all(list.map((g) => hasEntered(db, user.id, g.id)));
   return (
     <div className="max-w-3xl space-y-6">

@@ -49,3 +49,12 @@ export function whopConfigured(): boolean {
   const e = env();
   return Boolean(e.WHOP_API_KEY && e.WHOP_WEBHOOK_SECRET && e.WHOP_PLAN_ID && e.WHOP_COMPANY_ID);
 }
+
+/**
+ * Tirages « Cadeaux du mois » activés ? Lecture directe (sans valider toute la configuration),
+ * utilisable dans les composants rendus à la construction (pied de page, pages légales).
+ */
+export function giveawaysEnabled(): boolean {
+  const v = process.env.GIVEAWAYS_ENABLED;
+  return v === "true" || v === "1";
+}

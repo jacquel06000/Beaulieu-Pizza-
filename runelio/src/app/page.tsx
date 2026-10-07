@@ -127,7 +127,7 @@ export default function Home() {
           <div className="rounded-[2rem] bg-ink px-6 py-12 sm:px-12 text-white grid gap-8 lg:grid-cols-[1.3fr_1fr] lg:items-center">
             <div>
               <h2 className="text-3xl sm:text-4xl font-bold">Un seul abonnement, tout compris</h2>
-              <p className="mt-3 text-white/75 max-w-lg">Programme personnalisé, calendrier, suivi des séances, réajustements et accès à la page « Cadeaux du mois ».</p>
+              <p className="mt-3 text-white/75 max-w-lg">Programme personnalisé, calendrier, suivi des séances, et réajustements.</p>
             </div>
             <div className="rounded-2xl bg-white/5 p-6 ring-1 ring-white/10">
               <p className="font-display text-5xl font-extrabold">

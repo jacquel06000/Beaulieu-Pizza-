@@ -83,6 +83,8 @@ Commande pour les retrouver : `grep -rn "Todo\|Verify\|À VALIDER" src/app src/c
 
 ## 6. Cadeaux du mois
 - [ ] Laisser `GIVEAWAYS_ENABLED=false` tant que les points ci-dessous ne sont pas faits.
+  Tant qu'il est à `false`, la fonctionnalité est **masquée** (07/10/2026) : liens retirés du menu et du pied de page, `/espace/cadeaux` et `/legal/reglement-cadeaux` répondent « page introuvable », et l'offre ne mentionne plus les cadeaux.
+- [ ] À l'activation : remettre la mention des cadeaux dans l'offre (`src/components/offer/offer-details.tsx`), la page d'accueil et les CGV (§ B2 et B8), en indiquant qu'aucun gain n'est garanti.
 - [ ] Définir lots, valeurs, calendrier, critères de participation et modalités du tirage.
 - [ ] Faire valider le dispositif au regard du droit français (loteries : art. L322-1 s. du Code de la sécurité intérieure et L121-20 du Code de la consommation ; lien avec l'abonnement payant ; participation gratuite éventuelle ; fiscalité des lots).
 - [ ] Rédiger et publier le règlement définitif (`src/app/legal/reglement-cadeaux/page.tsx`), éventuellement le déposer auprès d'un commissaire de justice.

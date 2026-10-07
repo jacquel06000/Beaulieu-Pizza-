@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { PUBLISHER } from "@/lib/config";
+import { giveawaysEnabled } from "@/lib/env";
 import { CookieSettingsButton } from "./cookie-consent";
 import { Container, Logo } from "./ui";
 
@@ -8,8 +9,9 @@ const legal = [
   { href: "/legal/confidentialite", label: "Confidentialité" },
   { href: "/legal/cgu-cgv", label: "CGU / CGV" },
   { href: "/legal/cookies", label: "Cookies" },
-  { href: "/legal/reglement-cadeaux", label: "Règlement des cadeaux" },
 ];
+// Le règlement n'est affiché que lorsque les tirages sont activés.
+const giveawayRules = { href: "/legal/reglement-cadeaux", label: "Règlement des cadeaux" };
 
 export function SiteFooter() {
   return (
@@ -24,7 +26,7 @@ export function SiteFooter() {
         <nav aria-label="Informations légales">
           <p className="text-sm font-semibold mb-3">Informations</p>
           <ul className="space-y-2 text-sm">
-            {legal.map((l) => (
+            {(giveawaysEnabled() ? [...legal, giveawayRules] : legal).map((l) => (
               <li key={l.href}>
                 <Link href={l.href} className="text-muted hover:text-ink">
                   {l.label}

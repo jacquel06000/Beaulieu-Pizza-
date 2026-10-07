@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { LegalPage, Todo, Verify } from "@/components/legal/legal-page";
 import { PUBLISHER } from "@/lib/config";
+import { giveawaysEnabled } from "@/lib/env";
 
 export const metadata: Metadata = { title: "Règlement des cadeaux du mois", robots: { index: false } };
 
 export default function Page() {
+  // Brouillon : non publié tant que les tirages ne sont pas activés.
+  if (!giveawaysEnabled()) notFound();
   return (
     <LegalPage title="Règlement des cadeaux du mois" updated="29 septembre 2026">
       <p className="rounded-xl bg-danger-soft p-4 text-danger font-semibold">
