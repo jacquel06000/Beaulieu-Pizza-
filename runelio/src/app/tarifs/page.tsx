@@ -1,10 +1,23 @@
 import type { Metadata } from "next";
 import { OfferDetails } from "@/components/offer/offer-details";
+import { headers } from "next/headers";
 import { ButtonLink, Card, Container, PageHeader } from "@/components/ui";
+import { PRICING } from "@/lib/config";
+import { getSessionUser } from "@/server/session";
 
 export const metadata: Metadata = { title: "Tarif" };
 
-export default function PricingPage() {
+export default async function PricingPage() {
+  // Rendu dynamique (session) ; doit rester hors du try/catch.
+  await headers();
+  let loggedIn = false;
+  try {
+    loggedIn = Boolean(await getSessionUser());
+  } catch {
+    loggedIn = false;
+  }
+  // Visiteur : le compte et le questionnaire sont nécessaires pour générer le programme après paiement.
+  const subscribeHref = loggedIn ? "/espace/abonnement" : "/inscription";
   return (
     <Container className="py-12 sm:py-16 max-w-4xl">
       <PageHeader eyebrow="Tarif" title="Un abonnement unique, sans surprise">
@@ -13,6 +26,14 @@ export default function PricingPage() {
       <div className="grid gap-6 md:grid-cols-[1fr_0.8fr]">
         <Card className="p-6 sm:p-8">
           <OfferDetails />
+          <ButtonLink href={subscribeHref} variant="brand" className="mt-6 w-full min-h-12 text-base">
+            S&apos;abonner — {PRICING.label} / mois
+          </ButtonLink>
+          {!loggedIn && (
+            <p className="mt-3 text-center text-xs text-muted leading-relaxed">
+              Étapes : créer votre compte, répondre au questionnaire (quelques minutes), puis payer. Votre programme est généré dès la confirmation du paiement.
+            </p>
+          )}
         </Card>
         <div className="space-y-4">
           <Card className="bg-lime-soft ring-0">
