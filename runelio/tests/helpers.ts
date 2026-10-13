@@ -4,7 +4,7 @@ import { drizzle } from "drizzle-orm/pglite";
 import { migrate } from "drizzle-orm/pglite/migrator";
 import type { Db } from "@/db";
 import * as schema from "@/db/schema";
-import type { WhopGateway, WhopMembership, WhopPlan } from "@/server/whop";
+import type { GatewayPrice, GatewaySubscription, PaymentGateway } from "@/server/stripe";
 
 /** Base PostgreSQL en mémoire (PGlite) avec les vraies migrations. */
 export async function createTestDb(): Promise<Db> {
@@ -49,46 +49,49 @@ export const baseProfile = {
   maxSessionMinutes: 75,
 };
 
-/** Faux Whop en mémoire : aucune requête réseau, comportement contrôlé. */
-export class FakeWhop implements WhopGateway {
-  memberships = new Map<string, WhopMembership>();
+/** Faux Stripe en mémoire : aucune requête réseau, comportement contrôlé. */
+export class FakeStripe implements PaymentGateway {
+  subscriptions = new Map<string, GatewaySubscription>();
   calls: string[] = [];
 
-  setMembership(m: Partial<WhopMembership> & { id: string }) {
-    this.memberships.set(m.id, {
+  setSubscription(s: Partial<GatewaySubscription> & { id: string }) {
+    this.subscriptions.set(s.id, {
+      customerId: "cus_test",
       status: "active",
-      cancel_at_period_end: false,
-      current_period_end: new Date(Date.now() + 30 * 86400_000).toISOString(),
-      plan_id: "plan_test",
-      product_id: "prod_test",
-      metadata: {},
-      user_id: "user_whop",
-      created_at: new Date().toISOString(),
-      ...this.memberships.get(m.id),
-      ...m,
+      cancelAtPeriodEnd: false,
+      currentPeriodEnd: new Date(Date.now() + 30 * 86400_000),
+      priceId: "price_test",
+      userId: null,
+      ...this.subscriptions.get(s.id),
+      ...s,
     });
   }
-  async createCheckout(input: { userId: string; redirectUrl: string }) {
-    this.calls.push(`checkout:${input.userId}`);
-    return { id: `ch_${this.calls.length}`, purchase_url: `https://whop.com/checkout/ch_${this.calls.length}` };
+  async createCheckout(input: { userId: string; customerId: string | null }) {
+    this.calls.push(`checkout:${input.userId}:${input.customerId ?? "nouveau"}`);
+    const id = `cs_test_${this.calls.length}`;
+    return { id, url: `https://checkout.stripe.com/c/pay/${id}` };
   }
-  async getMembership(id: string) {
+  async getSubscription(id: string) {
     this.calls.push(`get:${id}`);
-    const m = this.memberships.get(id);
-    if (!m) throw new Error("not found");
-    return m;
-  }
-  async cancelMembership(id: string, atPeriodEnd: boolean) {
-    this.calls.push(`cancel:${id}:${atPeriodEnd}`);
-    this.setMembership({ id, ...(atPeriodEnd ? { cancel_at_period_end: true, status: "canceling" } : { status: "canceled" }) });
-    return this.memberships.get(id)!;
+    const s = this.subscriptions.get(id);
+    if (!s) throw new Error("not found");
+    return s;
   }
   async setCancelAtPeriodEnd(id: string, value: boolean) {
-    this.calls.push(`patch:${id}:${value}`);
-    this.setMembership({ id, cancel_at_period_end: value, status: value ? "canceling" : "active" });
-    return this.memberships.get(id)!;
+    this.calls.push(`cancel_at_period_end:${id}:${value}`);
+    this.setSubscription({ id, cancelAtPeriodEnd: value });
+    return this.subscriptions.get(id)!;
   }
-  async getPlan(): Promise<WhopPlan> {
+  async cancelNow(id: string) {
+    this.calls.push(`cancel_now:${id}`);
+    this.setSubscription({ id, status: "canceled" });
+    return this.subscriptions.get(id)!;
+  }
+  async createPortalSession(customerId: string) {
+    this.calls.push(`portal:${customerId}`);
+    return { url: `https://billing.stripe.com/p/session/${customerId}` };
+  }
+  async getPrice(): Promise<GatewayPrice> {
     throw new Error("not used");
   }
 }

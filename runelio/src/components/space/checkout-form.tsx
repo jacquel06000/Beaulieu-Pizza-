@@ -31,8 +31,8 @@ export function CheckoutForm({ configured }: { configured: boolean }) {
       router.push("/espace/recapitulatif");
       return;
     }
-    // Redirection vers la page de paiement hébergée par Whop.
-    window.location.href = j.purchaseUrl;
+    // Redirection vers la page de paiement hébergée par Stripe.
+    window.location.href = j.checkoutUrl;
   }
 
   if (!configured) {
@@ -45,7 +45,7 @@ export function CheckoutForm({ configured }: { configured: boolean }) {
       <label className="flex items-start gap-3 text-sm leading-relaxed">
         <input type="checkbox" className="mt-0.5 size-5 shrink-0 accent-ink" checked={terms} onChange={(e) => setTerms(e.target.checked)} />
         <span>
-          J&apos;ai lu et j&apos;accepte les <Link href="/legal/cgu-cgv" target="_blank" className="underline">conditions générales de vente</Link>, notamment le renouvellement automatique tous les {PRICING.billingPeriodDays} jours et les modalités de résiliation.
+          J&apos;ai lu et j&apos;accepte les <Link href="/legal/cgu-cgv" target="_blank" className="underline">conditions générales de vente</Link>, notamment le renouvellement automatique chaque mois et les modalités de résiliation.
         </span>
       </label>
       <label className="flex items-start gap-3 text-sm leading-relaxed">
@@ -57,7 +57,7 @@ export function CheckoutForm({ configured }: { configured: boolean }) {
       <Button variant="brand" className="w-full min-h-12 text-base" disabled={!terms || !immediate || loading} onClick={pay}>
         {loading ? "Ouverture du paiement sécurisé…" : `S'abonner — ${PRICING.label} / mois`}
       </Button>
-      <p className="text-xs text-muted text-center">Vous serez redirigé vers Whop, notre prestataire de paiement. Le bouton de validation finale se trouve sur sa page.</p>
+      <p className="text-xs text-muted text-center">Vous serez redirigé vers Stripe, notre prestataire de paiement sécurisé. Le bouton de validation finale se trouve sur sa page.</p>
     </div>
   );
 }

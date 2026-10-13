@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getDb } from "@/db";
 import { GiveawayAdmin } from "@/components/admin/giveaway-admin";
 import { AdminStatsPanel } from "@/components/admin/stats";
-import { WhopCheck } from "@/components/admin/whop-check";
+import { StripeCheck } from "@/components/admin/stripe-check";
 import { Container, PageHeader } from "@/components/ui";
 import { env } from "@/lib/env";
 import { getAdminStats } from "@/server/admin-stats";
@@ -26,7 +26,7 @@ export default async function Page() {
     <Container className="py-10 max-w-4xl space-y-8">
       <PageHeader eyebrow="Administration" title="Pilotage Runelio" />
       <AdminStatsPanel s={stats} />
-      <WhopCheck />
+      <StripeCheck />
       <section>
         <h2 className="text-2xl font-bold mb-4">Cadeaux du mois</h2>
         <GiveawayAdmin giveaways={giveaways} enabled={env().GIVEAWAYS_ENABLED} />

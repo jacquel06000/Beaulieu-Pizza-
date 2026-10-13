@@ -19,7 +19,7 @@ export default function Page() {
         </ol>
         <ButtonLink href="/connexion?next=%2Fespace%2Ffacturation%23resilier" variant="primary">Accéder à la résiliation</ButtonLink>
         <p className="text-sm text-muted">
-          Vous n&apos;arrivez pas à vous connecter ? Écrivez à <a className="underline" href={`mailto:${PUBLISHER.email}?subject=R%C3%A9siliation%20abonnement%20Runelio`}>{PUBLISHER.email}</a> depuis l&apos;adresse de votre compte. Vous pouvez aussi résilier directement depuis votre compte Whop.
+          Vous n&apos;arrivez pas à vous connecter ? Écrivez à <a className="underline" href={`mailto:${PUBLISHER.email}?subject=R%C3%A9siliation%20abonnement%20Runelio`}>{PUBLISHER.email}</a> depuis l&apos;adresse de votre compte.
         </p>
       </Card>
     </Container>

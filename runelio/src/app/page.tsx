@@ -134,7 +134,7 @@ export default function Home() {
                 {PRICING.label}
                 <span className="text-lg font-semibold text-white/70"> / mois</span>
               </p>
-              <p className="mt-2 text-sm text-white/70">Prélevé tous les 30 jours · résiliable à tout moment</p>
+              <p className="mt-2 text-sm text-white/70">Prélevé chaque mois · résiliable à tout moment</p>
               <ButtonLink href="/tarifs" variant="brand" className="mt-5 w-full">Détails de l&apos;offre</ButtonLink>
             </div>
           </div>

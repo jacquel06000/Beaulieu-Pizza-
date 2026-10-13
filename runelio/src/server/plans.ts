@@ -84,7 +84,7 @@ async function insertPlanContent(tx: Pick<Db, "insert">, planId: string, plan: G
 
 /**
  * Génère le programme. Règle critique : refusé sans abonnement actif confirmé
- * côté serveur (statut synchronisé depuis Whop via webhook signé).
+ * côté serveur (statut synchronisé depuis Stripe via webhook signé).
  */
 export async function generatePlanForUser(db: Db, userId: string, now = new Date()) {
   const sub = await getCurrentSubscription(db, userId);

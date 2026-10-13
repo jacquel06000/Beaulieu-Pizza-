@@ -1,11 +1,12 @@
 /**
  * Règles d'accès liées à l'abonnement. Fonctions pures, testées.
  *
- * Statuts Whop (membership) : `active`/`trialing` donnent accès ; `canceling`
- * (résiliation programmée) donne accès jusqu'à la fin de période ; `past_due`
- * est la période de grâce après un échec de paiement (Whop relance pendant
- * quelques jours) : consultation seulement, pas de nouvelle génération ;
- * `canceled`, `expired`, `completed`, `unresolved`, `drafted` : aucun accès.
+ * Statuts Stripe : `active`/`trialing` donnent accès ; une résiliation programmée
+ * (`cancelAtPeriodEnd`) donne accès jusqu'à la fin de la période payée ; `past_due`
+ * est la période de relance après un échec de paiement : consultation seulement,
+ * pas de nouvelle génération ; `canceled`, `unpaid`, `incomplete`,
+ * `incomplete_expired`, `paused` : aucun accès.
+ * (`canceling` est conservé pour compatibilité, Stripe ne l'utilise pas.)
  */
 export type SubscriptionLike = {
   status: string;

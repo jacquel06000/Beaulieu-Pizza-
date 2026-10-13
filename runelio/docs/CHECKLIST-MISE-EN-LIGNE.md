@@ -6,24 +6,22 @@ Commande pour les retrouver : `grep -rn "Todo\|Verify\|À VALIDER" src/app src/c
 
 ## Décisions de l'éditeur (30/09/2026)
 - Franchise en base de TVA : confirmée. Activité déclarée : confirmée.
-- **Correction du 07/10/2026** : d'après les Seller Terms de Whop, Whop n'est « merchant of record » que pour les réseaux de cartes et le règlement des paiements ; **l'éditeur reste le vendeur** (TVA, protection du consommateur). Le mode « Whop Collects and Remits » le rendrait merchant of record pour la TVA uniquement. Les CGV, mentions légales, confidentialité et l'offre présentent désormais Whop comme prestataire de paiement et Runelio comme vendeur ; une facture est remise sur demande.
-- **Laisser « Whop Collects and Remits » désactivé** tant qu'un comptable n'a pas validé (franchise en base de TVA, ventes en France).
+- **13/10/2026 : Whop remplacé par Stripe.** Stripe est un prestataire de services de paiement : **l'éditeur est le vendeur** (TVA, protection du consommateur, factures). Ne pas activer Stripe Tax (franchise en base). Abonnement facturé **chaque mois** (et non plus tous les 30 jours).
 - Formulation de la rétractation : validée. **Service réservé aux 18 ans et plus** (case obligatoire à l'inscription, vérifiée côté serveur, 07/10/2026).
 - Téléphone : un numéro sera ajouté aux mentions légales **avant le déploiement**.
 - Comptes inactifs : suppression après 3 ans, avertissement 30 jours avant (automatique).
-- Prestataires : Hostinger (hébergement et messagerie), Whop.
+- Prestataires : Hostinger (hébergement et messagerie), Stripe (paiement).
 
 **Risques signalés à l'éditeur :**
 - Le **médiateur de la consommation** est obligatoire avant de vendre à des particuliers.
 - La loi (LCEN art. 6 III ; Code de la consommation, art. R111-1) prévoit un **numéro de téléphone** pour l'éditeur et le vendeur à distance : l'absence de numéro expose à une sanction.
-- TVA : faire confirmer par un comptable le réglage de taxe Whop compatible avec la franchise en base (aucune TVA ajoutée au client) et vérifier sur une vraie page de paiement que le client paie exactement 19,99 €.
-- Factures : avant d'activer `INVOICES_ENABLED=true` (factures générées automatiquement), faire vérifier les mentions obligatoires par un comptable ; en attendant, répondre aux demandes de facture par e-mail.
+- TVA : vérifier sur une vraie page de paiement Stripe que le client paie exactement 19,99 € (aucune taxe ajoutée).
+- Factures : utiliser les factures Stripe, configurées avec les mentions obligatoires (nom, adresse, SIRET, `TVA non applicable, art. 293 B du CGI`) ; laisser `INVOICES_ENABLED=false` pour éviter deux numérotations.
 - Pas de relecture par un juriste (choix de l'éditeur) : les textes ont été rédigés avec soin mais sans validation professionnelle.
-- Avec Whop merchant of record, le plan doit être configuré **TVA incluse** pour que le client paie exactement 19,99 € TTC.
 
 ## Informations légales complétées (05/10/2026)
 - Immatriculation : 929 658 961 R.C.S. Paris. Hébergeur confirmé : Hostinger International Ltd (Chypre), DPA accepté.
-- Whop : Whop Inc., 300 Kent Ave #401, Brooklyn, NY 11249 (États-Unis).
+- Paiement : Stripe (entité indiquée sur le site : Stripe Payments Europe, Limited, Dublin — **à vérifier dans le contrat Stripe du compte**).
 - Médiateur indiqué : **CM2C, 49 rue de Ponthieu, 75008 Paris (www.cm2c.net)** — l'adhésion doit être effective avant la première vente ; vérifier l'adresse sur le contrat d'adhésion.
 - Préavis de changement de prix : 30 jours. Comptes inactifs : suppression après 3 ans (avertissement 30 jours avant, automatique). Journal des webhooks : 12 mois (automatique).
 - Reste à compléter : localisation des serveurs de messagerie Hostinger ; liste des cookies à vérifier en production ; règlement des cadeaux (tirages désactivés).
@@ -31,9 +29,9 @@ Commande pour les retrouver : `grep -rn "Todo\|Verify\|À VALIDER" src/app src/c
 ## Avancement (03/10/2026)
 | Étape | État |
 |---|---|
-| 1. Ancienne clé API Whop supprimée | ✅ Fait |
-| 2. Fiscalité (franchise TVA, activité, Whop merchant of record) | ✅ Confirmé |
-| 3. Configuration Whop (plan, webhook, tests) | ⏳ En attente de la mise en ligne |
+| 1. Ancienne clé API Whop supprimée (Whop abandonné le 13/10/2026) | ✅ Fait |
+| 2. Fiscalité (franchise TVA, activité) | ✅ Confirmé |
+| 3. Configuration Stripe (prix, webhook, portail, relances, factures, tests) | ⏳ En attente de la mise en ligne |
 | 4. Hébergement Hostinger, serveur à Paris | ✅ Choisi — installation à faire |
 | 5. E-mails : messagerie Hostinger | ✅ Choisi — SPF/DKIM/DMARC à configurer |
 | 6. Juridique (médiateur, téléphone, durée de conservation…) | ⏳ Plus tard — **à régler avant la première vente** |
@@ -45,20 +43,20 @@ Commande pour les retrouver : `grep -rn "Todo\|Verify\|À VALIDER" src/app src/c
 - [ ] Vérifier que l'activité déclarée de la micro-entreprise couvre la vente d'abonnements en ligne ; indiquer le registre d'immatriculation (RNE / RCS) dans les mentions légales.
 - [ ] Ajouter un **numéro de téléphone** de contact (mentions légales) — prévu avant le déploiement.
 - [ ] Signer l'adhésion au **CM2C** (déjà indiqué dans les CGV) avant la première vente ; vérifier l'adresse sur le contrat.
-- [ ] Déterminer avec un expert-comptable si **Whop agit comme vendeur (« merchant of record »)** ou comme simple prestataire de paiement :
-  - s'il est merchant of record : c'est lui qui facture le client et collecte la TVA éventuelle → adapter l'affichage du prix, les CGV et laisser `INVOICES_ENABLED=false` ;
-  - sinon : l'éditeur facture → compléter les mentions obligatoires de la facture (`src/app/api/invoices/[id]/route.ts`), puis `INVOICES_ENABLED=true`.
-- [ ] Vérifier sur une vraie page de paiement Whop que le client paie **exactement 19,99 €** : pas de taxe ajoutée (`tax_type` ≠ exclusive), pas de frais acheteur, pas de conversion de devise (page Admin → « Vérifier maintenant »).
+- [ ] Vérifier sur une vraie page de paiement Stripe que le client paie **exactement 19,99 €** : pas de taxe ajoutée, pas de conversion de devise (page Admin → « Vérifier maintenant »).
 
-## 2. Whop
-- [ ] Créer le produit et un **plan récurrent** : 19,99 EUR, `billing_period` 30 jours, sans essai gratuit, prix initial = prix de renouvellement.
-- [ ] Créer une clé API avec les permissions nécessaires (checkout configurations, memberships lecture + gestion, plans, paiements) ; renseigner `WHOP_API_KEY`, `WHOP_COMPANY_ID`, `WHOP_PLAN_ID`.
-- [ ] Déclarer le webhook `https://runelio.fr/api/webhooks/whop` avec les événements `membership.activated`, `membership.deactivated`, `membership.cancel_at_period_end_changed`, `payment.succeeded`, `payment.failed`, `payment.pending`, `payment.canceled` ; copier le secret `ws_…` dans `WHOP_WEBHOOK_SECRET`.
-- [ ] Tester le parcours complet dans le **bac à sable Whop** (`WHOP_API_BASE_URL=https://sandbox-api.whop.com/api/v1`) : paiement réussi, refusé, abandonné, résiliation, annulation de résiliation, renouvellement, échec de renouvellement.
-- [ ] Vérifier que la redirection `redirect_url` renvoie bien vers `/abonnement/retour`.
-- [ ] Vérifier la durée des relances après échec de paiement et la mettre à jour dans les CGV.
-- [ ] Obtenir auprès de Whop : entité contractante, rôle RGPD (sous-traitant / responsable distinct), DPA, localisation des données et mécanisme d'encadrement des transferts hors UE ; compléter la politique de confidentialité.
-- [ ] Vérifier que les e-mails de reçu Whop sont en français ou acceptables pour la clientèle.
+## 2. Stripe
+Procédure détaillée : `docs/INSTALLATION-VPS.md`, étape 9.
+- [ ] Activer le compte Stripe (identité, SIRET, compte bancaire) ; vérifier dans le contrat Stripe l'**entité contractante** et corriger si besoin `PUBLISHER.paymentProviderAddress` (`src/lib/config.ts`) — utilisée dans les mentions légales, les CGV et la politique de confidentialité.
+- [ ] Accepter l'accord de traitement des données (DPA) de Stripe et conserver une copie datée de sa politique de confidentialité (transferts hors UE).
+- [ ] Créer le produit et un **prix récurrent** : 19,99 EUR, **mensuel**, sans essai ; renseigner `STRIPE_PRICE_ID`. Ne pas activer Stripe Tax.
+- [ ] Renseigner `STRIPE_SECRET_KEY` (jamais ailleurs que dans le `.env` du serveur).
+- [ ] Déclarer le webhook `https://runelio.fr/api/webhooks/stripe` avec les événements `checkout.session.completed`, `checkout.session.expired`, `customer.subscription.created|updated|deleted|paused|resumed`, `invoice.paid`, `invoice.payment_failed`, `invoice.payment_action_required` ; copier `whsec_…` dans `STRIPE_WEBHOOK_SECRET`.
+- [ ] Portail client : autoriser la mise à jour du moyen de paiement et l'historique des factures.
+- [ ] Relances : **2 semaines maximum**, puis annulation de l'abonnement (durée écrite dans les CGV) ; activer les e-mails Stripe en cas d'échec de paiement et les reçus.
+- [ ] Factures Stripe : nom, adresse, SIRET, pied de page `TVA non applicable, art. 293 B du CGI` ; vérifier qu'elles sont en français.
+- [ ] Tester en **mode test** (carte 4242 4242 4242 4242) : paiement réussi, refusé (4000 0000 0000 0002), authentification 3-D Secure (4000 0025 0000 3155), abandon, résiliation, annulation de résiliation, changement de carte, suppression du compte.
+- [ ] Passer en **mode production** : nouvelles clés, nouveau prix, nouveau webhook ; refaire « Vérifier maintenant ».
 
 ## 3. Hébergement (Hostinger)
 - [ ] Choisir une offre compatible **Node.js + PostgreSQL** (VPS recommandé ; les offres mutualisées ne proposent en général que MySQL).

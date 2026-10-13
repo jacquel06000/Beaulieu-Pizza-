@@ -52,10 +52,9 @@ nano .env
 Dans l'éditeur `nano`, modifie ces lignes (flèches pour se déplacer) :
 ```
 NEXT_PUBLIC_APP_URL=https://runelio.fr
-WHOP_API_KEY=            ← ta NOUVELLE clé apik_…
-WHOP_COMPANY_ID=         ← biz_…
-WHOP_PLAN_ID=            ← plan_…
-WHOP_WEBHOOK_SECRET=     ← ws_… (étape 9, tu peux le remplir plus tard)
+STRIPE_SECRET_KEY=       ← sk_test_… pour les essais, puis sk_live_… (étape 9)
+STRIPE_PRICE_ID=         ← price_… (étape 9)
+STRIPE_WEBHOOK_SECRET=   ← whsec_… (étape 9, tu peux le remplir plus tard)
 SMTP_HOST=smtp.hostinger.com
 SMTP_PORT=465
 SMTP_SECURE=true
@@ -85,14 +84,25 @@ Ouvre **https://runelio.fr** : le site s'affiche avec le cadenas 🔒 (le certif
 docker compose run --rm migrate npm run admin:grant -- ton@email.fr
 ```
 
-## Étape 9 — Brancher Whop
-1. Whop → Développeur → **Créer un webhook** : URL `https://runelio.fr/api/webhooks/whop`, événements `membership.activated`, `membership.deactivated`, `membership.cancel_at_period_end_changed`, `payment.succeeded`, `payment.failed`, `payment.pending`, `payment.canceled`.
-2. Copie le secret `ws_…` dans `.env` (`nano .env`), puis relance :
+## Étape 9 — Brancher Stripe
+Commence en **mode test** (interrupteur « Mode test » en haut du Dashboard Stripe) : rien n'est réellement débité.
+
+1. **Produit et prix** : Catalogue de produits → Ajouter un produit « Abonnement Runelio » → prix **19,99 EUR**, **récurrent**, **mensuel**. Copie l'identifiant `price_…` dans `STRIPE_PRICE_ID`.
+2. **Clé secrète** : Développeurs → Clés API → copie la clé secrète `sk_test_…` dans `STRIPE_SECRET_KEY`. Ne la donne à personne (ni à Claude).
+3. **Webhook** : Développeurs → Webhooks → Ajouter une destination → URL `https://runelio.fr/api/webhooks/stripe`, événements :
+   `checkout.session.completed`, `checkout.session.expired`, `customer.subscription.created`, `customer.subscription.updated`, `customer.subscription.deleted`, `customer.subscription.paused`, `customer.subscription.resumed`, `invoice.paid`, `invoice.payment_failed`, `invoice.payment_action_required`.
+   Copie le secret de signature `whsec_…` dans `STRIPE_WEBHOOK_SECRET`.
+4. **Portail client** : Paramètres → Billing → Portail client → activer « mettre à jour le moyen de paiement » et « historique des factures ».
+5. **Relances** : Paramètres → Billing → Abonnements et e-mails → nouvelles tentatives pendant **2 semaines maximum**, puis **annuler l'abonnement** ; activer les e-mails aux clients en cas d'échec de paiement et les reçus de paiement.
+6. **Factures** : Paramètres → Billing → Factures → renseigner ton nom, ton adresse, ton SIRET et, en pied de page, `TVA non applicable, art. 293 B du CGI`.
+7. **TVA** : ne pas activer Stripe Tax (franchise en base de TVA).
+8. Relance le site :
 ```bash
 docker compose up -d
 ```
-3. Sur le site → page **Admin** → **Vérifier maintenant** : toutes les lignes doivent être vertes.
-4. Fais un achat de test, puis une résiliation.
+9. Sur le site → page **Admin** → **Vérifier maintenant** : toutes les lignes doivent être vertes.
+10. Fais un achat de test avec la carte `4242 4242 4242 4242` (date future, n'importe quel code), puis une résiliation et un changement de carte.
+11. Quand tout fonctionne : refais les étapes 1 à 3 en **mode production** (clés `sk_live_…`, nouveau `price_…`, nouveau webhook `whsec_…`), mets-les dans `.env` et relance.
 
 ## Mettre à jour le site plus tard
 ```bash

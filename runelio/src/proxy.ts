@@ -3,7 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 /**
  * Content-Security-Policy avec nonce par requête (scripts).
  * Aucun domaine tiers n'est autorisé : le paiement s'effectue par redirection
- * vers la page hébergée par Whop, jamais dans une iframe du site.
+ * vers la page hébergée par Stripe, jamais dans une iframe du site.
  */
 export function proxy(request: NextRequest) {
   const nonce = Buffer.from(crypto.randomUUID()).toString("base64");

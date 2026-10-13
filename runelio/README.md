@@ -1,14 +1,14 @@
 # Runelio — runelio.fr
 
 SaaS français de préparation à la course à pied (5 km, 10 km, semi-marathon, marathon).
-Inscription gratuite, génération du programme réservée aux abonnés (19,99 € tous les 30 jours via Whop).
+Inscription gratuite, génération du programme réservée aux abonnés (19,99 € par mois, paiement par Stripe).
 
 > **État** : application fonctionnelle, testée localement, prête à être **configurée** pour la
-> production. Elle n'est **pas** prête à être commercialisée tant que la configuration Whop
+> production. Elle n'est **pas** prête à être commercialisée tant que la configuration Stripe
 > réelle, le prestataire e-mail, l'hébergement et les textes légaux n'ont pas été finalisés
 > (voir [`docs/CHECKLIST-MISE-EN-LIGNE.md`](docs/CHECKLIST-MISE-EN-LIGNE.md)).
-> Aucun paiement réel n'a été effectué pendant le développement : l'intégration Whop est
-> testée avec un faux client en mémoire et des webhooks signés localement.
+> Aucun paiement réel n'a été effectué pendant le développement : l'intégration Stripe est
+> testée avec un faux client en mémoire et des webhooks signés localement (format Stripe).
 
 ## Stack et choix techniques
 
@@ -17,7 +17,7 @@ Inscription gratuite, génération du programme réservée aux abonnés (19,99 �
 | Application web | **Next.js 16** (App Router, React 19, TypeScript strict) | Rendu serveur, routes API, un seul déploiement Node. |
 | Base de données | **PostgreSQL 16** + **Drizzle ORM** / drizzle-kit | Typage de bout en bout, migrations SQL lisibles et versionnées, aucun binaire natif. |
 | Authentification | **Better Auth** (e-mail + mot de passe) | Bibliothèque éprouvée : hachage **scrypt**, vérification d'e-mail, réinitialisation sécurisée, révocation de sessions, limitation de débit en base. Télémétrie désactivée. |
-| Paiement | **Whop** (API v1 REST + `unwrapWebhook` du SDK officiel `@whop/sdk`) | Page de paiement hébergée, aucune donnée de carte chez Runelio. |
+| Paiement | **Stripe** (SDK officiel `stripe` 23, API `2026-09-30.endive`) : Checkout, Billing, portail client | Pages de paiement et de gestion hébergées par Stripe, aucune donnée de carte chez Runelio. |
 | E-mails | **SMTP** (nodemailer) | Indépendant du prestataire, qui reste à choisir. |
 | Style | **Tailwind CSS 4**, polices **auto-hébergées** (Fontsource) | Aucun appel à Google Fonts (pas de transfert de données). |
 | Tests | **Vitest** + **PGlite** (PostgreSQL en mémoire) | Les tests exécutent les vraies migrations sans serveur externe. |
@@ -31,11 +31,11 @@ src/
     sports.ts        registre des disciplines (triathlon modélisé mais NON disponible)
   server/            services serveur
     access.ts        règles d'accès liées à l'abonnement (pures, testées)
-    billing.ts       checkout, webhooks idempotents, synchronisation Whop, résiliation, factures
+    billing.ts       checkout, webhooks idempotents, synchronisation Stripe, résiliation, portail, factures
     plans.ts         profil, génération, réajustement, suivi des séances
     giveaways.ts     cadeaux du mois avec garde-fous
     gdpr.ts          export des données, consentements
-    whop.ts          client HTTP Whop (interface WhopGateway, remplaçable en test)
+    stripe.ts        passerelle Stripe (interface PaymentGateway, remplaçable en test)
     auth.ts          configuration Better Auth
   app/               pages et routes API (Next.js)
   db/schema.ts       schéma Drizzle ; migrations dans drizzle/
@@ -76,24 +76,22 @@ npm run db:generate    # nouvelle migration après modification de src/db/schema
 npm run admin:grant -- vous@exemple.fr   # donner le rôle administrateur
 ```
 
-## Paiement : ce qui a été vérifié chez Whop
+## Paiement : intégration Stripe
 
-`docs.whop.com` n'était pas accessible depuis l'environnement de développement. Les
-capacités ci-dessous ont été vérifiées dans le **SDK officiel `@whop/sdk` 2.0.0**
-(types générés depuis l'OpenAPI Whop, version d'API `2026-09-23`), complétées par les pages
-publiques de documentation indexées. À revérifier sur votre tableau de bord Whop.
+`docs.stripe.com` n'était pas accessible depuis l'environnement de développement. Les appels
+utilisés ont été vérifiés dans les **types du SDK officiel `stripe` 23.0.0** (version d'API
+`2026-09-30.endive`, épinglée dans `src/server/stripe.ts`).
 
-| Besoin | Disponible chez Whop ? | Implémentation Runelio |
+| Besoin | Stripe | Implémentation Runelio |
 |---|---|---|
-| Paiement hébergé | Oui : `POST /checkout_configurations` → `purchase_url` ; `metadata` recopiées sur paiements et memberships | `startCheckout` : `metadata.runelio_user_id` relie l'achat au compte. |
-| Événements signés | Oui : Standard Webhooks (`webhook-id`, `webhook-timestamp`, `webhook-signature`), secret `ws_…` | Route `/api/webhooks/whop` : vérification sur le corps brut avec `unwrapWebhook`, fenêtre de temps, journal `webhook_event` (idempotence), état relu via `GET /memberships/{id}`. Erreur → 500 pour que Whop réessaie. |
-| Statut d'abonnement | Oui : `trialing, active, past_due, completed, canceled, expired, unresolved, drafted, canceling` | `access.ts` : accès complet `active/trialing/canceling` ; `past_due` = lecture seule ; le reste = aucun accès. |
-| Résiliation | Oui : `POST /memberships/{id}/cancel` (`cancel_at_period_end`) | Bouton dans Facturation + lien permanent `/resiliation`, e-mail de confirmation. |
-| Annuler une résiliation | Oui : `PATCH /memberships/{id}` avec `cancel_at_period_end: false` | Bouton « Annuler la résiliation ». |
-| Modifier le moyen de paiement | **Pas d'API** pour le faire depuis un site tiers | Limite : lien vers l'espace client Whop (`whop.com/@me/settings/memberships`) avec explications. |
-| Factures conformes au droit français | **Non vérifié** : l'API `invoices` de Whop sert à facturer des clients, pas à produire les factures de l'abonnement ; Whop envoie des reçus | Solution : factures émises par Runelio (numérotation continue, mention 293 B), **désactivées par défaut** (`INVOICES_ENABLED=false`) tant que le rôle fiscal de Whop n'est pas confirmé (si Whop agit en « merchant of record », c'est lui qui facture). |
-| Prix affiché = prix payé | À contrôler : un plan Whop peut avoir `collect_tax`, `tax_type`, tarification adaptative, frais acheteur | Page Admin → « Vérifier maintenant » compare le plan Whop au prix affiché. |
-| Mensualité calendaire | **Non** : `billing_period` est exprimé en **jours** | Le site affiche honnêtement « 19,99 € tous les 30 jours ». |
+| Paiement hébergé | Checkout Session `mode: subscription` | `startCheckout` : `client_reference_id` et `metadata.runelio_user_id` (session et abonnement) relient l'achat au compte ; client Stripe réutilisé en cas de réabonnement ; aucune taxe calculée (`automatic_tax` désactivé, franchise de TVA). |
+| Événements signés | En-tête `Stripe-Signature`, secret `whsec_…`, tolérance 5 min | Route `/api/webhooks/stripe` : `constructEvent` sur le corps brut, journal `webhook_event` (idempotence par identifiant d'événement), état relu via `subscriptions.retrieve`. Erreur → 500 pour que Stripe réessaie. |
+| Statut d'abonnement | `active, trialing, past_due, canceled, unpaid, incomplete, incomplete_expired, paused` | `access.ts` : accès complet `active/trialing` (jusqu'à la fin de période si résiliation programmée) ; `past_due` = lecture seule ; le reste = aucun accès. |
+| Fin de période | Portée par l'élément d'abonnement (`items.data[].current_period_end`) depuis l'API 2025-03-31 | `toGatewaySubscription` ; une résiliation datée (`cancel_at`) est aussi prise en compte. |
+| Résiliation / annulation | `subscriptions.update({ cancel_at_period_end })`, `subscriptions.cancel` | Bouton dans Facturation + lien permanent `/resiliation`, e-mail de confirmation ; suppression du compte = résiliation immédiate. |
+| Moyen de paiement, factures | Portail client (`billingPortal.sessions.create`) | Bouton « Gérer mon moyen de paiement et mes factures ». |
+| Factures | Factures Stripe Billing (numérotation Stripe) | À configurer dans Stripe (mentions légales, 293 B). Générateur du site désactivé (`INVOICES_ENABLED=false`). |
+| Prix affiché = prix payé | Prix récurrent mensuel | Page Admin → « Vérifier maintenant » compare le prix Stripe au prix affiché. |
 
 ## Sécurité et données
 
@@ -107,7 +105,7 @@ publiques de documentation indexées. À revérifier sur votre tableau de bord W
 - CSP avec nonce par requête (`src/proxy.ts`), en-têtes de sécurité, HSTS en production.
 - Aucun traceur non essentiel : pas de bandeau affiché tant qu'aucun n'est déclaré dans
   `src/lib/consent.ts` ; `<ConsentGate>` bloque tout script facultatif avant accord.
-- Export JSON des données, suppression du compte (résilie l'abonnement Whop d'abord),
+- Export JSON des données, suppression du compte (résilie l'abonnement Stripe d'abord),
   consentement facultatif aux e-mails d'actualités journalisé.
 - Aucune donnée médicale demandée.
 
@@ -119,7 +117,7 @@ Guide pas à pas pour débutant : [`docs/INSTALLATION-VPS.md`](docs/INSTALLATION
 Résumé :
 
 ```bash
-cp .env.example .env    # puis compléter (NEXT_PUBLIC_APP_URL=https://runelio.fr, POSTGRES_PASSWORD, BETTER_AUTH_SECRET, Whop, SMTP)
+cp .env.example .env    # puis compléter (NEXT_PUBLIC_APP_URL=https://runelio.fr, POSTGRES_PASSWORD, BETTER_AUTH_SECRET, Stripe, SMTP)
 docker compose up -d --build
 docker compose run --rm migrate
 ```

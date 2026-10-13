@@ -22,13 +22,13 @@ export function AdminStatsPanel({ s }: { s: AdminStats }) {
         <Tile label="Abonnés actifs" value={s.activeSubscriptions} tone="good" hint={`${s.newSubscriptions30d} nouveaux sur 30 j`} />
         <Tile label="Résiliations (30 j)" value={s.cancellations30d} tone={s.cancellations30d ? "warn" : "neutral"} hint={`${s.canceling} résiliation(s) programmée(s)`} />
         <Tile label="Paiements en échec" value={s.pastDue} tone={s.pastDue ? "warn" : "neutral"} hint="Abonnés en période de grâce" />
-        <Tile label="Encaissé via Whop (30 j)" value={formatEuros(s.revenue30dCents)} hint={`${s.payments30d} paiement(s), montant brut`} />
+        <Tile label="Encaissé via Stripe (30 j)" value={formatEuros(s.revenue30dCents)} hint={`${s.payments30d} paiement(s), montant brut`} />
         <Tile label="Inscrits" value={s.users} hint={`${s.verifiedUsers} e-mails confirmés`} />
         <Tile label="Nouveaux inscrits" value={s.signups7d} hint={`7 j · ${s.signups30d} sur 30 j`} />
         <Tile label="Questionnaires remplis" value={s.withProfile} hint={`${conversion} % deviennent abonnés`} />
         <Tile label="Séances réalisées (30 j)" value={s.sessionsCompleted30d} hint={`${s.plansGenerated} programmes générés · ${s.reminderOptIns} rappels activés`} />
       </div>
-      <Card className="text-xs text-muted">Chiffres calculés à partir de la base Runelio. Les montants encaissés font foi dans le tableau de bord Whop (prestataire de paiement).</Card>
+      <Card className="text-xs text-muted">Chiffres calculés à partir de la base Runelio. Les montants encaissés font foi dans le tableau de bord Stripe (prestataire de paiement).</Card>
     </section>
   );
 }

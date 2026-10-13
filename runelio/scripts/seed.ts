@@ -84,7 +84,7 @@ async function main() {
   });
   await db
     .insert(subscription)
-    .values({ userId: sub, whopMembershipId: "mem_demo_fictif", status: "active", currentPeriodEnd: new Date(Date.now() + 30 * 86400_000) })
+    .values({ userId: sub, stripeSubscriptionId: "sub_demo_fictif", status: "active", currentPeriodEnd: new Date(Date.now() + 30 * 86400_000) })
     .onConflictDoNothing();
   await generatePlanForUser(db, sub);
 

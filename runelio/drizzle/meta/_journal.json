@@ -29,6 +29,13 @@
       "when": 1791362106360,
       "tag": "0003_renewal_age",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1791903011435,
+      "tag": "0004_stripe",
+      "breakpoints": true
     }
   ]
 }

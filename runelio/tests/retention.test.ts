@@ -50,7 +50,7 @@ describe("comptes inactifs (3 ans, avertissement 30 jours avant)", () => {
     await seen("recent", ago(100));
     await createUser(db, "payer");
     await seen("payer", ago(4 * 365));
-    await db.insert(subscription).values({ userId: "payer", whopMembershipId: "mem_p", status: "active", currentPeriodEnd: new Date(NOW.getTime() + 10 * DAY) });
+    await db.insert(subscription).values({ userId: "payer", stripeSubscriptionId: "sub_p", status: "active", currentPeriodEnd: new Date(NOW.getTime() + 10 * DAY) });
     await createUser(db, "boss");
     await db.update(user).set({ role: "admin" }).where(eq(user.id, "boss"));
     await seen("boss", ago(4 * 365));

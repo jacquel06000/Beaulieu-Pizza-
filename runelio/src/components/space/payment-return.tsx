@@ -13,7 +13,7 @@ type Status = {
 
 /**
  * Page de retour après paiement : l'accès n'est jamais déduit de l'URL de retour.
- * On interroge le serveur, qui ne s'appuie que sur les webhooks signés de Whop.
+ * On interroge le serveur, qui ne s'appuie que sur les webhooks signés de Stripe.
  */
 export function PaymentReturn() {
   const router = useRouter();

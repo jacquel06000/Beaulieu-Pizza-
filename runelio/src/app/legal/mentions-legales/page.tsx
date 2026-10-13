@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { LegalPage } from "@/components/legal/legal-page";
+import { LegalPage, Verify } from "@/components/legal/legal-page";
 import { PUBLISHER } from "@/lib/config";
 
 export const metadata: Metadata = { title: "Mentions légales" };
 
 export default function Page() {
   return (
-    <LegalPage title="Mentions légales" updated="5 octobre 2026">
+    <LegalPage title="Mentions légales" updated="13 octobre 2026">
       <h2>Éditeur du site</h2>
       <p>
         Le site <strong>runelio.fr</strong> est édité par <strong>{PUBLISHER.name}</strong>, entrepreneur individuel (régime de la micro-entreprise).
@@ -35,7 +35,7 @@ export default function Page() {
 
       <h2>Paiement</h2>
       <p>
-        L&apos;abonnement est vendu par l&apos;éditeur. Les paiements sont encaissés pour son compte par le prestataire de paiement <strong>Whop</strong> : Whop Inc., 300 Kent Ave #401, Brooklyn, NY 11249, États-Unis.
+        L&apos;abonnement est vendu par l&apos;éditeur. Les paiements sont encaissés pour son compte par le prestataire de services de paiement <strong>Stripe</strong> : {PUBLISHER.paymentProviderAddress}. <Verify>entité Stripe indiquée dans le contrat du compte Stripe (Paramètres → Conformité et documents)</Verify>
       </p>
 
       <h2>Propriété intellectuelle</h2>

@@ -4,7 +4,8 @@ import { OfferDetails } from "@/components/offer/offer-details";
 import { CheckoutForm } from "@/components/space/checkout-form";
 import { AccessBanner } from "@/components/space/access-banner";
 import { Alert, ButtonLink, Card, PageHeader } from "@/components/ui";
-import { whopConfigured } from "@/lib/env";
+import { PUBLISHER } from "@/lib/config";
+import { stripeConfigured } from "@/lib/env";
 import { canGeneratePlan } from "@/server/access";
 import { requirePageUser } from "@/server/session";
 import { loadSpaceState } from "@/server/views";
@@ -33,15 +34,15 @@ export default async function Page() {
         <Card className="h-fit md:sticky md:top-24">
           <h2 className="text-xl font-bold mb-4">Récapitulatif de commande</h2>
           <div className="flex justify-between text-sm py-2 border-b border-line">
-            <span>Abonnement Runelio (30 jours)</span>
+            <span>Abonnement Runelio (1 mois)</span>
             <span className="font-semibold">19,99 €</span>
           </div>
           <div className="flex justify-between py-3 font-bold">
             <span>Total aujourd&apos;hui</span>
             <span>19,99 €</span>
           </div>
-          <p className="mb-5 text-xs text-muted">Puis 19,99 € TTC tous les 30 jours jusqu&apos;à résiliation. Vendu par Runelio, paiement encaissé par Whop.</p>
-          {profile ? <CheckoutForm configured={whopConfigured()} /> : null}
+          <p className="mb-5 text-xs text-muted">Puis 19,99 € chaque mois jusqu&apos;à résiliation. Vendu par Runelio ({PUBLISHER.vatMention}), paiement sécurisé par Stripe.</p>
+          {profile ? <CheckoutForm configured={stripeConfigured()} /> : null}
         </Card>
       </div>
     </div>

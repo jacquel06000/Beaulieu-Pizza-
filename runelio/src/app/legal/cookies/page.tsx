@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "Politique de cookies" };
 
 export default function Page() {
   return (
-    <LegalPage title="Politique de cookies" updated="29 septembre 2026">
+    <LegalPage title="Politique de cookies" updated="13 octobre 2026">
       <p>
         Un cookie est un petit fichier déposé sur votre appareil. Runelio n&apos;utilise <strong>que des cookies strictement nécessaires</strong> au fonctionnement du service ; ils sont exemptés de consentement. <strong>Aucun cookie de mesure d&apos;audience, de publicité ou de réseau social n&apos;est déposé.</strong>
       </p>
@@ -50,7 +50,7 @@ export default function Page() {
 
       <h2>Paiement</h2>
       <p>
-        Le paiement s&apos;effectue sur le site de Whop, vers lequel vous êtes redirigé. Les cookies éventuellement déposés par Whop sur son propre site relèvent de sa politique de confidentialité et de cookies.
+        Le paiement s&apos;effectue sur la page sécurisée de Stripe (checkout.stripe.com), vers laquelle vous êtes redirigé ; il en va de même pour l&apos;espace de gestion du moyen de paiement (billing.stripe.com). Aucun script Stripe n&apos;est chargé sur runelio.fr. Les cookies déposés par Stripe sur ses propres pages, notamment pour la prévention de la fraude, relèvent de sa <a href="https://stripe.com/fr/legal/cookies-policy" rel="noopener noreferrer">politique relative aux cookies</a>.
       </p>
 
       <h2>Cookies facultatifs</h2>

@@ -1,14 +1,15 @@
 /**
- * Abonnement : création du paiement, synchronisation Whop, webhooks, résiliation.
+ * Abonnement : création du paiement, synchronisation Stripe, webhooks, résiliation.
  *
  * Principes :
  * - aucun accès n'est accordé sur la base d'une redirection navigateur : seul un
  *   webhook signé (vérifié en amont) déclenche une synchronisation, et l'état de
- *   la membership est relu auprès de l'API Whop (source de vérité) ;
+ *   l'abonnement est relu auprès de l'API Stripe (source de vérité) ;
  * - chaque webhook est journalisé par son identifiant : un doublon est ignoré ;
  * - les traitements sont eux-mêmes idempotents (upserts, contraintes d'unicité).
  */
-import { and, desc, eq, gt, sql } from "drizzle-orm";
+import { randomUUID } from "node:crypto";
+import { and, desc, eq, gt, isNotNull, sql } from "drizzle-orm";
 import type { Db } from "@/db";
 import {
   checkoutAttempt,
@@ -23,7 +24,7 @@ import { PRICING, PUBLISHER, TEXT_VERSIONS } from "@/lib/config";
 import { canGeneratePlan, canViewPlan } from "./access";
 import { badRequest, forbidden, HttpError } from "./errors";
 import { enforceRateLimit } from "./rate-limit";
-import { toCents, type WhopGateway, type WhopMembership } from "./whop";
+import type { GatewaySubscription, PaymentGateway } from "./stripe";
 
 export type SubscriptionRow = typeof subscription.$inferSelect;
 
@@ -42,43 +43,43 @@ async function userExists(db: Db, id: unknown): Promise<string | null> {
   return rows[0]?.id ?? null;
 }
 
-async function resolveUserId(
-  db: Db,
-  metadata: Record<string, unknown> | null | undefined,
-  membershipId: string | null | undefined,
-): Promise<string | null> {
-  const fromMeta = await userExists(db, metadata?.runelio_user_id);
+async function resolveUserId(db: Db, metadataUserId: unknown, subscriptionId: string | null | undefined): Promise<string | null> {
+  const fromMeta = await userExists(db, metadataUserId);
   if (fromMeta) return fromMeta;
-  if (membershipId) {
+  if (subscriptionId) {
     const rows = await db
       .select({ userId: subscription.userId })
       .from(subscription)
-      .where(eq(subscription.whopMembershipId, membershipId))
+      .where(eq(subscription.stripeSubscriptionId, subscriptionId))
       .limit(1);
     if (rows[0]) return rows[0].userId;
   }
   return null;
 }
 
-export async function upsertMembership(db: Db, m: WhopMembership, userId: string, eventAt: Date): Promise<void> {
+const ENDED = new Set(["canceled", "incomplete_expired"]);
+
+export async function upsertSubscription(db: Db, s: GatewaySubscription, userId: string, eventAt: Date): Promise<void> {
   const values = {
     userId,
-    whopMembershipId: m.id,
-    whopPlanId: m.plan_id,
-    status: m.status,
-    cancelAtPeriodEnd: Boolean(m.cancel_at_period_end),
-    currentPeriodEnd: m.current_period_end ? new Date(m.current_period_end) : null,
+    stripeSubscriptionId: s.id,
+    stripeCustomerId: s.customerId || null,
+    stripePriceId: s.priceId,
+    status: s.status,
+    cancelAtPeriodEnd: s.cancelAtPeriodEnd,
+    currentPeriodEnd: s.currentPeriodEnd,
     lastEventAt: eventAt,
-    canceledAt: m.status === "canceled" || m.status === "expired" ? eventAt : null,
+    canceledAt: ENDED.has(s.status) ? eventAt : null,
   };
   await db
     .insert(subscription)
     .values(values)
     .onConflictDoUpdate({
-      target: subscription.whopMembershipId,
+      target: subscription.stripeSubscriptionId,
       // L'utilisateur rattaché n'est jamais modifié par un événement ultérieur.
       set: {
-        whopPlanId: values.whopPlanId,
+        stripeCustomerId: values.stripeCustomerId,
+        stripePriceId: values.stripePriceId,
         status: values.status,
         cancelAtPeriodEnd: values.cancelAtPeriodEnd,
         currentPeriodEnd: values.currentPeriodEnd,
@@ -89,62 +90,53 @@ export async function upsertMembership(db: Db, m: WhopMembership, userId: string
     });
 }
 
-export async function syncMembership(db: Db, gateway: WhopGateway, membershipId: string, eventAt: Date, hintUserId?: string | null) {
-  const m = await gateway.getMembership(membershipId);
-  const userId = hintUserId ?? (await resolveUserId(db, m.metadata, m.id));
+export async function syncSubscription(db: Db, gateway: PaymentGateway, subscriptionId: string, eventAt: Date, hintUserId?: string | null) {
+  const s = await gateway.getSubscription(subscriptionId);
+  const userId = (await userExists(db, hintUserId)) ?? (await resolveUserId(db, s.userId, s.id));
   if (!userId) return { synced: false as const, reason: "user_not_found" };
-  await upsertMembership(db, m, userId, eventAt);
-  return { synced: true as const, userId, membership: m };
+  await upsertSubscription(db, s, userId, eventAt);
+  return { synced: true as const, userId, subscription: s };
 }
 
 /* ------------------------------------------------------------------ */
 /* Webhooks                                                            */
 /* ------------------------------------------------------------------ */
 
-export type WhopEvent = {
+/** Événement Stripe, réduit aux champs utilisés (signature vérifiée en amont). */
+export type StripeEvent = {
   id: string;
   type: string;
-  timestamp?: string;
-  data: Record<string, unknown>;
+  /** Horodatage Stripe, en secondes. */
+  created?: number;
+  data: { object: Record<string, unknown> };
 };
 
 export type ProcessOptions = { invoicesEnabled: boolean };
 export type ProcessResult = "processed" | "duplicate" | "ignored";
 
-function moneyToCents(v: unknown): number | null {
-  if (v && typeof v === "object" && "amount" in v) return toCents((v as { amount: string }).amount);
-  if (typeof v === "number" || typeof v === "string") return toCents(v);
-  return null;
-}
-
-function moneyCurrency(v: unknown, fallback: unknown): string | null {
-  if (v && typeof v === "object" && "currency" in v) return String((v as { currency: string }).currency);
-  return typeof fallback === "string" ? fallback : null;
-}
-
-const PAYMENT_EVENTS: Record<string, string> = {
-  "payment.created": "created",
-  "payment.pending": "pending",
-  "payment.requires_action": "requires_action",
-  "payment.authorized": "authorized",
-  "payment.succeeded": "succeeded",
-  "payment.failed": "failed",
-  "payment.canceled": "canceled",
-};
-const MEMBERSHIP_EVENTS = new Set([
-  "membership.activated",
-  "membership.deactivated",
-  "membership.cancel_at_period_end_changed",
-  "membership.trial_ending_soon",
+const SUBSCRIPTION_EVENTS = new Set([
+  "customer.subscription.created",
+  "customer.subscription.updated",
+  "customer.subscription.deleted",
+  "customer.subscription.paused",
+  "customer.subscription.resumed",
 ]);
+const INVOICE_EVENTS: Record<string, string> = {
+  "invoice.paid": "succeeded",
+  "invoice.payment_failed": "failed",
+  "invoice.payment_action_required": "requires_action",
+};
 
-export async function processWhopEvent(
+const str = (v: unknown): string | null => (typeof v === "string" && v ? v : v && typeof v === "object" && "id" in v && typeof v.id === "string" ? v.id : null);
+const obj = (v: unknown): Record<string, unknown> | null => (v && typeof v === "object" ? (v as Record<string, unknown>) : null);
+
+export async function processStripeEvent(
   db: Db,
-  gateway: WhopGateway,
-  event: WhopEvent,
+  gateway: PaymentGateway,
+  event: StripeEvent,
   opts: ProcessOptions,
 ): Promise<ProcessResult> {
-  if (!event?.id || !event.type) throw badRequest("Événement invalide.");
+  if (!event?.id || !event.type || !obj(event.data?.object)) throw badRequest("Événement invalide.");
 
   const inserted = await db
     .insert(webhookEvent)
@@ -156,16 +148,22 @@ export async function processWhopEvent(
     if (existing && (existing.status === "processed" || existing.status === "ignored")) return "duplicate";
   }
 
-  const eventAt = event.timestamp ? new Date(event.timestamp) : new Date();
+  const eventAt = event.created ? new Date(event.created * 1000) : new Date();
+  const o = event.data.object;
   try {
     let result: ProcessResult = "ignored";
-    if (MEMBERSHIP_EVENTS.has(event.type)) {
-      const membershipId = String(event.data.id ?? "");
-      if (!membershipId) throw badRequest("Membership sans identifiant.");
-      const r = await syncMembership(db, gateway, membershipId, eventAt);
-      result = r.synced ? "processed" : "ignored";
-    } else if (event.type in PAYMENT_EVENTS) {
-      result = await handlePaymentEvent(db, gateway, event, PAYMENT_EVENTS[event.type], eventAt, opts);
+    if (SUBSCRIPTION_EVENTS.has(event.type)) {
+      const id = str(o.id);
+      if (!id) throw badRequest("Abonnement sans identifiant.");
+      result = (await syncSubscription(db, gateway, id, eventAt)).synced ? "processed" : "ignored";
+    } else if (event.type === "checkout.session.completed") {
+      result = await handleCheckoutCompleted(db, gateway, o, eventAt);
+    } else if (event.type === "checkout.session.expired") {
+      const id = str(o.id);
+      if (id) await db.update(checkoutAttempt).set({ status: "expired" }).where(eq(checkoutAttempt.stripeCheckoutSessionId, id));
+      result = "processed";
+    } else if (event.type in INVOICE_EVENTS) {
+      result = await handleInvoiceEvent(db, gateway, o, INVOICE_EVENTS[event.type], eventAt, opts);
     }
     await db
       .update(webhookEvent)
@@ -181,41 +179,61 @@ export async function processWhopEvent(
   }
 }
 
-async function handlePaymentEvent(
+async function handleCheckoutCompleted(db: Db, gateway: PaymentGateway, o: Record<string, unknown>, eventAt: Date): Promise<ProcessResult> {
+  const sessionId = str(o.id);
+  const subscriptionId = str(o.subscription);
+  if (!subscriptionId) return "ignored"; // session hors abonnement : rien à faire
+  const hint = str(o.client_reference_id) ?? str(obj(o.metadata)?.runelio_user_id);
+  const r = await syncSubscription(db, gateway, subscriptionId, eventAt, hint);
+  if (!r.synced) return "ignored";
+  if (sessionId) {
+    await db
+      .update(checkoutAttempt)
+      .set({ status: "completed" })
+      .where(and(eq(checkoutAttempt.stripeCheckoutSessionId, sessionId), eq(checkoutAttempt.userId, r.userId)));
+  }
+  return "processed";
+}
+
+/** Une facture Stripe = un prélèvement (souscription ou renouvellement). */
+async function handleInvoiceEvent(
   db: Db,
-  gateway: WhopGateway,
-  event: WhopEvent,
+  gateway: PaymentGateway,
+  o: Record<string, unknown>,
   status: string,
   eventAt: Date,
   opts: ProcessOptions,
 ): Promise<ProcessResult> {
-  const d = event.data;
-  const paymentId = String(d.id ?? "");
-  if (!paymentId) throw badRequest("Paiement sans identifiant.");
-  const membershipId = typeof d.membership_id === "string" ? d.membership_id : null;
-  const userId = await resolveUserId(db, d.metadata as Record<string, unknown> | null, membershipId);
+  const invoiceId = str(o.id);
+  if (!invoiceId) throw badRequest("Facture sans identifiant.");
+  const details = obj(obj(o.parent)?.subscription_details);
+  const subscriptionId = str(details?.subscription);
+  if (!subscriptionId) return "ignored"; // facture hors abonnement Runelio
+  const userId = await resolveUserId(db, obj(details?.metadata)?.runelio_user_id, subscriptionId);
   if (!userId) return "ignored";
 
-  const amountCents = moneyToCents(d.total) ?? moneyToCents(d.subtotal);
-  const currency = moneyCurrency(d.total, d.currency);
-  const paidAt = typeof d.paid_at === "string" ? new Date(d.paid_at) : null;
+  const amountCents = typeof o.amount_paid === "number" && status === "succeeded" ? o.amount_paid : typeof o.amount_due === "number" ? o.amount_due : null;
+  const currency = str(o.currency);
+  const paidAtSec = obj(o.status_transitions)?.paid_at;
+  const paidAt = typeof paidAtSec === "number" ? new Date(paidAtSec * 1000) : null;
+  const failureMessage = status === "failed" ? "Le prélèvement a été refusé par le moyen de paiement." : null;
 
-  const [existing] = await db.select().from(payment).where(eq(payment.id, paymentId));
+  const [existing] = await db.select().from(payment).where(eq(payment.id, invoiceId));
   const isNewer = !existing?.lastEventAt || existing.lastEventAt.getTime() <= eventAt.getTime();
-  // Un paiement réussi ne redevient jamais « en attente » à cause d'un événement arrivé en retard.
-  const keepSucceeded = existing?.status === "succeeded" && ["created", "pending", "requires_action", "authorized"].includes(status);
+  // Un paiement réussi ne redevient jamais « en échec » à cause d'un événement arrivé en retard.
+  const keepSucceeded = existing?.status === "succeeded" && status !== "succeeded";
   if (!existing) {
     await db
       .insert(payment)
       .values({
-        id: paymentId,
+        id: invoiceId,
         userId,
-        whopMembershipId: membershipId,
+        stripeSubscriptionId: subscriptionId,
         status,
         amountCents,
         currency,
-        billingReason: typeof d.billing_reason === "string" ? d.billing_reason : null,
-        failureMessage: typeof d.failure_message === "string" ? d.failure_message : null,
+        billingReason: str(o.billing_reason),
+        failureMessage,
         paidAt,
         lastEventAt: eventAt,
       })
@@ -227,18 +245,15 @@ async function handlePaymentEvent(
         status,
         amountCents: amountCents ?? existing.amountCents,
         currency: currency ?? existing.currency,
-        failureMessage: typeof d.failure_message === "string" ? d.failure_message : existing.failureMessage,
+        failureMessage: failureMessage ?? (status === "succeeded" ? null : existing.failureMessage),
         paidAt: paidAt ?? existing.paidAt,
-        whopMembershipId: membershipId ?? existing.whopMembershipId,
         lastEventAt: eventAt,
       })
-      .where(eq(payment.id, paymentId));
+      .where(eq(payment.id, invoiceId));
   }
 
-  if (membershipId) {
-    // L'état d'accès est toujours relu auprès de Whop.
-    await syncMembership(db, gateway, membershipId, eventAt, userId);
-  }
+  // L'état d'accès est toujours relu auprès de Stripe.
+  await syncSubscription(db, gateway, subscriptionId, eventAt, userId);
 
   if (status === "succeeded") {
     await db
@@ -246,7 +261,7 @@ async function handlePaymentEvent(
       .set({ status: "completed" })
       .where(and(eq(checkoutAttempt.userId, userId), eq(checkoutAttempt.status, "created")));
     if (opts.invoicesEnabled && amountCents !== null) {
-      await createInvoice(db, paymentId, userId, amountCents, (currency ?? "eur").toUpperCase(), paidAt ?? eventAt);
+      await createInvoice(db, invoiceId, userId, amountCents, (currency ?? "eur").toUpperCase(), paidAt ?? eventAt);
     }
   }
   return "processed";
@@ -292,14 +307,25 @@ export async function createInvoice(db: Db, paymentId: string, userId: string, a
 /* Paiement et résiliation initiés par l'utilisateur                   */
 /* ------------------------------------------------------------------ */
 
-export type CheckoutUser = { id: string; emailVerified: boolean };
+export type CheckoutUser = { id: string; email: string; emailVerified: boolean };
+
+/** Dernier identifiant client Stripe connu du compte (réutilisé pour un réabonnement). */
+async function knownCustomerId(db: Db, userId: string): Promise<string | null> {
+  const [row] = await db
+    .select({ customerId: subscription.stripeCustomerId })
+    .from(subscription)
+    .where(and(eq(subscription.userId, userId), isNotNull(subscription.stripeCustomerId)))
+    .orderBy(desc(subscription.updatedAt))
+    .limit(1);
+  return row?.customerId ?? null;
+}
 
 export async function startCheckout(
   db: Db,
-  gateway: WhopGateway,
+  gateway: PaymentGateway,
   u: CheckoutUser,
   input: { acceptTerms: boolean; immediateExecution: boolean; appUrl: string },
-): Promise<{ alreadySubscribed: true } | { alreadySubscribed: false; purchaseUrl: string }> {
+): Promise<{ alreadySubscribed: true } | { alreadySubscribed: false; checkoutUrl: string }> {
   if (!u.emailVerified) throw forbidden("Confirmez d'abord votre adresse e-mail.");
   const current = await getCurrentSubscription(db, u.id);
   if (canGeneratePlan(current)) return { alreadySubscribed: true };
@@ -312,6 +338,7 @@ export async function startCheckout(
 
   await enforceRateLimit(db, `checkout:${u.id}`, 5, 600);
 
+  // Une session ouverte depuis moins de 30 minutes est réutilisée (Stripe la garde valable 24 h).
   const recent = await db
     .select()
     .from(checkoutAttempt)
@@ -329,42 +356,54 @@ export async function startCheckout(
       .update(checkoutAttempt)
       .set({ immediateExecutionConsentAt: new Date(), termsVersion: TEXT_VERSIONS.terms })
       .where(eq(checkoutAttempt.id, recent[0].id));
-    return { alreadySubscribed: false, purchaseUrl: recent[0].purchaseUrl };
+    return { alreadySubscribed: false, checkoutUrl: recent[0].checkoutUrl };
   }
 
-  const conf = await gateway.createCheckout({ userId: u.id, redirectUrl: `${input.appUrl.replace(/\/$/, "")}/abonnement/retour` });
-  if (!conf.purchase_url) throw new HttpError(502, "whop_error", "Whop n'a pas renvoyé d'URL de paiement.");
+  const base = input.appUrl.replace(/\/$/, "");
+  const session = await gateway.createCheckout({
+    userId: u.id,
+    email: u.email,
+    customerId: await knownCustomerId(db, u.id),
+    successUrl: `${base}/abonnement/retour`,
+    cancelUrl: `${base}/espace/abonnement`,
+    idempotencyKey: `checkout-${u.id}-${randomUUID()}`,
+  });
+  if (!session.url) throw new HttpError(502, "stripe_error", "Stripe n'a pas renvoyé de page de paiement.");
   await db.insert(checkoutAttempt).values({
     userId: u.id,
-    whopCheckoutConfigurationId: conf.id,
-    purchaseUrl: conf.purchase_url,
+    stripeCheckoutSessionId: session.id,
+    checkoutUrl: session.url,
     immediateExecutionConsentAt: new Date(),
     termsVersion: TEXT_VERSIONS.terms,
   });
-  return { alreadySubscribed: false, purchaseUrl: conf.purchase_url };
+  return { alreadySubscribed: false, checkoutUrl: session.url };
 }
 
-export async function cancelSubscription(db: Db, gateway: WhopGateway, userId: string) {
+export async function cancelSubscription(db: Db, gateway: PaymentGateway, userId: string) {
   const current = await getCurrentSubscription(db, userId);
   if (!current || !canViewPlan(current)) throw badRequest("Aucun abonnement actif à résilier.");
-  if (current.cancelAtPeriodEnd || current.status === "canceling") {
+  if (current.cancelAtPeriodEnd) {
     return { alreadyCanceled: true as const, currentPeriodEnd: current.currentPeriodEnd };
   }
-  const m = await gateway.cancelMembership(current.whopMembershipId, true, "Résiliation depuis l'espace client runelio.fr");
-  await upsertMembership(db, m, userId, new Date());
-  return {
-    alreadyCanceled: false as const,
-    currentPeriodEnd: m.current_period_end ? new Date(m.current_period_end) : current.currentPeriodEnd,
-  };
+  const s = await gateway.setCancelAtPeriodEnd(current.stripeSubscriptionId, true);
+  await upsertSubscription(db, s, userId, new Date());
+  return { alreadyCanceled: false as const, currentPeriodEnd: s.currentPeriodEnd ?? current.currentPeriodEnd };
 }
 
-export async function undoCancellation(db: Db, gateway: WhopGateway, userId: string) {
+export async function undoCancellation(db: Db, gateway: PaymentGateway, userId: string) {
   const current = await getCurrentSubscription(db, userId);
-  if (!current || !(current.cancelAtPeriodEnd || current.status === "canceling") || !canViewPlan(current)) {
+  if (!current || !current.cancelAtPeriodEnd || !canViewPlan(current)) {
     throw badRequest("Aucune résiliation programmée à annuler.");
   }
-  const m = await gateway.setCancelAtPeriodEnd(current.whopMembershipId, false);
-  await upsertMembership(db, m, userId, new Date());
+  const s = await gateway.setCancelAtPeriodEnd(current.stripeSubscriptionId, false);
+  await upsertSubscription(db, s, userId, new Date());
+}
+
+/** Portail client Stripe : moyen de paiement, factures et reçus. */
+export async function openBillingPortal(db: Db, gateway: PaymentGateway, userId: string, returnUrl: string) {
+  const customerId = await knownCustomerId(db, userId);
+  if (!customerId) throw badRequest("Aucun abonnement Stripe n'est associé à votre compte.");
+  return gateway.createPortalSession(customerId, returnUrl);
 }
 
 /** Paiement en attente : une session de paiement ouverte récemment, sans abonnement actif. */

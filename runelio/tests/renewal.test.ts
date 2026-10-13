@@ -16,7 +16,7 @@ const send = async (m: { to: string; subject: string; text: string }) => {
 
 async function sub(userId: string, end: Date, extra: Partial<typeof subscription.$inferInsert> = {}) {
   await createUser(db, userId);
-  await db.insert(subscription).values({ userId, whopMembershipId: `mem_${userId}`, status: "active", currentPeriodEnd: end, ...extra });
+  await db.insert(subscription).values({ userId, stripeSubscriptionId: `sub_${userId}`, status: "active", currentPeriodEnd: end, ...extra });
 }
 
 beforeAll(async () => {

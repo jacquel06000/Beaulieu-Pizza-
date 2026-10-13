@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { LegalPage, Todo } from "@/components/legal/legal-page";
+import { LegalPage, Todo, Verify } from "@/components/legal/legal-page";
 import { PUBLISHER } from "@/lib/config";
 
 export const metadata: Metadata = { title: "Politique de confidentialité" };
 
 export default function Page() {
   return (
-    <LegalPage title="Politique de confidentialité" updated="5 octobre 2026">
+    <LegalPage title="Politique de confidentialité" updated="13 octobre 2026">
       <p>
         Cette politique explique quelles données personnelles Runelio traite, pourquoi, pendant combien de temps et quels sont vos droits. Elle décrit le fonctionnement réel du service tel qu&apos;il est développé à la date indiquée.
       </p>
@@ -49,12 +49,12 @@ export default function Page() {
           </tr>
           <tr>
             <td>Abonnement et paiements</td>
-            <td>Identifiants techniques Whop de l&apos;abonnement et des paiements, statut, montant, devise, dates, motif d&apos;échec éventuel ; date de votre acceptation des CGV et de votre demande d&apos;exécution immédiate. <strong>Runelio ne reçoit ni ne conserve vos données de carte bancaire</strong>, saisies uniquement sur la page de Whop.</td>
-            <td>Vous et Whop</td>
+            <td>Identifiants techniques Stripe (client, abonnement, factures), statut, montant, devise, dates, échec éventuel d&apos;un prélèvement ; date de votre acceptation des CGV et de votre demande d&apos;exécution immédiate. <strong>Runelio ne reçoit ni ne conserve vos données de carte bancaire</strong>, saisies uniquement sur la page de Stripe.</td>
+            <td>Vous et Stripe</td>
           </tr>
           <tr>
             <td>Facturation</td>
-            <td>Factures émises par l&apos;éditeur (sur demande) : numéro, nom, e-mail, montant, date.</td>
+            <td>Factures établies au nom de l&apos;éditeur pour chaque paiement (via Stripe) : numéro, nom, e-mail, montant, date.</td>
             <td>Service</td>
           </tr>
           <tr>
@@ -154,11 +154,11 @@ export default function Page() {
             </td>
           </tr>
           <tr>
-            <td>Whop</td>
-            <td>Prestataire de paiement : encaissement des paiements et des renouvellements, reçus de paiement</td>
-            <td>Runelio transmet un identifiant technique de compte ; vous communiquez directement à Whop vos coordonnées et moyen de paiement. Whop renvoie à Runelio le statut de l&apos;abonnement et des paiements.</td>
+            <td>Stripe</td>
+            <td>Prestataire de services de paiement : encaissement des paiements et des renouvellements, gestion de l&apos;abonnement, reçus et factures, prévention de la fraude</td>
+            <td>Runelio transmet votre adresse e-mail et un identifiant technique de compte ; vous communiquez directement à Stripe vos données de paiement (et, le cas échéant, nom et adresse de facturation). Stripe renvoie à Runelio le statut de l&apos;abonnement et des paiements.</td>
             <td>
-              Whop Inc., 300 Kent Ave #401, Brooklyn, NY 11249, États-Unis. Responsable de traitement distinct pour les données de paiement qu&apos;il collecte (voir section 5).
+              {PUBLISHER.paymentProviderAddress}. Sous-traitant pour le traitement des paiements effectué pour le compte de Runelio, et responsable de traitement distinct pour ses propres obligations (prévention de la fraude, lutte contre le blanchiment, obligations réglementaires). Transferts possibles hors UE (voir section 5). <Verify>entité Stripe du contrat et accord de traitement des données (DPA) Stripe accepté</Verify>
             </td>
           </tr>
           <tr>
@@ -179,7 +179,7 @@ export default function Page() {
 
       <h2>5. Transferts hors de l&apos;Union européenne</h2>
       <p>
-        Whop Inc. est établie aux États-Unis. Les données que vous communiquez à Whop lors du paiement, ainsi que les informations que Runelio lui transmet (un identifiant technique de compte), peuvent donc être transférées hors de l&apos;Union européenne. Whop indique, dans sa <a href="https://whop.com/privacy/" rel="noopener noreferrer">politique de confidentialité</a> (section consacrée aux transferts internationaux), les garanties qu&apos;elle met en œuvre pour encadrer ces transferts conformément au RGPD. Vous pouvez nous demander des informations sur ces garanties à {PUBLISHER.email}. Les autres données de Runelio sont hébergées en France.
+        Les données de paiement traitées par Stripe peuvent être transférées à des sociétés du groupe Stripe établies hors de l&apos;Union européenne, notamment aux États-Unis (Stripe, LLC). Stripe indique encadrer ces transferts par son adhésion au cadre de protection des données UE–États-Unis (EU-U.S. Data Privacy Framework) et par les clauses contractuelles types de la Commission européenne ; voir sa <a href="https://stripe.com/fr/privacy" rel="noopener noreferrer">politique de confidentialité</a>. Vous pouvez nous demander des informations sur ces garanties à {PUBLISHER.email}. Les autres données de Runelio sont hébergées en France.
       </p>
 
       <h2>6. Durées de conservation</h2>

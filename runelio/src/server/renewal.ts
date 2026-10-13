@@ -5,7 +5,7 @@
 import { and, eq, gt, isNull, lte, ne, or } from "drizzle-orm";
 import type { Db } from "@/db";
 import { subscription, user } from "@/db/schema";
-import { PRICING } from "@/lib/config";
+import { PRICING, PUBLISHER } from "@/lib/config";
 import { layoutEmail } from "./mailer";
 
 const DAY = 86_400_000;
@@ -46,7 +46,7 @@ export async function sendRenewalReminders(db: Db, send: (m: Mail) => Promise<vo
         subject: `Runelio — renouvellement de votre abonnement le ${date}`,
         ...layoutEmail(
           `Bonjour ${s.name}, votre abonnement se renouvelle bientôt`,
-          `Votre abonnement Runelio sera renouvelé automatiquement le ${date}, pour ${PRICING.label} TTC (période de ${PRICING.billingPeriodDays} jours). Le paiement sera prélevé par Whop sur votre moyen de paiement enregistré.\n\nVous n'avez rien à faire pour continuer. Si vous ne souhaitez pas être renouvelé, vous pouvez résilier sans frais avant cette date : vous conserverez l'accès jusqu'au ${date}.`,
+          `Votre abonnement Runelio sera renouvelé automatiquement le ${date}, pour ${PRICING.label} (abonnement mensuel, ${PUBLISHER.vatMention}). Le paiement sera prélevé via Stripe, notre prestataire de paiement, sur votre moyen de paiement enregistré.\n\nVous n'avez rien à faire pour continuer. Si vous ne souhaitez pas être renouvelé, vous pouvez résilier sans frais avant cette date : vous conserverez l'accès jusqu'au ${date}.`,
           { label: "Gérer ou résilier mon abonnement", url: `${appUrl}/resiliation` },
         ),
       });

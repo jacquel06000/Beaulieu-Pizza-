@@ -23,7 +23,7 @@ async function expectHttp(p: Promise<unknown>, status: number) {
 }
 
 async function subscribe(userId: string, status = "active") {
-  await db.insert(subscription).values({ userId, whopMembershipId: `mem_${userId}`, status, currentPeriodEnd: new Date("2026-12-31T00:00:00Z") });
+  await db.insert(subscription).values({ userId, stripeSubscriptionId: `sub_${userId}`, status, currentPeriodEnd: new Date("2026-12-31T00:00:00Z") });
 }
 
 async function planSessions(userId = U) {

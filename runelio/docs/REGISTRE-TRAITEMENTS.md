@@ -5,7 +5,7 @@ Document **interne** tenu en application de l'article 30 du RGPD. Il n'est pas p
 - **Responsable du traitement** : Alexandre Jacquel, micro-entrepreneur — 47 rue Vivienne, 75002 Paris — SIREN 929 658 961 — jacquelalexandrepro@gmail.com
 - **Délégué à la protection des données (DPO)** : non désigné (non obligatoire : pas de suivi à grande échelle ni de données sensibles).
 - **Représentant dans l'UE** : sans objet (responsable établi en France).
-- **Date de création du registre** : 7 octobre 2026 — **Dernière mise à jour** : 7 octobre 2026
+- **Date de création du registre** : 7 octobre 2026 — **Dernière mise à jour** : 13 octobre 2026
 
 ---
 
@@ -15,7 +15,7 @@ Document **interne** tenu en application de l'article 30 du RGPD. Il n'est pas p
 |---|---|---|---|---|
 | Hostinger International Ltd (61 Lordou Vironos Street, 6023 Larnaca, Chypre) | Sous-traitant : hébergement du site et de la base de données (VPS) | Toutes les données du service | Centre de données à Paris (France) | Accord de sous-traitance (art. 28) accepté |
 | Hostinger (messagerie) | Sous-traitant : envoi des e-mails | E-mail, prénom, contenu des messages | **À compléter** (localisation des serveurs de messagerie) | Même accord de sous-traitance |
-| Whop Inc. (300 Kent Ave #401, Brooklyn, NY 11249, États-Unis) | Prestataire de paiement (encaisse pour le compte de l'éditeur, qui reste le vendeur) ; responsable de traitement distinct pour les données de paiement qu'il collecte | Identifiant de compte Runelio ; Whop collecte lui-même coordonnées et moyen de paiement | États-Unis | Transferts encadrés selon la politique de confidentialité de Whop (section « transferts internationaux ») — **conserver une copie datée** |
+| Stripe (entité du contrat à vérifier ; indiquée : Stripe Payments Europe, Limited, The One Building, 1 Grand Canal Street Lower, Dublin 2, D02 H210, Irlande) | Prestataire de services de paiement : sous-traitant pour le traitement des paiements ; responsable de traitement distinct pour ses obligations propres (fraude, lutte contre le blanchiment) | E-mail et identifiant de compte transmis par Runelio ; Stripe collecte lui-même les données de paiement (et nom/adresse de facturation le cas échéant) | Irlande ; transferts possibles vers les États-Unis (Stripe, LLC) | DPA Stripe à accepter ; transferts encadrés selon Stripe par le EU-U.S. Data Privacy Framework et les clauses contractuelles types — **conserver une copie datée** de sa politique de confidentialité |
 
 ---
 
@@ -40,18 +40,18 @@ Document **interne** tenu en application de l'article 30 du RGPD. Il n'est pas p
 - **Finalité** : souscription, suivi du statut de l'abonnement, renouvellements, échecs de paiement, résiliation, contrôle de l'accès au programme.
 - **Base légale** : exécution du contrat.
 - **Personnes concernées** : abonnés et personnes ayant démarré un paiement.
-- **Données** : identifiants techniques Whop (abonnement, paiements), statut, montant, devise, dates d'échéance et de résiliation, motif d'échec éventuel, date d'acceptation des CGV et de la demande d'exécution immédiate (preuve), version des CGV acceptée. **Aucune donnée de carte bancaire** (saisie uniquement chez Whop).
-- **Destinataires** : l'éditeur ; Hostinger ; Whop (identifiant de compte transmis à la création du paiement).
-- **Transfert hors UE** : oui, vers Whop Inc. (États-Unis) — voir tableau des prestataires.
+- **Données** : identifiants techniques Stripe (client, abonnement, factures), statut, montant, devise, dates d'échéance et de résiliation, motif d'échec éventuel, date d'acceptation des CGV et de la demande d'exécution immédiate (preuve), version des CGV acceptée. **Aucune donnée de carte bancaire** (saisie uniquement chez Whop).
+- **Destinataires** : l'éditeur ; Hostinger ; Stripe (e-mail et identifiant de compte transmis à la création du paiement).
+- **Transfert hors UE** : possible, par Stripe vers les États-Unis — voir tableau des prestataires.
 - **Durée de conservation** : données d'abonnement jusqu'à la suppression du compte ; journal technique des notifications de paiement (webhooks) **12 mois**, purge automatique ; pièces comptables 10 ans (fiche 3).
 
 ## Fiche 3 — Comptabilité
 
-- **Finalité** : tenue de la comptabilité de la micro-entreprise (livre des recettes, reversements de Whop).
+- **Finalité** : tenue de la comptabilité de la micro-entreprise (livre des recettes, versements Stripe).
 - **Base légale** : obligation légale (Code de commerce, Code général des impôts).
-- **Données** : montants, dates, identifiants de paiement ; factures émises par l'éditeur sur demande du client (numéro, nom, e-mail, montant, date).
+- **Données** : montants, dates, identifiants de paiement ; factures émises au nom de l'éditeur par Stripe à chaque paiement (numéro, nom, e-mail, montant, date).
 - **Destinataires** : l'éditeur ; le cas échéant son expert-comptable et l'administration fiscale.
-- **Transfert hors UE** : non (hors données détenues par Whop).
+- **Transfert hors UE** : non (hors données détenues par Stripe).
 - **Durée de conservation** : 10 ans à compter de la clôture de l'exercice, y compris après suppression du compte (les factures ne sont pas liées au compte).
 
 ## Fiche 4 — E-mails transactionnels et rappels
@@ -129,3 +129,4 @@ Toute violation (fuite, perte, accès non autorisé, piratage…) doit être con
 |---|---|
 | 07/10/2026 | Création du registre (8 traitements). Ajout de la déclaration « 18 ans ou plus » et du rappel avant renouvellement. |
 | 07/10/2026 | Whop requalifié en prestataire de paiement (l'éditeur est le vendeur). |
+| 13/10/2026 | Whop remplacé par Stripe (prestataire de services de paiement, portail client, factures). |

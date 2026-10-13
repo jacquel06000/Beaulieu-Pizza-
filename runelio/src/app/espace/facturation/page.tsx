@@ -3,24 +3,19 @@ import { desc, eq } from "drizzle-orm";
 import { getDb } from "@/db";
 import { invoice, payment } from "@/db/schema";
 import { AccessBanner } from "@/components/space/access-banner";
-import { CancelSubscription, ReactivateSubscription } from "@/components/space/billing-actions";
+import { CancelSubscription, OpenBillingPortal, ReactivateSubscription } from "@/components/space/billing-actions";
 import { Badge, ButtonLink, Card, PageHeader } from "@/components/ui";
 import { formatEuros, PUBLISHER } from "@/lib/config";
 import { env } from "@/lib/env";
 import { requirePageUser } from "@/server/session";
 import { formatDateLong, loadSpaceState } from "@/server/views";
-import { WHOP_CUSTOMER_MEMBERSHIPS_URL } from "@/server/whop";
 
 export const metadata: Metadata = { title: "Facturation" };
 
 const PAYMENT_LABELS: Record<string, { label: string; tone: "mint" | "warn" | "danger" | "neutral" }> = {
   succeeded: { label: "Payé", tone: "mint" },
-  pending: { label: "En attente", tone: "warn" },
-  created: { label: "Initié", tone: "neutral" },
   requires_action: { label: "Action requise", tone: "warn" },
-  authorized: { label: "Autorisé", tone: "neutral" },
   failed: { label: "Échoué", tone: "danger" },
-  canceled: { label: "Annulé", tone: "neutral" },
 };
 
 export default async function Page() {
@@ -42,7 +37,7 @@ export default async function Page() {
             <p className="text-sm text-muted">Statut</p>
             <p className="text-xl font-bold">{statusLabel}</p>
           </div>
-          <Badge tone={access === "active" ? "mint" : access === "none" || access === "ended" ? "neutral" : "warn"}>19,99 € / 30 jours</Badge>
+          <Badge tone={access === "active" ? "mint" : access === "none" || access === "ended" ? "neutral" : "warn"}>19,99 € / mois</Badge>
         </div>
         {sub && (access === "active" || access === "past_due") && (
           <p className="mt-3 text-sm text-muted">Prochain renouvellement : {formatDateLong(sub.currentPeriodEnd)}</p>
@@ -56,13 +51,11 @@ export default async function Page() {
       </Card>
 
       <Card>
-        <h2 className="text-lg font-bold">Moyen de paiement</h2>
+        <h2 className="text-lg font-bold">Moyen de paiement et factures</h2>
         <p className="mt-2 text-sm text-muted leading-relaxed">
-          Vos données de carte sont gérées exclusivement par Whop ; Runelio ne les voit ni ne les stocke. Pour modifier votre moyen de paiement, connectez-vous à votre compte Whop (avec l&apos;adresse utilisée lors du paiement), rubrique abonnements, puis « Update payment method ».
+          Vos données de carte sont gérées exclusivement par Stripe, notre prestataire de paiement ; Runelio ne les voit ni ne les stocke. L&apos;espace sécurisé Stripe vous permet de modifier votre moyen de paiement et de télécharger vos factures.
         </p>
-        <a href={WHOP_CUSTOMER_MEMBERSHIPS_URL} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex min-h-11 items-center rounded-full bg-white px-5 font-semibold ring-1 ring-line hover:ring-ink/30">
-          Gérer mon moyen de paiement sur Whop ↗
-        </a>
+        {sub ? <OpenBillingPortal /> : <p className="mt-3 text-sm text-muted">Disponible après votre premier paiement.</p>}
       </Card>
 
       <Card>
@@ -106,7 +99,7 @@ export default async function Page() {
             </ul>
           )
         ) : (
-          <p className="mt-4 text-xs text-muted">Whop, notre prestataire de paiement, vous envoie par e-mail un reçu de chaque paiement. Pour obtenir une facture, écrivez-nous à {PUBLISHER.email}.</p>
+          <p className="mt-4 text-xs text-muted">Un reçu vous est envoyé par e-mail après chaque paiement. Vos factures sont disponibles via « Gérer mon moyen de paiement et mes factures », ou sur simple demande à {PUBLISHER.email}.</p>
         )}
       </Card>
     </div>

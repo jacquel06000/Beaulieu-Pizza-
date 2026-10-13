@@ -41,7 +41,7 @@ beforeEach(async () => {
   await resetDb(db);
   await createUser(db, "admin");
   await createUser(db, "u1");
-  await db.insert(subscription).values({ userId: "u1", whopMembershipId: "mem_u1", status: "active", currentPeriodEnd: new Date("2026-12-01T00:00:00Z") });
+  await db.insert(subscription).values({ userId: "u1", stripeSubscriptionId: "sub_u1", status: "active", currentPeriodEnd: new Date("2026-12-01T00:00:00Z") });
 });
 
 describe("cadeaux du mois : aucun tirage sans règlement validé", () => {

@@ -1,17 +1,17 @@
 /**
  * Tests des routes API : signature des webhooks et contrôle d'accès côté serveur.
  */
-import { Webhook } from "standardwebhooks";
+import Stripe from "stripe";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import type { Db } from "@/db";
-import { baseProfile, createTestDb, createUser, FakeWhop, resetDb } from "./helpers";
+import { baseProfile, createTestDb, createUser, FakeStripe, resetDb } from "./helpers";
 
 const state = vi.hoisted(() => ({
   db: undefined as unknown as Db,
-  whop: undefined as unknown as FakeWhop,
+  stripe: undefined as unknown as FakeStripe,
   user: null as null | { id: string; email: string; name: string; emailVerified: boolean; role: string },
 }));
-const SECRET = "ws_test_secret_value_1234567890";
+const SECRET = "whsec_test_secret_value_1234567890";
 const APP = "https://runelio.fr";
 
 vi.mock("@/db", () => ({ getDb: () => state.db }));
@@ -19,17 +19,18 @@ vi.mock("@/lib/env", () => ({
   env: () => ({
     NODE_ENV: "test",
     NEXT_PUBLIC_APP_URL: APP,
-    WHOP_WEBHOOK_SECRET: SECRET,
-    WHOP_PLAN_ID: "plan_test",
+    STRIPE_SECRET_KEY: "sk_test_x",
+    STRIPE_WEBHOOK_SECRET: SECRET,
+    STRIPE_PRICE_ID: "price_test",
     INVOICES_ENABLED: false,
     GIVEAWAYS_ENABLED: false,
   }),
-  whopConfigured: () => true,
+  stripeConfigured: () => true,
 }));
-vi.mock("@/server/whop", async (orig) => ({
-  ...(await orig<typeof import("@/server/whop")>()),
-  get whopGateway() {
-    return state.whop;
+vi.mock("@/server/stripe", async (orig) => ({
+  ...(await orig<typeof import("@/server/stripe")>()),
+  get stripeGateway() {
+    return state.stripe;
   },
 }));
 vi.mock("@/server/session", async () => {
@@ -47,7 +48,7 @@ vi.mock("@/server/session", async () => {
   };
 });
 
-const { POST: webhook } = await import("@/app/api/webhooks/whop/route");
+const { POST: webhook } = await import("@/app/api/webhooks/stripe/route");
 const { POST: generate } = await import("@/app/api/plan/generate/route");
 const { GET: getPlan } = await import("@/app/api/plan/route");
 const { PATCH: patchSession } = await import("@/app/api/plan/sessions/[id]/route");
@@ -56,17 +57,11 @@ const { GET: adminList } = await import("@/app/api/admin/giveaways/route");
 const { POST: checkout } = await import("@/app/api/billing/checkout/route");
 const { getActivePlan } = await import("@/server/plans");
 
-/** Signe comme Whop : HMAC-SHA256 avec les octets littéraux du secret `ws_…`. */
-function signed(body: object, id = `msg_${Math.random()}`) {
+/** Signe comme Stripe : en-tête `Stripe-Signature` (t=…, v1=HMAC-SHA256). */
+function signed(body: object, timestamp = Math.floor(Date.now() / 1000)) {
   const payload = JSON.stringify(body);
-  const wh = new Webhook(Buffer.from(SECRET, "utf8").toString("base64"));
-  const ts = new Date();
-  const signature = wh.sign(id, ts, payload);
-  return new Request(`${APP}/api/webhooks/whop`, {
-    method: "POST",
-    body: payload,
-    headers: { "webhook-id": id, "webhook-timestamp": String(Math.floor(ts.getTime() / 1000)), "webhook-signature": signature },
-  });
+  const header = Stripe.webhooks.generateTestHeaderString({ payload, secret: SECRET, timestamp });
+  return new Request(`${APP}/api/webhooks/stripe`, { method: "POST", body: payload, headers: { "stripe-signature": header } });
 }
 
 const json = (url: string, method: string, body?: unknown, origin = APP) =>
@@ -79,46 +74,39 @@ beforeAll(async () => {
 });
 beforeEach(async () => {
   await resetDb(state.db);
-  state.whop = new FakeWhop();
+  state.stripe = new FakeStripe();
   state.user = null;
   await createUser(state.db, "user_alice");
   await createUser(state.db, "user_bob");
 });
 
-const activation = { id: "evt_1", type: "membership.activated", timestamp: new Date().toISOString(), data: { id: "mem_1" } };
+const event = (id: string, subId = "sub_1", type = "customer.subscription.created") => ({ id, type, created: Math.floor(Date.now() / 1000), data: { object: { id: subId } } });
 
-describe("webhook Whop", () => {
+describe("webhook Stripe", () => {
   it("rejette une signature invalide ou absente", async () => {
-    const req = signed(activation);
-    const tampered = new Request(req.url, { method: "POST", body: JSON.stringify({ ...activation, data: { id: "mem_evil" } }), headers: req.headers });
+    const req = signed(event("evt_a"));
+    const tampered = new Request(req.url, { method: "POST", body: JSON.stringify(event("evt_a", "sub_evil")), headers: req.headers });
     expect((await webhook(tampered)).status).toBe(401);
-    expect((await webhook(new Request(`${APP}/api/webhooks/whop`, { method: "POST", body: JSON.stringify(activation) }))).status).toBe(401);
+    expect((await webhook(new Request(`${APP}/api/webhooks/stripe`, { method: "POST", body: JSON.stringify(event("evt_b")) }))).status).toBe(401);
   });
 
-  it("rejette un webhook rejoué hors de la fenêtre de temps", async () => {
-    const payload = JSON.stringify(activation);
-    const old = new Date(Date.now() - 60 * 60 * 1000);
-    const sig = new Webhook(Buffer.from(SECRET).toString("base64")).sign("msg_old", old, payload);
-    const req = new Request(`${APP}/api/webhooks/whop`, {
-      method: "POST",
-      body: payload,
-      headers: { "webhook-id": "msg_old", "webhook-timestamp": String(Math.floor(old.getTime() / 1000)), "webhook-signature": sig },
-    });
-    expect((await webhook(req)).status).toBe(401);
+  it("rejette un webhook rejoué hors de la fenêtre de temps (5 minutes)", async () => {
+    const old = Math.floor(Date.now() / 1000) - 60 * 60;
+    expect((await webhook(signed(event("evt_old"), old))).status).toBe(401);
   });
 
   it("accepte un webhook signé, active l'abonnement, et traite les doublons une seule fois", async () => {
-    state.whop.setMembership({ id: "mem_1", status: "active", metadata: { runelio_user_id: "user_alice" } });
-    const res = await webhook(signed(activation, "msg_fixed"));
+    state.stripe.setSubscription({ id: "sub_1", status: "active", userId: "user_alice" });
+    const res = await webhook(signed(event("evt_fixed")));
     expect(res.status).toBe(200);
     expect(await res.json()).toMatchObject({ result: "processed" });
-    const again = await webhook(signed(activation, "msg_fixed"));
+    const again = await webhook(signed(event("evt_fixed")));
     expect(await again.json()).toMatchObject({ result: "duplicate" });
-    expect(state.whop.calls.filter((c) => c === "get:mem_1")).toHaveLength(1);
+    expect(state.stripe.calls.filter((c) => c === "get:sub_1")).toHaveLength(1);
   });
 
-  it("renvoie 500 si le traitement échoue, pour que Whop réessaie", async () => {
-    const res = await webhook(signed({ ...activation, data: { id: "mem_unknown" } }));
+  it("renvoie 500 si le traitement échoue, pour que Stripe réessaie", async () => {
+    const res = await webhook(signed(event("evt_fail", "sub_unknown")));
     expect(res.status).toBe(500);
   });
 });
@@ -153,11 +141,11 @@ describe("contrôle d'accès des API", () => {
     state.user = ALICE;
     await putProfile(json("/api/profile", "PUT", baseProfile));
     const co = await checkout(json("/api/billing/checkout", "POST", { acceptTerms: true, immediateExecution: true }));
-    expect(await co.json()).toMatchObject({ purchaseUrl: expect.stringContaining("whop.com") });
+    expect(await co.json()).toMatchObject({ checkoutUrl: expect.stringContaining("checkout.stripe.com") });
     expect((await generate(json("/api/plan/generate", "POST"))).status).toBe(402);
 
-    state.whop.setMembership({ id: "mem_1", status: "active", metadata: { runelio_user_id: "user_alice" } });
-    await webhook(signed(activation));
+    state.stripe.setSubscription({ id: "sub_1", status: "active", userId: "user_alice" });
+    await webhook(signed(event("evt_alice")));
     expect((await generate(json("/api/plan/generate", "POST"))).status).toBe(200);
 
     const plan = await getActivePlan(state.db, "user_alice");
@@ -166,8 +154,8 @@ describe("contrôle d'accès des API", () => {
 
     // Bob ne peut pas modifier une séance d'Alice.
     state.user = { ...ALICE, id: "user_bob" };
-    state.whop.setMembership({ id: "mem_2", status: "active", metadata: { runelio_user_id: "user_bob" } });
-    await webhook(signed({ ...activation, data: { id: "mem_2" } }));
+    state.stripe.setSubscription({ id: "sub_2", status: "active", userId: "user_bob" });
+    await webhook(signed(event("evt_bob", "sub_2")));
     expect((await patchSession(json(`/api/plan/sessions/${sessionId}`, "PATCH", { completed: false }), ctx(sessionId))).status).toBe(404);
   });
 

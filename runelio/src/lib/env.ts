@@ -10,11 +10,12 @@ const schema = z.object({
   DATABASE_URL: z.string().min(1),
   BETTER_AUTH_SECRET: z.string().min(32, "BETTER_AUTH_SECRET doit contenir au moins 32 caractères"),
   NEXT_PUBLIC_APP_URL: z.string().url(),
-  WHOP_API_KEY: z.string().optional(),
-  WHOP_WEBHOOK_SECRET: z.string().optional(),
-  WHOP_PLAN_ID: z.string().optional(),
-  WHOP_COMPANY_ID: z.string().optional(),
-  WHOP_API_BASE_URL: z.string().url().default("https://api.whop.com/api/v1"),
+  /** Clé secrète Stripe (`sk_live_…` en production, `sk_test_…` en mode test). Uniquement dans le .env du serveur. */
+  STRIPE_SECRET_KEY: z.string().optional(),
+  /** Secret de signature du webhook (`whsec_…`). */
+  STRIPE_WEBHOOK_SECRET: z.string().optional(),
+  /** Prix récurrent 19,99 € / mois (`price_…`). */
+  STRIPE_PRICE_ID: z.string().optional(),
   SMTP_HOST: z.string().optional(),
   SMTP_PORT: z.coerce.number().optional(),
   SMTP_USER: z.string().optional(),
@@ -45,9 +46,9 @@ export function env(): Env {
   return cached;
 }
 
-export function whopConfigured(): boolean {
+export function stripeConfigured(): boolean {
   const e = env();
-  return Boolean(e.WHOP_API_KEY && e.WHOP_WEBHOOK_SECRET && e.WHOP_PLAN_ID && e.WHOP_COMPANY_ID);
+  return Boolean(e.STRIPE_SECRET_KEY && e.STRIPE_WEBHOOK_SECRET && e.STRIPE_PRICE_ID);
 }
 
 /**

@@ -4,12 +4,12 @@ import { assertSameOrigin, handle } from "@/server/api";
 import { cancelSubscription } from "@/server/billing";
 import { layoutEmail, sendMail } from "@/server/mailer";
 import { requireApiUser } from "@/server/session";
-import { whopGateway } from "@/server/whop";
+import { stripeGateway } from "@/server/stripe";
 
 export const POST = handle(async (req: Request) => {
   assertSameOrigin(req);
   const u = await requireApiUser();
-  const r = await cancelSubscription(getDb(), whopGateway, u.id);
+  const r = await cancelSubscription(getDb(), stripeGateway, u.id);
   if (!r.alreadyCanceled) {
     const end = r.currentPeriodEnd
       ? new Intl.DateTimeFormat("fr-FR", { dateStyle: "long", timeZone: "Europe/Paris" }).format(r.currentPeriodEnd)

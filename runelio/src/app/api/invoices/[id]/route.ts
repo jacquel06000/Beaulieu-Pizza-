@@ -26,7 +26,7 @@ export const GET = handle(async (_req: Request, ctx: RouteContext<"/api/invoices
 <table><thead><tr><th>Désignation</th><th class="r">Montant</th></tr></thead><tbody>
 <tr><td>${esc(inv.description)}</td><td class="r">${formatEuros(inv.amountCents)}</td></tr>
 <tr><th>Total à payer</th><th class="r">${formatEuros(inv.amountCents)}</th></tr></tbody></table>
-<p>${esc(inv.vatMention)}</p><p><small>Facture acquittée — paiement reçu via Whop. [À COMPLÉTER : autres mentions obligatoires après vérification.]</small></p>
+<p>${esc(inv.vatMention)}</p><p><small>Facture acquittée — paiement reçu via Stripe. [À COMPLÉTER : autres mentions obligatoires après vérification.]</small></p>
 </body></html>`;
   return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" } });
 });

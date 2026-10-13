@@ -18,18 +18,18 @@ export const PUBLISHER = {
   /** Régime fiscal de l'éditeur (franchise en base confirmée par l'éditeur). */
   vatMention: "TVA non applicable, art. 293 B du CGI",
   /**
-   * Whop est le prestataire de paiement : il encaisse pour le compte de l'éditeur, qui reste le vendeur
-   * (Seller Terms Whop : « merchant of record » uniquement pour les réseaux de cartes et le règlement).
+   * Stripe est le prestataire de paiement : il encaisse pour le compte de l'éditeur, qui est le vendeur.
+   * Entité à vérifier dans le contrat Stripe du compte (Paramètres → Documents légaux).
    */
-  paymentProvider: "Whop",
-  paymentProviderAddress: "Whop Inc., 300 Kent Ave #401, Brooklyn, NY 11249, États-Unis",
+  paymentProvider: "Stripe",
+  paymentProviderAddress: "Stripe Payments Europe, Limited, The One Building, 1 Grand Canal Street Lower, Dublin 2, D02 H210, Irlande",
 } as const;
 
 export const PRICING = {
-  /** Prix affiché (en centimes). Doit correspondre exactement au plan Whop configuré. */
+  /** Prix affiché (en centimes). Doit correspondre exactement au prix Stripe configuré (STRIPE_PRICE_ID). */
   monthlyPriceCents: 1999,
   currency: "EUR",
-  billingPeriodDays: 30,
+  /** Facturation mensuelle (prix Stripe récurrent : interval « month », interval_count 1). */
   label: "19,99 €",
   frequency: "par mois",
 } as const;

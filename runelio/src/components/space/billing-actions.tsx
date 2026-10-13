@@ -59,3 +59,33 @@ export function ReactivateSubscription() {
     </div>
   );
 }
+
+/** Ouvre le portail client Stripe (moyen de paiement, factures). */
+export function OpenBillingPortal() {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  return (
+    <div className="mt-4 space-y-2">
+      {error && <Alert tone="critical">{error}</Alert>}
+      <Button
+        variant="secondary"
+        disabled={loading}
+        onClick={async () => {
+          setLoading(true);
+          setError(null);
+          const res = await fetch("/api/billing/portal", { method: "POST" });
+          const j = await res.json().catch(() => ({}));
+          if (res.ok && j.url) {
+            // Portail hébergé par Stripe (sortie du site).
+            window.location.href = j.url;
+            return;
+          }
+          setLoading(false);
+          setError(j.message ?? "Impossible d'ouvrir l'espace de paiement pour le moment.");
+        }}
+      >
+        {loading ? "Ouverture…" : "Gérer mon moyen de paiement et mes factures"}
+      </Button>
+    </div>
+  );
+}

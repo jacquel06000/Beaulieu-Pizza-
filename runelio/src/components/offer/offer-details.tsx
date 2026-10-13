@@ -22,13 +22,13 @@ export function OfferDetails({ compact = false }: { compact?: boolean }) {
             <strong>Montant facturé :</strong> {PRICING.label} à la souscription, puis {PRICING.label} à chaque renouvellement.
           </li>
           <li>
-            <strong>Fréquence :</strong> renouvellement automatique tous les {PRICING.billingPeriodDays} jours.
+            <strong>Fréquence :</strong> renouvellement automatique chaque mois, à la date anniversaire de la souscription.
           </li>
           <li>
             <strong>Prix TTC :</strong> {PRICING.label} toutes taxes comprises, sans frais supplémentaires.
           </li>
           <li>
-            <strong>Vente et paiement :</strong> l&apos;abonnement est vendu par Runelio ({PUBLISHER.vatMention}). Le paiement est encaissé par notre prestataire de paiement Whop, qui vous adresse un reçu ; une facture vous est remise sur demande. Le montant exact vous est affiché sur la page de paiement avant validation ; Runelio ne voit ni ne conserve vos données de carte.
+            <strong>Vente et paiement :</strong> l&apos;abonnement est vendu par Runelio ({PUBLISHER.vatMention}). Le paiement est sécurisé par notre prestataire de paiement Stripe ; un reçu vous est envoyé et vos factures sont disponibles dans votre espace. Le montant exact vous est affiché sur la page de paiement avant validation ; Runelio ne voit ni ne conserve vos données de carte.
           </li>
         </ul>
       </div>

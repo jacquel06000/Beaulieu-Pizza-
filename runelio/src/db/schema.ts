@@ -186,12 +186,12 @@ export const runnerProfile = pgTable("runner_profile", {
 });
 
 /* ------------------------------------------------------------------ */
-/* Abonnement (Whop) et paiements                                      */
+/* Abonnement (Stripe) et paiements                                    */
 /* ------------------------------------------------------------------ */
 
 /**
- * Statuts Whop d'une membership (API v1) : trialing, active, past_due,
- * completed, canceled, expired, unresolved, drafted, canceling.
+ * Statuts Stripe d'un abonnement : active, trialing, past_due, canceled,
+ * incomplete, incomplete_expired, unpaid, paused.
  */
 export const subscription = pgTable(
   "subscription",
@@ -202,12 +202,13 @@ export const subscription = pgTable(
     userId: text("user_id")
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
-    whopMembershipId: text("whop_membership_id").notNull().unique(),
-    whopPlanId: text("whop_plan_id"),
+    stripeSubscriptionId: text("stripe_subscription_id").notNull().unique(),
+    stripeCustomerId: text("stripe_customer_id"),
+    stripePriceId: text("stripe_price_id"),
     status: text("status").notNull(),
     cancelAtPeriodEnd: boolean("cancel_at_period_end").notNull().default(false),
     currentPeriodEnd: timestamp("current_period_end", { withTimezone: true }),
-    /** Horodatage Whop du dernier événement appliqué (ordre des webhooks). */
+    /** Horodatage Stripe du dernier événement appliqué (ordre des webhooks). */
     lastEventAt: timestamp("last_event_at", { withTimezone: true }),
     canceledAt: timestamp("canceled_at", { withTimezone: true }),
     /** Échéance pour laquelle le rappel de renouvellement a été envoyé (art. L215-1 C. conso.). */
@@ -234,10 +235,10 @@ export const checkoutAttempt = pgTable(
     userId: text("user_id")
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
-    whopCheckoutConfigurationId: text("whop_checkout_configuration_id")
+    stripeCheckoutSessionId: text("stripe_checkout_session_id")
       .notNull()
       .unique(),
-    purchaseUrl: text("purchase_url").notNull(),
+    checkoutUrl: text("checkout_url").notNull(),
     status: checkoutStatus("status").notNull().default("created"),
     /** Demande d'exécution immédiate + reconnaissance (rétractation). */
     immediateExecutionConsentAt: timestamp("immediate_execution_consent_at", {
@@ -252,15 +253,15 @@ export const checkoutAttempt = pgTable(
 export const payment = pgTable(
   "payment",
   {
-    /** Identifiant Whop `pay_…`. */
+    /** Identifiant de la facture Stripe `in_…` (une par prélèvement). */
     id: text("id").primaryKey(),
     userId: text("user_id").references(() => user.id, {
       onDelete: "set null",
     }),
-    whopMembershipId: text("whop_membership_id"),
-    /** Dernier événement reçu : succeeded, failed, pending, canceled, … */
+    stripeSubscriptionId: text("stripe_subscription_id"),
+    /** Dernier état connu : succeeded, failed, requires_action. */
     status: text("status").notNull(),
-    /** Montant en centimes, tel que communiqué par Whop (si disponible). */
+    /** Montant en centimes, tel que communiqué par Stripe. */
     amountCents: integer("amount_cents"),
     currency: text("currency"),
     billingReason: text("billing_reason"),
@@ -274,9 +275,9 @@ export const payment = pgTable(
 );
 
 /**
- * Factures émises par l'éditeur (numérotation continue).
- * Désactivées par défaut (INVOICES_ENABLED) tant que le rôle fiscal de
- * Whop (vendeur direct ou « merchant of record ») n'est pas vérifié.
+ * Factures émises par le site (numérotation continue RUN-AAAA-NNNNN).
+ * Désactivées par défaut (INVOICES_ENABLED) : les factures Stripe sont utilisées
+ * à la place, pour éviter deux séries de numérotation.
  */
 export const invoice = pgTable(
   "invoice",
