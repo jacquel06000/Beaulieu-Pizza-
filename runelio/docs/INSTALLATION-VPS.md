@@ -58,9 +58,9 @@ STRIPE_WEBHOOK_SECRET=   ← whsec_… (étape 9, tu peux le remplir plus tard)
 SMTP_HOST=smtp.hostinger.com
 SMTP_PORT=465
 SMTP_SECURE=true
-SMTP_USER=no-reply@runelio.fr      ← une boîte mail créée dans hPanel
+SMTP_USER=contact@runelio.fr       ← la boîte mail créée dans hPanel
 SMTP_PASSWORD=                      ← son mot de passe
-MAIL_FROM="Runelio <no-reply@runelio.fr>"
+MAIL_FROM="Runelio <contact@runelio.fr>"
 ```
 Les lignes `BETTER_AUTH_SECRET`, `POSTGRES_PASSWORD` et `CRON_SECRET` ont été ajoutées automatiquement à la fin : n'y touche pas. Laisse `DATABASE_URL` tel quel : il est remplacé automatiquement.
 Enregistre : **Ctrl + O**, Entrée, puis **Ctrl + X**.

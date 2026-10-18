@@ -11,6 +11,7 @@ Commande pour les retrouver : `grep -rn "Todo\|Verify\|À VALIDER" src/app src/c
 - Téléphone : un numéro sera ajouté aux mentions légales **avant le déploiement**.
 - Comptes inactifs : suppression après 3 ans, avertissement 30 jours avant (automatique).
 - Prestataires : Hostinger (hébergement et messagerie), Stripe (paiement).
+- Adresse de contact affichée sur le site : **contact@runelio.fr** (18/10/2026) — la boîte doit exister chez Hostinger **avant** la mise en ligne, sinon les messages des clients sont perdus. Elle sert aussi d'expéditeur des e-mails du site (`SMTP_USER` et `MAIL_FROM`).
 
 **Risques signalés à l'éditeur :**
 - Le **médiateur de la consommation** est obligatoire avant de vendre à des particuliers.

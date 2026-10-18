@@ -2,7 +2,7 @@
 
 Document **interne** tenu en application de l'article 30 du RGPD. Il n'est pas publié sur le site, mais doit pouvoir être présenté à la CNIL sur demande. Il est rédigé à partir du fonctionnement réel du code (octobre 2026) et doit être mis à jour à chaque nouvelle fonctionnalité, nouveau prestataire ou nouvelle donnée collectée.
 
-- **Responsable du traitement** : Alexandre Jacquel, micro-entrepreneur — 47 rue Vivienne, 75002 Paris — SIREN 929 658 961 — jacquelalexandrepro@gmail.com
+- **Responsable du traitement** : Alexandre Jacquel, micro-entrepreneur — 47 rue Vivienne, 75002 Paris — SIREN 929 658 961 — contact@runelio.fr
 - **Délégué à la protection des données (DPO)** : non désigné (non obligatoire : pas de suivi à grande échelle ni de données sensibles).
 - **Représentant dans l'UE** : sans objet (responsable établi en France).
 - **Date de création du registre** : 7 octobre 2026 — **Dernière mise à jour** : 13 octobre 2026

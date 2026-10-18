@@ -21,7 +21,7 @@ const schema = z.object({
   SMTP_USER: z.string().optional(),
   SMTP_PASSWORD: z.string().optional(),
   SMTP_SECURE: bool,
-  MAIL_FROM: z.string().default("Runelio <no-reply@runelio.fr>"),
+  MAIL_FROM: z.string().default("Runelio <contact@runelio.fr>"),
   CRON_SECRET: z.string().min(24).optional(),
   INVOICES_ENABLED: bool,
   GIVEAWAYS_ENABLED: bool,

@@ -14,7 +14,7 @@ export const PUBLISHER = {
   address: "47 rue Vivienne, 75002 Paris, France",
   siren: "929 658 961",
   siret: "929 658 961 00024",
-  email: "jacquelalexandrepro@gmail.com",
+  email: "contact@runelio.fr",
   /** Régime fiscal de l'éditeur (franchise en base confirmée par l'éditeur). */
   vatMention: "TVA non applicable, art. 293 B du CGI",
   /**
