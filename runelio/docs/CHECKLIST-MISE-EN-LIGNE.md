@@ -8,7 +8,7 @@ Commande pour les retrouver : `grep -rn "Todo\|Verify\|À VALIDER" src/app src/c
 - Franchise en base de TVA : confirmée. Activité déclarée : confirmée.
 - **13/10/2026 : Whop remplacé par Stripe.** Stripe est un prestataire de services de paiement : **l'éditeur est le vendeur** (TVA, protection du consommateur, factures). Ne pas activer Stripe Tax (franchise en base). Abonnement facturé **chaque mois** (et non plus tous les 30 jours).
 - Formulation de la rétractation : validée. **Service réservé aux 18 ans et plus** (case obligatoire à l'inscription, vérifiée côté serveur, 07/10/2026).
-- Téléphone : un numéro sera ajouté aux mentions légales **avant le déploiement**.
+- Téléphone : **pas de numéro** (décision de l'éditeur, 18/10/2026), malgré le risque signalé ci-dessous. Contact par e-mail uniquement (contact@runelio.fr).
 - Comptes inactifs : suppression après 3 ans, avertissement 30 jours avant (automatique).
 - Prestataires : Hostinger (hébergement et messagerie), Stripe (paiement).
 - Adresse de contact affichée sur le site : **contact@runelio.fr** (18/10/2026) — la boîte doit exister chez Hostinger **avant** la mise en ligne, sinon les messages des clients sont perdus. Elle sert aussi d'expéditeur des e-mails du site (`SMTP_USER` et `MAIL_FROM`).
@@ -42,7 +42,7 @@ Commande pour les retrouver : `grep -rn "Todo\|Verify\|À VALIDER" src/app src/c
 ## 1. Statut de l'éditeur et fiscalité
 - [ ] Confirmer le bénéfice de la **franchise en base de TVA** (seuils de chiffre d'affaires de l'année en cours et précédente) et la mention exacte `TVA non applicable, art. 293 B du CGI` (`src/lib/config.ts`).
 - [ ] Vérifier que l'activité déclarée de la micro-entreprise couvre la vente d'abonnements en ligne ; indiquer le registre d'immatriculation (RNE / RCS) dans les mentions légales.
-- [ ] Ajouter un **numéro de téléphone** de contact (mentions légales) — prévu avant le déploiement.
+- [ ] Numéro de téléphone : non ajouté (décision de l'éditeur). Si un contrôle ou une réclamation survient, en ajouter un dans `src/app/legal/mentions-legales/page.tsx`.
 - [ ] Signer l'adhésion au **CM2C** (déjà indiqué dans les CGV) avant la première vente ; vérifier l'adresse sur le contrat.
 - [ ] Vérifier sur une vraie page de paiement Stripe que le client paie **exactement 19,99 €** : pas de taxe ajoutée, pas de conversion de devise (page Admin → « Vérifier maintenant »).
 
