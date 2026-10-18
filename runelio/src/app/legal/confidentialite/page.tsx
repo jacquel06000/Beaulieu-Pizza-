@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { LegalPage, Todo } from "@/components/legal/legal-page";
+import { LegalPage } from "@/components/legal/legal-page";
 import { PUBLISHER } from "@/lib/config";
 
 export const metadata: Metadata = { title: "Politique de confidentialité" };
 
 export default function Page() {
   return (
-    <LegalPage title="Politique de confidentialité" updated="13 octobre 2026">
+    <LegalPage title="Politique de confidentialité" updated="18 octobre 2026">
       <p>
         Cette politique explique quelles données personnelles Runelio traite, pourquoi, pendant combien de temps et quels sont vos droits. Elle décrit le fonctionnement réel du service tel qu&apos;il est développé à la date indiquée.
       </p>
@@ -168,7 +168,7 @@ export default function Page() {
             <td>Envoi des e-mails transactionnels (vérification, mot de passe, rappel de renouvellement, résiliation, rappels de séance) et, si vous y consentez, des actualités</td>
             <td>Adresse e-mail, prénom, contenu des e-mails</td>
             <td>
-              <Todo>localisation des serveurs de messagerie et garanties</Todo>
+              Hostinger Email (Hostinger International Ltd, Chypre). Le pays exact des serveurs de messagerie n&apos;est pas communiqué par Hostinger : les données peuvent être traitées dans l&apos;Union européenne ou dans d&apos;autres pays. Accord de sous-traitance (article 28 RGPD) couvrant la messagerie ; transferts éventuels hors UE encadrés (voir section 5).
             </td>
           </tr>
         </tbody>
@@ -179,7 +179,7 @@ export default function Page() {
 
       <h2>5. Transferts hors de l&apos;Union européenne</h2>
       <p>
-        Les données de paiement traitées par Stripe peuvent être transférées à des sociétés du groupe Stripe établies hors de l&apos;Union européenne, notamment aux États-Unis (Stripe, LLC). Stripe indique encadrer ces transferts par son adhésion au cadre de protection des données UE–États-Unis (EU-U.S. Data Privacy Framework) et par les clauses contractuelles types de la Commission européenne ; voir sa <a href="https://stripe.com/fr/privacy" rel="noopener noreferrer">politique de confidentialité</a>. Vous pouvez nous demander des informations sur ces garanties à {PUBLISHER.email}. Les autres données de Runelio sont hébergées en France.
+        Les données de paiement traitées par Stripe peuvent être transférées à des sociétés du groupe Stripe établies hors de l&apos;Union européenne, notamment aux États-Unis (Stripe, LLC). Stripe indique encadrer ces transferts par son adhésion au cadre de protection des données UE–États-Unis (EU-U.S. Data Privacy Framework) et par les clauses contractuelles types de la Commission européenne ; voir sa <a href="https://stripe.com/fr/privacy" rel="noopener noreferrer">politique de confidentialité</a>. Vous pouvez nous demander des informations sur ces garanties à {PUBLISHER.email}. Les e-mails envoyés et reçus par Runelio (adresse e-mail, prénom, contenu des messages) sont traités par Hostinger Email, dont les serveurs peuvent être situés dans l&apos;Union européenne ou dans d&apos;autres pays selon l&apos;architecture du service et les sous-traitants de Hostinger. Lorsque ces données sont transférées hors de l&apos;Espace économique européen, ces transferts sont encadrés par les clauses contractuelles types de la Commission européenne et par les mesures de sécurité prévues dans l&apos;<a href="https://www.hostinger.com/legal/dpa" rel="noopener noreferrer">accord de traitement des données de Hostinger</a>. Les autres données de Runelio (compte, questionnaire, programmes, abonnement) sont hébergées en France.
       </p>
 
       <h2>6. Durées de conservation</h2>

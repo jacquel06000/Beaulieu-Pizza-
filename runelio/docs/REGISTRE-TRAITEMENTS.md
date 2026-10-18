@@ -5,7 +5,7 @@ Document **interne** tenu en application de l'article 30 du RGPD. Il n'est pas p
 - **Responsable du traitement** : Alexandre Jacquel, micro-entrepreneur — 47 rue Vivienne, 75002 Paris — SIREN 929 658 961 — contact@runelio.fr
 - **Délégué à la protection des données (DPO)** : non désigné (non obligatoire : pas de suivi à grande échelle ni de données sensibles).
 - **Représentant dans l'UE** : sans objet (responsable établi en France).
-- **Date de création du registre** : 7 octobre 2026 — **Dernière mise à jour** : 13 octobre 2026
+- **Date de création du registre** : 7 octobre 2026 — **Dernière mise à jour** : 18 octobre 2026
 
 ---
 
@@ -14,7 +14,7 @@ Document **interne** tenu en application de l'article 30 du RGPD. Il n'est pas p
 | Prestataire | Rôle | Données | Localisation | Garanties |
 |---|---|---|---|---|
 | Hostinger International Ltd (61 Lordou Vironos Street, 6023 Larnaca, Chypre) | Sous-traitant : hébergement du site et de la base de données (VPS) | Toutes les données du service | Centre de données à Paris (France) | Accord de sous-traitance (art. 28) accepté |
-| Hostinger (messagerie) | Sous-traitant : envoi des e-mails | E-mail, prénom, contenu des messages | **À compléter** (localisation des serveurs de messagerie) | Même accord de sous-traitance |
+| Hostinger Email, formule Starter Business (Hostinger International Ltd, Chypre) | Sous-traitant : envoi et réception des e-mails | E-mail, prénom, contenu des messages | Pays non communiqué par Hostinger (support, 18/10/2026) : UE ou autres pays | DPA Hostinger couvrant la messagerie ; transferts hors EEE encadrés par les clauses contractuelles types — **conserver une copie datée du DPA et de la réponse du support** |
 | Stripe Payments Europe, Limited (The One Building, 1 Grand Canal Street Lower, Dublin 2, D02 H210, Irlande) ; services de paiement : Stripe Technology Europe, Limited (Dublin) | Prestataire de services de paiement : sous-traitant pour le traitement des paiements ; responsable de traitement distinct pour ses obligations propres (fraude, lutte contre le blanchiment) | E-mail et identifiant de compte transmis par Runelio ; Stripe collecte lui-même les données de paiement (et nom/adresse de facturation le cas échéant) | Irlande ; transferts possibles vers les États-Unis (Stripe, LLC) | DPA Stripe à accepter ; transferts encadrés selon Stripe par le EU-U.S. Data Privacy Framework et les clauses contractuelles types — **conserver une copie datée** de sa politique de confidentialité |
 
 ---
@@ -60,7 +60,7 @@ Document **interne** tenu en application de l'article 30 du RGPD. Il n'est pas p
 - **Base légale** : exécution du contrat ; obligation légale pour l'information avant renouvellement.
 - **Données** : e-mail, prénom, date d'échéance, montant, séances du lendemain.
 - **Destinataires** : l'éditeur ; Hostinger (messagerie).
-- **Transfert hors UE** : **à confirmer** selon la localisation des serveurs de messagerie Hostinger.
+- **Transfert hors UE** : possible (Hostinger Email) — encadré par les clauses contractuelles types du DPA Hostinger.
 - **Durée de conservation** : les e-mails envoyés ne sont pas stockés par l'application ; seules les dates d'envoi des rappels sont conservées (le temps du compte).
 
 ## Fiche 5 — Sécurité du service et prévention des abus
@@ -130,3 +130,4 @@ Toute violation (fuite, perte, accès non autorisé, piratage…) doit être con
 | 07/10/2026 | Création du registre (8 traitements). Ajout de la déclaration « 18 ans ou plus » et du rappel avant renouvellement. |
 | 07/10/2026 | Whop requalifié en prestataire de paiement (l'éditeur est le vendeur). |
 | 13/10/2026 | Whop remplacé par Stripe (prestataire de services de paiement, portail client, factures). |
+| 18/10/2026 | Messagerie : Hostinger Email (Starter Business) ; localisation non communiquée, transferts encadrés par le DPA Hostinger. |
