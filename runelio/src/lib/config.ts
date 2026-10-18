@@ -19,10 +19,12 @@ export const PUBLISHER = {
   vatMention: "TVA non applicable, art. 293 B du CGI",
   /**
    * Stripe est le prestataire de paiement : il encaisse pour le compte de l'éditeur, qui est le vendeur.
-   * Entité à vérifier dans le contrat Stripe du compte (Paramètres → Documents légaux).
+   * Conditions générales Stripe (France) : cocontractant Stripe Payments Europe, Limited ; services de
+   * paiement réglementés fournis par Stripe Technology Europe, Limited (« Stripe PSP »).
    */
   paymentProvider: "Stripe",
-  paymentProviderAddress: "Stripe Payments Europe, Limited, The One Building, 1 Grand Canal Street Lower, Dublin 2, D02 H210, Irlande",
+  paymentProviderAddress:
+    "Stripe Payments Europe, Limited, The One Building, 1 Grand Canal Street Lower, Dublin 2, D02 H210, Irlande ; services de paiement fournis par Stripe Technology Europe, Limited (Dublin, Irlande), établissement de monnaie électronique agréé par la Banque centrale d'Irlande",
 } as const;
 
 export const PRICING = {

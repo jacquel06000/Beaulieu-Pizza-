@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { LegalPage, Todo, Verify } from "@/components/legal/legal-page";
+import { LegalPage, Todo } from "@/components/legal/legal-page";
 import { PUBLISHER } from "@/lib/config";
 
 export const metadata: Metadata = { title: "Politique de confidentialité" };
@@ -158,7 +158,7 @@ export default function Page() {
             <td>Prestataire de services de paiement : encaissement des paiements et des renouvellements, gestion de l&apos;abonnement, reçus et factures, prévention de la fraude</td>
             <td>Runelio transmet votre adresse e-mail et un identifiant technique de compte ; vous communiquez directement à Stripe vos données de paiement (et, le cas échéant, nom et adresse de facturation). Stripe renvoie à Runelio le statut de l&apos;abonnement et des paiements.</td>
             <td>
-              {PUBLISHER.paymentProviderAddress}. Sous-traitant pour le traitement des paiements effectué pour le compte de Runelio, et responsable de traitement distinct pour ses propres obligations (prévention de la fraude, lutte contre le blanchiment, obligations réglementaires). Transferts possibles hors UE (voir section 5). <Verify>entité Stripe du contrat et accord de traitement des données (DPA) Stripe accepté</Verify>
+              {PUBLISHER.paymentProviderAddress}. Sous-traitant pour le traitement des paiements effectué pour le compte de Runelio, et responsable de traitement distinct pour ses propres obligations (prévention de la fraude, lutte contre le blanchiment, obligations réglementaires). Transferts possibles hors UE (voir section 5).
             </td>
           </tr>
           <tr>

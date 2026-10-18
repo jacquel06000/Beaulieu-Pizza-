@@ -22,7 +22,7 @@ Commande pour les retrouver : `grep -rn "Todo\|Verify\|À VALIDER" src/app src/c
 
 ## Informations légales complétées (05/10/2026)
 - Immatriculation : 929 658 961 R.C.S. Paris. Hébergeur confirmé : Hostinger International Ltd (Chypre), DPA accepté.
-- Paiement : Stripe (entité indiquée sur le site : Stripe Payments Europe, Limited, Dublin — **à vérifier dans le contrat Stripe du compte**).
+- Paiement : Stripe — cocontractant Stripe Payments Europe, Limited (Dublin) ; services de paiement par Stripe Technology Europe, Limited, d'après les conditions générales publiques de Stripe pour la France (18/10/2026). Confirmation possible auprès du support Stripe.
 - Médiateur indiqué : **CM2C, 49 rue de Ponthieu, 75008 Paris (www.cm2c.net)** — l'adhésion doit être effective avant la première vente ; vérifier l'adresse sur le contrat d'adhésion.
 - Préavis de changement de prix : 30 jours. Comptes inactifs : suppression après 3 ans (avertissement 30 jours avant, automatique). Journal des webhooks : 12 mois (automatique).
 - Reste à compléter : localisation des serveurs de messagerie Hostinger ; liste des cookies à vérifier en production ; règlement des cadeaux (tirages désactivés).

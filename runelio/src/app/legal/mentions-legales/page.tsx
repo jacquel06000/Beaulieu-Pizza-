@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { LegalPage, Verify } from "@/components/legal/legal-page";
+import { LegalPage } from "@/components/legal/legal-page";
 import { PUBLISHER } from "@/lib/config";
 
 export const metadata: Metadata = { title: "Mentions légales" };
@@ -35,7 +35,7 @@ export default function Page() {
 
       <h2>Paiement</h2>
       <p>
-        L&apos;abonnement est vendu par l&apos;éditeur. Les paiements sont encaissés pour son compte par le prestataire de services de paiement <strong>Stripe</strong> : {PUBLISHER.paymentProviderAddress}. <Verify>entité Stripe indiquée dans le contrat du compte Stripe (Paramètres → Conformité et documents)</Verify>
+        L&apos;abonnement est vendu par l&apos;éditeur. Les paiements sont encaissés pour son compte par le prestataire de services de paiement <strong>Stripe</strong> : {PUBLISHER.paymentProviderAddress}.
       </p>
 
       <h2>Propriété intellectuelle</h2>
